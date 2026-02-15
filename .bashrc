@@ -72,26 +72,14 @@ xterm*|rxvt*)
     ;;
 esac
 
-# enable color support of ls and also add handy aliases
+# enable color support of ls
+# Aliases are in .bash_aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=always'
-    #alias dir='dir --color=always'
-    #alias vdir='vdir --color=always'
-
-    alias grep='grep --color=always'
-    alias fgrep='fgrep --color=always'
-    alias egrep='egrep --color=always'
 fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias wem=w3m
 
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -105,6 +93,10 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
+fi
+
+if [ -f ~/.bash_for_work ]; then
+    . ~/.bash_for_work
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -123,9 +115,10 @@ export PATH="$PATH:/opt/nvim/"
 # Created by `pipx` on 2025-06-05 23:01:06
 export PATH="$PATH:/home/austin/.local/bin"
 
-alias ranger='. ranger'
-alias dl='yt-dlp '
-alias ydl='yt-dlp '
+export VISUAL=nvim;
+export EDITOR=nvim;
 
-export EDITOR=nvim
-
+stty -ixon  # abc todo idr what this does. flow control?
+shopt -s histappend
+source /usr/share/doc/fzf/examples/key-bindings.bash
+#source /usr/share/doc/fzf/examples/completion.bash

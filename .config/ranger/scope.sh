@@ -101,6 +101,14 @@ handle_extension() {
             xlsx2csv -- "${FILE_PATH}" && exit 5
             exit 1;;
 
+        # Markdown
+        md)
+            #highlight --syntax=markdown --out-format=ansi "${FILE_PATH}" && exit 5
+            CLICOLORFORCE=1 glow -s dark "${FILE_PATH}" && exit 5
+            #bat "${FILE_PATH}" && exit 5
+            exit 1
+            ;;
+
         ## HTML
         htm|html|xhtml)
             ## Preview as text conversion
@@ -111,7 +119,7 @@ handle_extension() {
             ;;
 
         ## JSON
-        json)
+        json|code-workspace)
             jq --color-output . "${FILE_PATH}" && exit 5
             python -m json.tool -- "${FILE_PATH}" && exit 5
             ;;
