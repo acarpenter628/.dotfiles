@@ -95,8 +95,8 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-if [ -f ~/.bash_for_work ]; then
-    . ~/.bash_for_work
+if [ -f ~/.bashrc_for_work ]; then
+    . ~/.bashrc_for_work
 fi
 
 # enable programmable completion features (you don't need to enable
