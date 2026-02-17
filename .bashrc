@@ -113,12 +113,11 @@ fi
 export PATH="$PATH:/opt/nvim/"
 
 # Created by `pipx` on 2025-06-05 23:01:06
-export PATH="$PATH:/home/austin/.local/bin"
+export PATH="$PATH:$HOME/.local/bin"
 
 export VISUAL=nvim;
 export EDITOR=nvim;
 
-stty -ixon  # abc todo idr what this does. flow control?
-shopt -s histappend
+stty -ixon  # disable flow control, but I don't remember why I thought this was important
 source /usr/share/doc/fzf/examples/key-bindings.bash
 #source /usr/share/doc/fzf/examples/completion.bash
