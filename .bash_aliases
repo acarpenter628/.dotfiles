@@ -9,7 +9,8 @@ alias gitk-all='gitk --all --date-order --author="`git config user.name`" `git r
 
 alias ll='ls -alFh'
 alias la='ls -A'
-alias l='ls -CF'
+alias l='ls -lF'
+alias lc='ls -CF'
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
