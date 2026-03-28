@@ -499,6 +499,31 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
+  {
+    'jakewvincent/mkdnflow.nvim',
+    ft = { 'markdown', 'rmd' },  -- Add custom filetypes here if configured
+    config = function()
+      require('mkdnflow').setup({
+        modules = {
+          bib = false,
+          buffers = true,
+          conceal = false,
+          cursor = false,
+          folds = true,
+          foldtext = true,
+          links = false,
+          lists = true,
+          maps = true,  -- keymaps.  so need this to do the todos
+          paths = false,
+          tables = true,
+          templates = false,
+          to_do = true,
+          yaml = false,
+          completion = false,
+        },
+      })
+    end
+  },
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
