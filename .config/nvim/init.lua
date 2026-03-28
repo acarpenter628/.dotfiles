@@ -1296,7 +1296,19 @@ vim.keymap.set('n', '<leader>zo', ':colorscheme oxocarbon<cr>:hi CursorLineNr gu
     -- looks like I can do some stuff with toggling cursor line on WinEnter and WinLeave
 
 
+
+-- only highlight the line in the active panel.  Copied from google AI
+
+local group = vim.api.nvim_create_augroup("CursorLine", { clear = true })
+vim.api.nvim_create_autocmd("WinEnter", {
+  group = group,
+  callback = function() vim.opt_local.cursorline = true end,
+})
+vim.api.nvim_create_autocmd("WinLeave", {
+  group = group,
+  callback = function() vim.opt_local.cursorline = false end,
+})
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
 -- 
-
