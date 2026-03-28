@@ -1244,7 +1244,7 @@ vim.keymap.set('n', '<leader>Sw', ':lua MiniSessions.write("Session.vim")<cr>', 
 vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read Session'})
 
 vim.cmd('badd ~/.config/nvim/init.lua') -- add this to the open buffers so I can jump to it from any file
-vim.cmd('badd ~/software_trees/notes/spellbooks/nvim.txt') -- add this to the open buffers so I can jump to it from any file
+vim.cmd('badd ~/Documents/spellbooks/nvim.txt') -- add this to the open buffers so I can jump to it from any file
 
 -- *gui-colors*
 -- Suggested color names (these are available on most systems):
