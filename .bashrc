@@ -118,6 +118,8 @@ export PATH="$PATH:$HOME/.local/bin"
 export VISUAL=nvim;
 export EDITOR=nvim;
 
+bind "set completion-ignore-case on"
+
 stty -ixon  # disable flow control, but I don't remember why I thought this was important
 source /usr/share/doc/fzf/examples/key-bindings.bash
 #source /usr/share/doc/fzf/examples/completion.bash

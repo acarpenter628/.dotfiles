@@ -11,6 +11,7 @@ alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -lF'
 alias lc='ls -CF'
+alias lt='ls -lt'
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
