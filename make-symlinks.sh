@@ -8,7 +8,7 @@
 
 dir=~/.dotfiles                    # dotfiles directory
 olddir=~/.dotfiles_backup             # old dotfiles backup directory
-files="bashrc bash_aliases config/nvim config/ranger tmux.conf"    # list of files/folders to symlink in homedir
+files="bashrc bash_aliases config/nvim config/ranger config/zellij tmux.conf"    # list of files/folders to symlink in homedir
 
 ##########
 

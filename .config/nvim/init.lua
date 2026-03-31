@@ -109,7 +109,7 @@ vim.cmd(":set whichwrap+=lh")
 --- Get rid of overtype mode, replace it with 'delete one character and insert'
 vim.keymap.set('n', 'R', '"_cl')
 -- Insert a newline with leader enter.  Had to add leader because I needed enter to follow links or something?
-vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>")
+vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 'insert blank line'})
 -- vim.keymap.set('n', '<leader><cr>', ":call insert(line('.'), '')<cr>", { desc = 'insert blank line above'}) -- ABC TODO what to map this to?  I'd like shift+Enter, and I could hack that to work with Windows Terminal, but I'd prefer not to rely on any terminal specific implementation.  Maybe <leader><CR>?
 -- This one didn't work so i guess just copy from the nvim source for [<space>
 -- vim.keymap.set('n', '<leader><cr>', function()
@@ -132,7 +132,7 @@ vim.api.nvim_create_autocmd({ "FileType"}, {  -- this seems to only work after t
 
         -- check if treesitter has parser 
         if require("nvim-treesitter.parsers").has_parser() then
-            
+
             -- use treesitter folding
             vim.opt.foldmethod = "expr"
             vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -1366,6 +1366,10 @@ vim.api.nvim_create_autocmd("WinLeave", {
   group = group,
   callback = function() vim.opt_local.cursorline = false end,
 })
+
+
+-- remap Ctrl Space to make Windows Terminal work
+vim.keymap.set('n', '<A-)>', ':MkdnToggleToDo<CR>')
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
