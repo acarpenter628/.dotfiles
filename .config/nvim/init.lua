@@ -408,7 +408,7 @@ require('lazy').setup({
   },
   
   { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = ...},
-  -- { "Mofiqul/dracula.nvim", priority = 1000 , config = true, opts = ...},
+  { "Mofiqul/dracula.nvim", priority = 1000 , config = true, opts = ...},
   { "nyoom-engineering/oxocarbon.nvim", priority = 1000},
   { "scottmckendry/cyberdream.nvim", priority = 1000 ,
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -1266,27 +1266,17 @@ vim.cmd('badd ~/Documents/spellbooks/nvim.txt') -- add this to the open buffers 
 --
 
 
-
--- vim.keymap.set('n', '<leader>zg', ':colorscheme gruvbox<cr>:hi CursorLine guibg=NvimDarkGray3<cr>:hi CursorLineNr guibg=NvimLightGreen<cr>:hi StatusLine guifg=DarkBlue<cr>:hi MiniStatusLineFilename guifg=DarkBlue<cr>:hi ColorfulWinSep guifg=DarkBlue<cr>', { desc = 'colorscheme gruvbox'})  abc todo test
-vim.keymap.set('n', '<leader>zg', ':colorscheme gruvbox<cr>:hi CursorLine guibg=NvimDarkGray3<cr>:hi CursorLineNr guibg=NvimLightGreen<cr>:hi StatusLine guifg=DarkBlue<cr>:hi MiniStatusLineFilename guifg=DarkBlue<cr>', { desc = 'colorscheme gruvbox'})
+vim.keymap.set('n', '<leader>zg', ':colorscheme gruvbox<cr>:hi CursorLine guibg=NvimDarkGray3<cr>:hi CursorLineNr guibg=NvimLightGreen<cr>', { desc = 'colorscheme gruvbox'})
 vim.cmd([[colorscheme gruvbox]])
 vim.cmd([[ highlight CursorLine guibg=NvimDarkGray3 ]])
 -- vim.cmd([[ highlight CursorLineNr guibg=#fcba03 ]])
 vim.cmd([[ highlight CursorLineNr guibg=NvimLightGreen]])
-vim.cmd([[ highlight StatusLine guifg=DarkBlue]])
-vim.cmd([[ highlight MiniStatusLineFilename guifg=DarkBlue]])
--- vim.cmd([[ highlight ColorfulWinSep guifg=DarkBlue]])
 
--- vim.keymap.set('n', '<leader>zc', ':colorscheme cyberdream<cr>:hi CursorLineNr guibg=DarkGreen<cr>:hi StatusLine guifg=Cyan<cr>:hi MiniStatusLineFilename guifg=Cyan<cr>:hi ColorfulWinSep guifg=Cyan<cr>', { desc = 'colorscheme cyberdream'})
-vim.keymap.set('n', '<leader>zc', ':colorscheme cyberdream<cr>:hi CursorLineNr guibg=DarkGreen<cr>:hi StatusLine guifg=Cyan<cr>:hi MiniStatusLineFilename guifg=Cyan<cr>', { desc = 'colorscheme cyberdream'})
+vim.keymap.set('n', '<leader>zc', ':colorscheme cyberdream<cr>:hi CursorLineNr guibg=NvimLightCyan<cr>', { desc = 'colorscheme cyberdream'})
 
--- vim.keymap.set('n', '<leader>zo', ':colorscheme oxocarbon<cr>:hi CursorLineNr guibg=DarkCyan<cr>:hi StatusLine guifg=LightGreen<cr>:hi MiniStatusLineFilename guifg=LightGreen<cr>:hi ColorfulWinSep guifg=LightGreen<cr>', { desc = 'colorscheme oxocarbon'})
-vim.keymap.set('n', '<leader>zo', ':colorscheme oxocarbon<cr>:hi CursorLineNr guibg=DarkCyan<cr>:hi StatusLine guifg=LightGreen<cr>:hi MiniStatusLineFilename guifg=LightGreen<cr>', { desc = 'colorscheme oxocarbon'})
+vim.keymap.set('n', '<leader>zo', ':colorscheme oxocarbon<cr>:hi CursorLineNr guibg=DarkCyan<cr>', { desc = 'colorscheme oxocarbon'})
+vim.keymap.set('n', '<leader>zd', ':colorscheme dracula<cr>:hi CursorLineNr guibg=NvimDarkCyan<cr>', { desc = 'colorscheme dracula'})
 
--- vim.cmd([[ highlight WinSeparator guifg=Cyan]]) -- Commented because I have the colorful separator plugin  
-    -- "nvim-zh/colorful-winsep.nvim",
-    -- abc todo no, it's commented too.  MiniStatusLineFilename is all I'm highlighting.  I wonder if I can only highlight the cursor line number in the active pane
-    -- looks like I can do some stuff with toggling cursor line on WinEnter and WinLeave
 
 
 
