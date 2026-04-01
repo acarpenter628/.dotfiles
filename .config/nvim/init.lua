@@ -101,7 +101,7 @@ vim.g.maplocalleader = ' '
 -- t/T could be overwritten, I'm never going to use that instead of fh
 
 -- Make word wrap easier
-vim.keymap.set('n', 'j', 'gj') -- ABC TODO normal and visual mode?
+vim.keymap.set('n', 'j', 'gj')
 vim.keymap.set('v', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')
 vim.keymap.set('v', 'k', 'gk')
@@ -117,8 +117,9 @@ vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 
 --       return 'g@l'
 --     end, { expr = true, desc = 'insert blank line above'})
 
--- x uses the black hole register
-vim.keymap.set('n', 'x', '"_x') -- ABC TODO what about in visual mode?  Maybe keep it there
+-- x uses the black hole register (normal and visual)
+vim.keymap.set('n', 'x', '"_x')
+vim.keymap.set('v', 'x', '"_x')
 -- Do the same with c (normal and visual)
 vim.keymap.set('n', 'c', '"_c')
 vim.keymap.set('v', 'c', '"_c')
@@ -1278,9 +1279,7 @@ vim.keymap.set('n', '<leader>zo', ':colorscheme oxocarbon<cr>:hi CursorLineNr gu
 vim.keymap.set('n', '<leader>zd', ':colorscheme dracula<cr>:hi CursorLineNr guibg=NvimDarkCyan<cr>', { desc = 'colorscheme dracula'})
 
 
-
-
--- only highlight the line in the active panel.  Copied from google AI
+-- only highlight the line in the active panel.
 
 local group = vim.api.nvim_create_augroup("CursorLine", { clear = true })
 vim.api.nvim_create_autocmd("WinEnter", {
@@ -1290,6 +1289,14 @@ vim.api.nvim_create_autocmd("WinEnter", {
 vim.api.nvim_create_autocmd("WinLeave", {
   group = group,
   callback = function() vim.opt_local.cursorline = false end,
+})
+
+--  show line numbers in help pages, since I'm relying on line highlighting to know which pane I'm in
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "help",
+  callback = function()
+    vim.opt_local.number = true
+  end,
 })
 
 
