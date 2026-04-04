@@ -95,7 +95,7 @@ vim.g.maplocalleader = ' '
 -- vim.keymap.set('', 'J', '<C-d>')
 -- vim.keymap.set('', 'K', '<C-u>')
 
--- ABC TODO capital E/W/B for like 5x?
+-- ABC TODO capital E/W/B or H/L for like 5x?
 -- Those basically already exist for code lol.  I need to get better about using . for repeat (nvm apparently it doesn't work for motions, just for actions)
 --
 -- t/T could be overwritten, I'm never going to use that instead of fh
@@ -110,7 +110,8 @@ vim.cmd(":set whichwrap+=lh")
 vim.keymap.set('n', 'R', '"_cl')
 -- Insert a newline with leader enter.  Had to add leader because I needed enter to follow links or something?
 vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 'insert blank line'})
--- vim.keymap.set('n', '<leader><cr>', ":call insert(line('.'), '')<cr>", { desc = 'insert blank line above'}) -- ABC TODO what to map this to?  I'd like shift+Enter, and I could hack that to work with Windows Terminal, but I'd prefer not to rely on any terminal specific implementation.  Maybe <leader><CR>?
+-- vim.keymap.set('n', '<leader><cr>', ":call insert(line('.'), '')<cr>", { desc = 'insert blank line above'}) -- ABC TODO what to map this to?  
+-- I'd like shift+Enter, and I could hack that to work with Windows Terminal, but I'd prefer not to rely on any terminal specific implementation.  Maybe <leader><CR>?   Actually it's not as much relying on specific terminal implementation and more about working around it.  See MkdnToggleToDo at the bottom
 -- This one didn't work so i guess just copy from the nvim source for [<space>
 -- vim.keymap.set('n', '<leader><cr>', function()
 --       vim.go.operatorfunc = "v:lua.require'vim._buf'.space_above"
@@ -128,30 +129,31 @@ vim.keymap.set('v', 'p', 'P')
 
 vim.o.background = "dark" -- or "light" for light mode
 
-vim.api.nvim_create_autocmd({ "FileType"}, {  -- this seems to only work after treesitter is loaded.  ie must switch buffer and switch back
-    callback = function()
+vim.opt.foldmethod = "indent"
 
-        -- check if treesitter has parser 
-        if require("nvim-treesitter.parsers").has_parser() then
-
-            -- use treesitter folding
-            vim.opt.foldmethod = "expr"
-            vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-        else
-
-            -- use alternative foldmethod
-            vim.opt.foldmethod = "indent"
-        end
-    end,
-})
+-- This was causing issue where it would take 10s to to the treesitter and give up
+-- vim.api.nvim_create_autocmd({ "FileType"}, {  -- this seems to only work after treesitter is loaded.  ie must switch buffer and switch back
+--     callback = function()
+--
+--         -- check if treesitter has parser 
+--         if require("nvim-treesitter.parsers").has_parser() then
+--
+--             -- use treesitter folding
+--             vim.opt.foldmethod = "expr"
+--             vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+--         else
+--
+--             -- use alternative foldmethod
+--             vim.opt.foldmethod = "indent"
+--         end
+--     end,
+-- }) 
 
 vim.o.foldlevel = 9
 vim.opt.foldtext = "" -- abc todo put a triangle here too?
--- ABC TODO NOW https://www.reddit.com/r/neovim/comments/1nxzz9i/new_foldinner_fillchar/
--- ABC TODO NOW if I update to the main branch nightly build, I can set foldcolumn to 1 and set fillchars=foldinner:\|
 vim.o.foldcolumn = '1'
 vim.o.foldlevelstart = 9
--- vim.wo.foldtext = '' -- abc todo what's wo instead of o?
+-- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?
 vim.opt.fillchars = {
     fold = ' ',
     foldclose = "",--'',
@@ -408,8 +410,18 @@ require('lazy').setup({
     end,
   },
   
-  { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = ...},
-  { "Mofiqul/dracula.nvim", priority = 1000 , config = true, opts = ...},
+  { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, 
+      opts = {
+        italic = {
+        strings = false,
+        emphasis = true,
+        comments = true,
+        operators = false,
+        folds = true,
+      },
+    }
+  },
+  { "Mofiqul/dracula.nvim", priority = 1000 , config = true, opts = {italic_comment = true}},
   { "nyoom-engineering/oxocarbon.nvim", priority = 1000},
   { "scottmckendry/cyberdream.nvim", priority = 1000 ,
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -419,7 +431,6 @@ require('lazy').setup({
 
   },
   { "chaoren/vim-wordmotion" },
-  -- { "edluffy/specs.nvim"},  -- This one crashed any pop up like :Lazy or telescope
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -1055,7 +1066,7 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim', -- ABC TODO
+    'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       ---@diagnostic disable-next-line: missing-fields
@@ -1240,6 +1251,7 @@ vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read
 
 vim.cmd('badd ~/.config/nvim/init.lua') -- add this to the open buffers so I can jump to it from any file
 vim.cmd('badd ~/Documents/spellbooks/nvim.txt') -- add this to the open buffers so I can jump to it from any file
+vim.cmd('badd ~/Documents/todo_now.md') -- add this to the open buffers so I can jump to it from any file
 
 -- *gui-colors*
 -- Suggested color names (these are available on most systems):
@@ -1299,9 +1311,21 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- I think there's a better way to do this with ftplugin, but this is fine
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+  vim.o.tabstop = 3
+  vim.o.softtabstop = 3
+  vim.o.shiftwidth = 3
+  vim.o.expandtab = true
+  end,
+})
+
 
 -- remap Ctrl Space to make Windows Terminal work
 vim.keymap.set('n', '<A-)>', ':MkdnToggleToDo<CR>')
+vim.keymap.set('v', '<A-)>', ':MkdnToggleToDo<CR>')
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
