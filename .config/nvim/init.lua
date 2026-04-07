@@ -589,11 +589,18 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },  -- ABC TODO NOW file ignore patterns.  Actually use a .ignore file in the project
-        --   },
-        -- },
+        defaults = {
+          mappings = {
+            i = { 
+              -- ['<c-enter>'] = 'to_fuzzy_refine' 
+              ["<C-j>"] = require('telescope.actions').preview_scrolling_down,
+              ["<C-k>"] = require('telescope.actions').preview_scrolling_up,
+              ["<C-h>"] = require('telescope.actions').preview_scrolling_left,
+              ["<C-l>"] = require('telescope.actions').preview_scrolling_right,
+              ["<C-?>"] = "which_key",
+            },  -- ABC TODO NOW file ignore patterns.  Actually use a .ignore file in the project
+          },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
