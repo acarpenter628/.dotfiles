@@ -39,6 +39,6 @@ alias gpp='g++'
 alias wem='w3m'
 alias dl='yt-dlp '
 alias ydl='yt-dlp '
-alias bat='batcat'
+#alias bat='batcat'  # Seems like this is fixed on my work computer at least?
 alias home='cd ~'
 alias clear='clear -x'
