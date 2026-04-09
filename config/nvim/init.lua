@@ -151,16 +151,18 @@ vim.opt.foldmethod = "indent"
 -- }) 
 
 vim.o.foldlevel = 9
-vim.opt.foldtext = "" -- abc todo put a triangle here too?
+-- vim.opt.foldtext = "" -- abc todo this could be improved.  Triangle instead of + if I can figure out how to change that 
 vim.o.foldcolumn = '1'
 vim.o.foldlevelstart = 9
--- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?
+-- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?  Seems to do the same thing.  I think there's a local variant vs global?
 vim.opt.fillchars = {
-    fold = ' ',
-    foldclose = "",--'',
-    foldopen = "",--'',
-    foldsep = ' ',
-    foldinner = ' '
+  fold = ' ', -- /
+  foldclose = "",--'',
+  foldopen = "",--'',
+  foldsep = ' ',
+  foldinner = ' ',
+  stl = ' ', -- active window status line
+  stlnc = ' ' -- nonactive window status line
 }
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
