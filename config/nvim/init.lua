@@ -95,10 +95,11 @@ vim.g.maplocalleader = ' '
 -- vim.keymap.set('', 'J', '<C-d>')
 -- vim.keymap.set('', 'K', '<C-u>')
 
--- ABC TODO capital E/W/B or H/L for like 5x?
--- Those basically already exist for code lol.  I need to get better about using . for repeat (nvm apparently it doesn't work for motions, just for actions)
---
--- t/T could be overwritten, I'm never going to use that instead of fh
+-- ABC TODO 
+  -- capital E/W/B or H/L for like 5x?
+    -- Those basically already exist for code lol.  I need to get better about using . for repeat (nvm apparently it doesn't work for motions, just for actions)
+  -- t/T could be overwritten, I'm never going to use that instead of fh
+  -- undo tree?
 
 -- Make word wrap easier
 vim.keymap.set('n', 'j', 'gj')
@@ -108,9 +109,9 @@ vim.keymap.set('v', 'k', 'gk')
 vim.cmd(":set whichwrap+=lh")
 --- Get rid of overtype mode, replace it with 'delete one character and insert'
 vim.keymap.set('n', 'R', '"_cl')
--- Insert a newline with leader enter.  Had to add leader because I needed enter to follow links or something?
-vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 'insert blank line'})
--- vim.keymap.set('n', '<leader><cr>', ":call insert(line('.'), '')<cr>", { desc = 'insert blank line above'}) -- ABC TODO what to map this to?  
+-- Insert a newline with leader enter.  Had to add leader because I needed enter to follow links or something?  Maybe I could re-add it but disable it in help files?
+vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 'Insert blank line'})
+-- vim.keymap.set('n', '<leader><cr>', ":call insert(line('.'), '')<cr>", { desc = 'Insert blank line above'}) -- ABC TODO what to map this to?  
 -- I'd like shift+Enter, and I could hack that to work with Windows Terminal, but I'd prefer not to rely on any terminal specific implementation.  Maybe <leader><CR>?   Actually it's not as much relying on specific terminal implementation and more about working around it.  See MkdnToggleToDo at the bottom
 -- This one didn't work so i guess just copy from the nvim source for [<space>
 -- vim.keymap.set('n', '<leader><cr>', function()
@@ -468,7 +469,7 @@ require('lazy').setup({
           yaml = false,
           completion = false,
         },
-      })
+      })  -- ABC TODO maybe there are some more configs I want to do here.  Get rid of folds on the leader key, I just use z for those
     end
   },
   { -- Useful plugin to show you pending keybinds.
@@ -519,7 +520,7 @@ require('lazy').setup({
       spec = {
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
-        { '<leader>z', group = 'Display Settings' },
+        { '<leader>z', group = 'Settings' },
         { '<leader>S', group = '[S]essions' },
         { "<leader>w",
             group = "[W]indows/Panes",
@@ -528,7 +529,7 @@ require('lazy').setup({
               return require("which-key.extras").expand.win()
             end,
           },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>g', group = '[G]it Hunk', mode = { 'n', 'v' } },
       },
     },
   },
@@ -597,6 +598,7 @@ require('lazy').setup({
               ["<C-k>"] = require('telescope.actions').preview_scrolling_up,
               ["<C-h>"] = require('telescope.actions').preview_scrolling_left,
               ["<C-l>"] = require('telescope.actions').preview_scrolling_right,
+              ["<A-)>"] = require('telescope.actions').to_fuzzy_refine, -- for windows terminal
               ["<C-?>"] = "which_key",
             },           },
         },
@@ -939,16 +941,16 @@ require('lazy').setup({
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
-        end,
-        mode = '',
-        desc = '[F]ormat buffer',
-      },
-    },
+    -- keys = {
+    --   {
+    --     '<leader>f',
+    --     function()
+    --       require('conform').format { async = true, lsp_format = 'fallback' }
+    --     end,
+    --     mode = '',
+    --     desc = '[F]ormat buffer',
+    --   },
+    -- },
     opts = {
       notify_on_error = false,
       -- format_on_save = function(bufnr)
