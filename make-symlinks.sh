@@ -8,7 +8,7 @@
 
 dir=~/.dotfiles                    # dotfiles directory
 olddir=~/.dotfiles_backup             # old dotfiles backup directory
-files="bashrc bash_aliases config/nvim config/ranger config/zellij tmux.conf"    # list of files/folders to symlink in homedir
+files="bashrc bash_aliases config/nvim config/ranger config/zellij"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -22,5 +22,5 @@ for file in $files; do
    echo "Moving .$file from ~ to $olddir"
    mv ~/.$file $olddir
    echo "Creating symlink to $file in home directory."
-   ln -s $dir/.$file ~/.$file
+   ln -s $dir/$file ~/.$file
 done

@@ -95,10 +95,11 @@ vim.g.maplocalleader = ' '
 -- vim.keymap.set('', 'J', '<C-d>')
 -- vim.keymap.set('', 'K', '<C-u>')
 
--- ABC TODO capital E/W/B or H/L for like 5x?
--- Those basically already exist for code lol.  I need to get better about using . for repeat (nvm apparently it doesn't work for motions, just for actions)
---
--- t/T could be overwritten, I'm never going to use that instead of fh
+-- ABC TODO 
+  -- capital E/W/B or H/L for like 5x?
+    -- Those basically already exist for code lol.  I need to get better about using . for repeat (nvm apparently it doesn't work for motions, just for actions)
+  -- t/T could be overwritten, I'm never going to use that instead of fh
+  -- undo tree?
 
 -- Make word wrap easier
 vim.keymap.set('n', 'j', 'gj')
@@ -108,9 +109,9 @@ vim.keymap.set('v', 'k', 'gk')
 vim.cmd(":set whichwrap+=lh")
 --- Get rid of overtype mode, replace it with 'delete one character and insert'
 vim.keymap.set('n', 'R', '"_cl')
--- Insert a newline with leader enter.  Had to add leader because I needed enter to follow links or something?
-vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 'insert blank line'})
--- vim.keymap.set('n', '<leader><cr>', ":call insert(line('.'), '')<cr>", { desc = 'insert blank line above'}) -- ABC TODO what to map this to?  
+-- Insert a newline with leader enter.  Had to add leader because I needed enter to follow links or something?  Maybe I could re-add it but disable it in help files?
+vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 'Insert blank line'})
+-- vim.keymap.set('n', '<leader><cr>', ":call insert(line('.'), '')<cr>", { desc = 'Insert blank line above'}) -- ABC TODO what to map this to?  
 -- I'd like shift+Enter, and I could hack that to work with Windows Terminal, but I'd prefer not to rely on any terminal specific implementation.  Maybe <leader><CR>?   Actually it's not as much relying on specific terminal implementation and more about working around it.  See MkdnToggleToDo at the bottom
 -- This one didn't work so i guess just copy from the nvim source for [<space>
 -- vim.keymap.set('n', '<leader><cr>', function()
@@ -150,16 +151,18 @@ vim.opt.foldmethod = "indent"
 -- }) 
 
 vim.o.foldlevel = 9
-vim.opt.foldtext = "" -- abc todo put a triangle here too?
+-- vim.opt.foldtext = "" -- abc todo this could be improved.  Triangle instead of + if I can figure out how to change that 
 vim.o.foldcolumn = '1'
 vim.o.foldlevelstart = 9
--- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?
+-- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?  Seems to do the same thing.  I think there's a local variant vs global?
 vim.opt.fillchars = {
-    fold = ' ',
-    foldclose = "",--'',
-    foldopen = "",--'',
-    foldsep = ' ',
-    foldinner = ' '
+  fold = ' ', -- /
+  foldclose = "",--'',
+  foldopen = "",--'',
+  foldsep = ' ',
+  foldinner = ' ',
+  stl = ' ', -- active window status line
+  stlnc = ' ' -- nonactive window status line
 }
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
@@ -468,7 +471,7 @@ require('lazy').setup({
           yaml = false,
           completion = false,
         },
-      })
+      })  -- ABC TODO maybe there are some more configs I want to do here.  Get rid of folds on the leader key, I just use z for those
     end
   },
   { -- Useful plugin to show you pending keybinds.
@@ -519,7 +522,7 @@ require('lazy').setup({
       spec = {
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
-        { '<leader>z', group = 'Display Settings' },
+        { '<leader>z', group = 'Settings' },
         { '<leader>S', group = '[S]essions' },
         { "<leader>w",
             group = "[W]indows/Panes",
@@ -528,7 +531,7 @@ require('lazy').setup({
               return require("which-key.extras").expand.win()
             end,
           },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>g', group = '[G]it Hunk', mode = { 'n', 'v' } },
       },
     },
   },
@@ -588,12 +591,19 @@ require('lazy').setup({
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
-        --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },  -- ABC TODO NOW file ignore patterns.  Actually use a .ignore file in the project
-        --   },
-        -- },
+
+        defaults = {
+          mappings = {
+            i = { 
+              -- ['<c-enter>'] = 'to_fuzzy_refine' 
+              ["<C-j>"] = require('telescope.actions').preview_scrolling_down,
+              ["<C-k>"] = require('telescope.actions').preview_scrolling_up,
+              ["<C-h>"] = require('telescope.actions').preview_scrolling_left,
+              ["<C-l>"] = require('telescope.actions').preview_scrolling_right,
+              ["<A-)>"] = require('telescope.actions').to_fuzzy_refine, -- for windows terminal
+              ["<C-?>"] = "which_key",
+            },           },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -610,10 +620,11 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>sf', function() builtin.find_files{hidden=true} end, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-      vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' }) -- ABC TODO this is the one that fuzzy finds, can I limit it to only open files?  Yes.  Look at how this works, it looks like it's taking the list of files containing that word and limiting the search to those?  What's going on here?
-      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+      -- vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sg', function() builtin.live_grep{hidden=true} end, { desc = '[S]earch by [G]rep' })  -- ABC TODO apparently this doesn't find in hidden files.  I guess the easiest solution here is to just put my dotfiles into .dotfiles/config/ instead of .dotfiles/.config/
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -641,6 +652,13 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+
+      --  ABC TODO NOW lazyvim has a hotkey to toggle searching hidden/ignored files, do I want that??
+      vim.keymap.set('n', '<leader>saf', function() builtin.find_files{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [F]iles' })
+      vim.keymap.set('n', '<leader>sag', function() builtin.live_grep{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [G]rep' })
+      vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [W]ord' })
+
     end,
   },
 
@@ -743,7 +761,7 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+          map('gO', function() require('telescope.builtin').lsp_document_symbols{symbol_width = 40} end, 'Open Document Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
@@ -925,16 +943,16 @@ require('lazy').setup({
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
-        end,
-        mode = '',
-        desc = '[F]ormat buffer',
-      },
-    },
+    -- keys = {
+    --   {
+    --     '<leader>f',
+    --     function()
+    --       require('conform').format { async = true, lsp_format = 'fallback' }
+    --     end,
+    --     mode = '',
+    --     desc = '[F]ormat buffer',
+    --   },
+    -- },
     opts = {
       notify_on_error = false,
       -- format_on_save = function(bufnr)
