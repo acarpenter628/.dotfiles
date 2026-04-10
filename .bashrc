@@ -110,6 +110,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Not sure if I need this because I fucked something up trying to get python to work or if a snap update broke something
+export PATH="/snap/bin:$PATH"
+
 export PATH="$PATH:/opt/nvim/"
 
 # Created by `pipx` on 2025-06-05 23:01:06
