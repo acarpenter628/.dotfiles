@@ -393,7 +393,7 @@ require('lazy').setup({
             gs.nav_hunk("prev")
           end
         end, "Prev Hunk")
-        map("n", "<leader>gp", function() gs.nav_hunk("prev") end, "Prev Hunk")
+        map("n", "<leader>gN", function() gs.nav_hunk("prev") end, "Prev Hunk")
         map("n", "<leader>gn", function() gs.nav_hunk("next") end, "Next Hunk")
         map({ "n", "x" }, "<leader>gs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
         map({ "n", "x" }, "<leader>gr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
@@ -471,7 +471,9 @@ require('lazy').setup({
           yaml = false,
           completion = false,
         },
-      })  -- ABC TODO maybe there are some more configs I want to do here.  Get rid of folds on the leader key, I just use z for those
+      })
+      -- ABC TODO maybe there are some more configs I want to do here.  Get rid of folds on the leader key, I just use z for those
+      -- Is there a way to make it add a new list item on <cr> like how comments work?
     end
   },
   { -- Useful plugin to show you pending keybinds.
@@ -623,8 +625,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sf', function() builtin.find_files{hidden=true} end, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-      -- vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sg', function() builtin.live_grep{hidden=true} end, { desc = '[S]earch by [G]rep' })  -- ABC TODO apparently this doesn't find in hidden files.  I guess the easiest solution here is to just put my dotfiles into .dotfiles/config/ instead of .dotfiles/.config/
+      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -656,8 +657,11 @@ require('lazy').setup({
 
       --  ABC TODO NOW lazyvim has a hotkey to toggle searching hidden/ignored files, do I want that??
       vim.keymap.set('n', '<leader>saf', function() builtin.find_files{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [F]iles' })
-      vim.keymap.set('n', '<leader>sag', function() builtin.live_grep{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [G]rep' })
-      vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [W]ord' })
+      vim.keymap.set('n', '<leader>sag', function() builtin.live_grep{no_ignore=true} end, { desc = '[S]earch [A]ll [G]rep' })
+      vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{no_ignore=true} end, { desc = '[S]earch [A]ll [W]ord' })
+
+      -- The main project tree is too big for this, but it seems to work in my notes folder
+      vim.keymap.set('n', '<leader>sz', function() builtin.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = '[S]earch Fu[z]zy' })
 
     end,
   },
