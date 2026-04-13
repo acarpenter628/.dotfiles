@@ -676,8 +676,8 @@ require('lazy').setup({
 
       --  ABC TODO NOW lazyvim has a hotkey to toggle searching hidden/ignored files, do I want that??
       vim.keymap.set('n', '<leader>saf', function() builtin.find_files{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [F]iles' })
-      vim.keymap.set('n', '<leader>sag', function() builtin.live_grep{no_ignore=true} end, { desc = '[S]earch [A]ll [G]rep' })
-      vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{no_ignore=true} end, { desc = '[S]earch [A]ll [W]ord' })
+      vim.keymap.set('n', '<leader>sag', function() builtin.live_grep{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [G]rep' })
+      vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [W]ord' })
 
       -- The main project tree is too big for this, but it seems to work in my notes folder
       vim.keymap.set('n', '<leader>sz', function() builtin.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = '[S]earch Fu[z]zy' })
