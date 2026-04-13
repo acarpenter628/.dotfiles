@@ -1162,9 +1162,10 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      require('mini.surround').setup()  -- ABC TODO this one doesn't seem to do anything either, not that I really needed it
 
-      require('mini.sessions').setup({ autoread = true, autowrite = false})
+      require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
+      -- ABC TODO why does autoread not work?  Do I need autowrite?
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -1264,12 +1265,13 @@ require('lazy').setup({
   },
 })
 
-require('mini.sessions').setup({ autoread = true, autowrite = false})
+require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
 
 vim.cmd(':command LoadSesh lua MiniSessions.read()')
 
-vim.keymap.set('n', '<leader>Sw', ':lua MiniSessions.write("Session.vim")<cr>', { desc = 'Write Session'})
+vim.keymap.set('n', '<leader>Sw', ':lua MiniSessions.write(".session.vim")<cr>', { desc = 'Write Session'})
 vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read Session'})
+    -- :lua print(vim.inspect(MiniSessions.detected)) -- print table of sessions
 
 vim.cmd('badd ~/.config/nvim/init.lua') -- add this to the open buffers so I can jump to it from any file
 vim.cmd('badd ~/Documents/spellbooks/nvim.txt') -- add this to the open buffers so I can jump to it from any file
