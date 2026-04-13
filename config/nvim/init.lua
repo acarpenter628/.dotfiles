@@ -407,6 +407,25 @@ require('lazy').setup({
     },
   },
   {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons", -- optional, but recommended
+    },
+    config = function()
+      require('neo-tree').setup {
+        window = {
+          mappings = {
+          ["<space>"] = "none",
+          },
+        },
+      }
+    end,
+    lazy = false, -- neo-tree will lazily load itself
+  },
+  {
     'fei6409/log-highlight.nvim',
     config = function()
         require('log-highlight').setup {}
@@ -1276,6 +1295,10 @@ vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read
 vim.cmd('badd ~/.config/nvim/init.lua') -- add this to the open buffers so I can jump to it from any file
 vim.cmd('badd ~/Documents/spellbooks/nvim.txt') -- add this to the open buffers so I can jump to it from any file
 vim.cmd('badd ~/Documents/todo_now.md') -- add this to the open buffers so I can jump to it from any file
+
+
+
+vim.keymap.set('n', '<leader>e', ':Neotree toggle reveal=true<cr>', { desc = 'Toggle file [e]xplorer'})
 
 -- *gui-colors*
 -- Suggested color names (these are available on most systems):
