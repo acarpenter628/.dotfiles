@@ -407,6 +407,25 @@ require('lazy').setup({
     },
   },
   {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      "nvim-tree/nvim-web-devicons", -- optional, but recommended
+    },
+    config = function()
+      require('neo-tree').setup {
+        window = {
+          mappings = {
+          ["<space>"] = "none",
+          },
+        },
+      }
+    end,
+    lazy = false, -- neo-tree will lazily load itself
+  },
+  {
     'fei6409/log-highlight.nvim',
     config = function()
         require('log-highlight').setup {}
@@ -657,8 +676,8 @@ require('lazy').setup({
 
       --  ABC TODO NOW lazyvim has a hotkey to toggle searching hidden/ignored files, do I want that??
       vim.keymap.set('n', '<leader>saf', function() builtin.find_files{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [F]iles' })
-      vim.keymap.set('n', '<leader>sag', function() builtin.live_grep{no_ignore=true} end, { desc = '[S]earch [A]ll [G]rep' })
-      vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{no_ignore=true} end, { desc = '[S]earch [A]ll [W]ord' })
+      vim.keymap.set('n', '<leader>sag', function() builtin.live_grep{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [G]rep' })
+      vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [W]ord' })
 
       -- The main project tree is too big for this, but it seems to work in my notes folder
       vim.keymap.set('n', '<leader>sz', function() builtin.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = '[S]earch Fu[z]zy' })
@@ -1162,9 +1181,10 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      require('mini.surround').setup()  -- ABC TODO this one doesn't seem to do anything either, not that I really needed it
 
-      require('mini.sessions').setup({ autoread = true, autowrite = false})
+      require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
+      -- ABC TODO why does autoread not work?  Do I need autowrite?
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -1264,16 +1284,21 @@ require('lazy').setup({
   },
 })
 
-require('mini.sessions').setup({ autoread = true, autowrite = false})
+require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
 
 vim.cmd(':command LoadSesh lua MiniSessions.read()')
 
-vim.keymap.set('n', '<leader>Sw', ':lua MiniSessions.write("Session.vim")<cr>', { desc = 'Write Session'})
+vim.keymap.set('n', '<leader>Sw', ':lua MiniSessions.write(".session.vim")<cr>', { desc = 'Write Session'})
 vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read Session'})
+    -- :lua print(vim.inspect(MiniSessions.detected)) -- print table of sessions
 
 vim.cmd('badd ~/.config/nvim/init.lua') -- add this to the open buffers so I can jump to it from any file
 vim.cmd('badd ~/Documents/spellbooks/nvim.txt') -- add this to the open buffers so I can jump to it from any file
 vim.cmd('badd ~/Documents/todo_now.md') -- add this to the open buffers so I can jump to it from any file
+
+
+
+vim.keymap.set('n', '<leader>e', ':Neotree toggle reveal=true<cr>', { desc = 'Toggle file [e]xplorer'})
 
 -- *gui-colors*
 -- Suggested color names (these are available on most systems):
