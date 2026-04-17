@@ -98,7 +98,7 @@ vim.g.maplocalleader = ' '
 -- ABC TODO 
   -- capital E/W/B or H/L for like 5x?
     -- Those basically already exist for code lol.  I need to get better about using . for repeat (nvm apparently it doesn't work for motions, just for actions)
-  -- t/T could be overwritten, I'm never going to use that instead of fh
+  -- t/T could be overwritten, I'm never going to use that instead of fh  - Actually, useful for c or in visual mode
   -- undo tree?
 
 -- Make word wrap easier
@@ -132,6 +132,11 @@ vim.o.background = "dark" -- or "light" for light mode
 
 vim.opt.foldmethod = "indent"
 
+-- Regular Ctrl V paste from the register?  Do I want this?
+vim.keymap.set('i', '<C-v>', '<C-r>"')
+
+-- ABC TODO Unjoin?  Example: :%s/,/,\r/g splits a line at every comma.  Visual mode also
+
 -- This was causing issue where it would take 10s to to the treesitter and give up
 -- vim.api.nvim_create_autocmd({ "FileType"}, {  -- this seems to only work after treesitter is loaded.  ie must switch buffer and switch back
 --     callback = function()
@@ -153,7 +158,7 @@ vim.opt.foldmethod = "indent"
 vim.o.foldlevel = 9
 -- vim.opt.foldtext = "" -- abc todo this could be improved.  Triangle instead of + if I can figure out how to change that 
 vim.o.foldcolumn = '1'
-vim.o.foldlevelstart = 9
+vim.o.foldlevelstart = 99
 -- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?  Seems to do the same thing.  I think there's a local variant vs global?
 vim.opt.fillchars = {
   fold = ' ', -- /
@@ -287,6 +292,7 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<C-w>t', ':tab split<cr>', { desc = 'Split buffer to new tab' }) -- Should this be capital since I can't seem to remove the existing capital map?
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -371,6 +377,7 @@ require('lazy').setup({
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
       },
+      current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
       on_attach = function(buffer)
         local gs = package.loaded.gitsigns
 
@@ -452,7 +459,7 @@ require('lazy').setup({
       },
 
   },
-  { "chaoren/vim-wordmotion" },
+  -- { "chaoren/vim-wordmotion" },  -- I'm not sure if this is more headache than it's worth
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
@@ -667,6 +674,9 @@ require('lazy').setup({
           prompt_title = 'Live Grep in Open Files',
         }
       end, { desc = '[S]earch [/] in Open Files' })
+
+
+      -- vim.keymap.set('n', '<leader>s/', function() builtin.grep_string{grep_open_files = true, shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = 'Fuzzy [S]earch [/] in Open Files' })  -- ABC TODO why this doesn't work?
 
       -- Shortcut for searching your Neovim configuration files
       vim.keymap.set('n', '<leader>sn', function()
@@ -1299,6 +1309,8 @@ vim.cmd('badd ~/Documents/todo_now.md') -- add this to the open buffers so I can
 
 
 vim.keymap.set('n', '<leader>e', ':Neotree toggle reveal=true<cr>', { desc = 'Toggle file [e]xplorer'})
+vim.keymap.set('n', '<leader>wD', ':bp|bd #<CR>', { desc = '[D]elete/close current buffer'})
+
 
 -- *gui-colors*
 -- Suggested color names (these are available on most systems):
@@ -1333,7 +1345,6 @@ vim.cmd([[ highlight CursorLine guibg=NvimDarkGray3 ]])
 vim.cmd([[ highlight CursorLineNr guibg=NvimLightGreen]])
 
 vim.keymap.set('n', '<leader>zc', ':colorscheme cyberdream<cr>:hi CursorLineNr guibg=NvimLightCyan<cr>', { desc = 'colorscheme cyberdream'})
-
 vim.keymap.set('n', '<leader>zo', ':colorscheme oxocarbon<cr>:hi CursorLineNr guibg=DarkCyan<cr>', { desc = 'colorscheme oxocarbon'})
 vim.keymap.set('n', '<leader>zd', ':colorscheme dracula<cr>:hi CursorLineNr guibg=NvimDarkCyan<cr>', { desc = 'colorscheme dracula'})
 
@@ -1369,6 +1380,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+--vim.keymap.del('n', '<C-w>T') -- Removes ctrl wT in Normal mode.  Doesn't seem to work
 
 -- remap Ctrl Space to make Windows Terminal work
 vim.keymap.set('n', '<A-)>', ':MkdnToggleToDo<CR>')
