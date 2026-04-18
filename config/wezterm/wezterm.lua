@@ -30,5 +30,12 @@ end)
 
 -- Looks like shaders are in progress:  https://github.com/wezterm/wezterm/issues/6985
 
+config.keys = {
+  {
+    key = 'n',
+    mods = 'SHIFT|CTRL',
+    action = wezterm.action.ToggleFullScreen,
+  },
+}
 
 return config
