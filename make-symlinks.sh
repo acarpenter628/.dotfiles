@@ -8,7 +8,8 @@
 
 dir=~/.dotfiles                    # dotfiles directory
 olddir=~/.dotfiles_backup             # old dotfiles backup directory
-files="bashrc bash_aliases config/nvim config/ranger config/zellij"    # list of files/folders to symlink in homedir
+# list of files/folders to symlink in homedir
+files="bashrc bash_aliases config/nvim config/ranger config/zellij config/wezterm"
 
 ##########
 
