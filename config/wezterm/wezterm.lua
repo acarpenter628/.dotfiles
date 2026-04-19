@@ -23,7 +23,7 @@ config.background = {
             File = wezterm.config_dir .. "/backgrounds/bg-synthwave.jpg",
             -- File = "~/.dotfiles/config/wezterm/backgrounds/bg-synthwave.jpg", For some reason this one doesn't work
         },
-        hsb = { brightness = 0.03 }
+        hsb = { brightness = 0.1 }
     }
 }
 -- Cool parallax stuff here:  https://wezterm.org/config/lua/config/background.html?h=background#parallax-example
