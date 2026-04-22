@@ -205,6 +205,19 @@ vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
 
+-- Allow clipboard to sync over ssh
+vim.g.clipboard = {
+  name = "OSC 52",
+  copy = {
+    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+  },
+  paste = {  -- Not supported in Windows Terminal
+    ["+"] = function() end,
+    ["*"] = function() end,
+  },
+}
+
 -- Enable break indent
 vim.o.breakindent = true
 
@@ -1215,8 +1228,11 @@ require('lazy').setup({
       statusline.section_git = function() return "" end
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_diff = function() return "" end
-      -- statusline.section_diagnostics = function() return "" end
-      -- statusline.section_lsp = function() return "" end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_diagnostics = function() return "" end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_lsp = function() return "" end
+      -- ABC TODO can I add the function name here?
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
@@ -1377,6 +1393,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- I think there's a better way to do this with ftplugin, but this is fine
+-- ABC TODO NOW actually it might be leaving it at 3 when I leave a markdown.  So maybe I just put text and log in here and let it?
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
