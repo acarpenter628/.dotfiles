@@ -198,25 +198,34 @@ vim.o.linebreak = true
 vim.o.showmode = false
 
 -- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
+-- Need this extra function over SSH - wezterm and windows term won't let remote scripts access the local clipboard
+function my_paste(reg)
+    return function(lines)
+        local content = vim.fn.getreg('"')
+        return vim.split(content, '\n')
+    end
+end
 
--- Allow clipboard to sync over ssh
-vim.g.clipboard = {
-  name = "OSC 52",
-  copy = {
-    ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-    ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-  },
-  paste = {  -- Not supported in Windows Terminal
-    ["+"] = function() end,
-    ["*"] = function() end,
-  },
+if (os.getenv('SSH_TTY') == nil)
+then
+    vim.o.clipboard = 'unnamedplus'
+else
+    vim.o.clipboard = 'unnamedplus'
+    vim.g.clipboard = {
+      name = 'OSC 52',
+      copy = {
+        ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+      },
+      paste = {
+        ["+"] = my_paste("+"),
+        ["*"] = my_paste("*"),
+    },
 }
+end
+-- ABC TODO maybe I can use the leader key to determine if I want to save to the system clipboard or not
+
+vim.keymap.set('n', '<leader>p', 'viwPn', {noremap = true, silent = true, desc = '[P]aste over word + next'})
 
 -- Enable break indent
 vim.o.breakindent = true
