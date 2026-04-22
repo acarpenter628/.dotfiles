@@ -134,6 +134,7 @@ vim.opt.foldmethod = "indent"
 
 -- Regular Ctrl V paste from the register?  Do I want this?
 vim.keymap.set('i', '<C-v>', '<C-r>"')
+vim.keymap.set('c', '<C-v>', '<C-r>"')
 
 -- ABC TODO Unjoin?  Example: :%s/,/,\r/g splits a line at every comma.  Visual mode also
 
