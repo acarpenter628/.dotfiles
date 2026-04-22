@@ -132,7 +132,7 @@ vim.o.background = "dark" -- or "light" for light mode
 
 vim.opt.foldmethod = "indent"
 
--- Regular Ctrl V paste from the register?  Do I want this?
+-- Regular Ctrl V paste from the register?  Do I want this?  Is there something else I should make it?  I thought P, but that's previous
 vim.keymap.set('i', '<C-v>', '<C-r>"')
 vim.keymap.set('c', '<C-v>', '<C-r>"')
 
@@ -160,7 +160,7 @@ vim.o.foldlevel = 9
 -- vim.opt.foldtext = "" -- abc todo this could be improved.  Triangle instead of + if I can figure out how to change that 
 vim.o.foldcolumn = '1'
 vim.o.foldlevelstart = 99
--- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?  Seems to do the same thing.  I think there's a local variant vs global?
+-- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?  Seems to do the same thing.  I think there's a local variant vs global?  :help vim.wo
 vim.opt.fillchars = {
   fold = ' ', -- /
   foldclose = "",--'',
@@ -226,7 +226,15 @@ else
 end
 -- ABC TODO maybe I can use the leader key to determine if I want to save to the system clipboard or not
 
-vim.keymap.set('n', '<leader>p', 'viwPn', {noremap = true, silent = true, desc = '[P]aste over word + next'})
+-- Can I do a function and only do this if the word under the cursor is the same as the search?  Probably, sounds hard though
+-- Does my next one make this pointless?  I think so, maybe just make it viwP
+-- vim.keymap.set('n', '<leader>p', 'viwPn', {noremap = true, silent = true, desc = '[P]aste over word + next'})
+vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
+vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
+vim.keymap.set('n', '<leader>R', ':%s/<C-r><C-w>/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
+
+
+-- ABC TODO is there a way I can have . (or something) repeat the whole thing?  Does it already?
 
 -- Enable break indent
 vim.o.breakindent = true
