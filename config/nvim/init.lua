@@ -231,7 +231,7 @@ end
 -- vim.keymap.set('n', '<leader>p', 'viwPn', {noremap = true, silent = true, desc = '[P]aste over word + next'})
 vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
 vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
-vim.keymap.set('n', '<leader>R', ':%s/<C-r><C-w>/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
+vim.keymap.set('n', '<leader>R', ':%s/<C-r><C-w>/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace matching words with clipboard'})
 
 
 -- ABC TODO is there a way I can have . (or something) repeat the whole thing?  Does it already?
