@@ -231,8 +231,11 @@ end
 -- vim.keymap.set('n', '<leader>p', 'viwPn', {noremap = true, silent = true, desc = '[P]aste over word + next'})
 vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
 vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
-vim.keymap.set('n', '<leader>R', ':%s/<C-r><C-w>/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace matching words with clipboard'})
+vim.keymap.set('n', '<leader>Rc', ':%s/<C-r><C-w>/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [c]lipboard'})
+vim.keymap.set('n', '<leader>Rt', ':%s/<C-r><C-w>/', {noremap = true, silent = true, desc = '[R]eplace current word with [t]ext'})
 
+vim.keymap.set('v', '<leader>Rc', '"zy:%s/<C-r>z/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
+vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z/', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
 
 -- ABC TODO is there a way I can have . (or something) repeat the whole thing?  Does it already?
 
@@ -825,7 +828,7 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('gO', function() require('telescope.builtin').lsp_document_symbols{symbol_width = 40} end, 'Open Document Symbols')
+          map('gO', function() require('telescope.builtin').lsp_document_symbols{symbol_width = 60} end, 'Open Document Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
