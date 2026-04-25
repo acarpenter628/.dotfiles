@@ -586,6 +586,7 @@ require('lazy').setup({
         { '<leader>t', group = '[T]oggle' },
         { '<leader>z', group = 'Settings' },
         { '<leader>S', group = '[S]essions' },
+        { '<leader>R', group = '[R]eplace', mode = { 'n', 'v' }},
         { "<leader>w",
             group = "[W]indows/Panes",
             proxy = "<c-w>",
