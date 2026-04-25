@@ -132,8 +132,9 @@ vim.o.background = "dark" -- or "light" for light mode
 
 vim.opt.foldmethod = "indent"
 
--- Regular Ctrl V paste from the register?  Do I want this?
+-- Regular Ctrl V paste from the register?  Do I want this?  Is there something else I should make it?  I thought P, but that's previous
 vim.keymap.set('i', '<C-v>', '<C-r>"')
+vim.keymap.set('c', '<C-v>', '<C-r>"')
 
 -- ABC TODO Unjoin?  Example: :%s/,/,\r/g splits a line at every comma.  Visual mode also
 
@@ -159,7 +160,7 @@ vim.o.foldlevel = 9
 -- vim.opt.foldtext = "" -- abc todo this could be improved.  Triangle instead of + if I can figure out how to change that 
 vim.o.foldcolumn = '1'
 vim.o.foldlevelstart = 99
--- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?  Seems to do the same thing.  I think there's a local variant vs global?
+-- vim.wo.foldtext = '' -- abc todo what's wo instead of o or opt?  Seems to do the same thing.  I think there's a local variant vs global?  :help vim.wo
 vim.opt.fillchars = {
   fold = ' ', -- /
   foldclose = "",--'',
@@ -198,12 +199,45 @@ vim.o.linebreak = true
 vim.o.showmode = false
 
 -- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
+-- Need this extra function over SSH - wezterm and windows term won't let remote scripts access the local clipboard
+function my_paste(reg)
+    return function(lines)
+        local content = vim.fn.getreg('"')
+        return vim.split(content, '\n')
+    end
+end
+
+if (os.getenv('SSH_TTY') == nil)
+then
+    vim.o.clipboard = 'unnamedplus'
+else
+    vim.o.clipboard = 'unnamedplus'
+    vim.g.clipboard = {
+      name = 'OSC 52',
+      copy = {
+        ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+      },
+      paste = {
+        ["+"] = my_paste("+"),
+        ["*"] = my_paste("*"),
+    },
+}
+end
+-- ABC TODO maybe I can use the leader key to determine if I want to save to the system clipboard or not
+
+-- Can I do a function and only do this if the word under the cursor is the same as the search?  Probably, sounds hard though
+-- Does my next one make this pointless?  I think so, maybe just make it viwP
+-- vim.keymap.set('n', '<leader>p', 'viwPn', {noremap = true, silent = true, desc = '[P]aste over word + next'})
+vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
+vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
+vim.keymap.set('n', '<leader>Rc', ':%s/<C-r><C-w>/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [c]lipboard'})
+vim.keymap.set('n', '<leader>Rt', ':%s/<C-r><C-w>/', {noremap = true, silent = true, desc = '[R]eplace current word with [t]ext'})
+
+vim.keymap.set('v', '<leader>Rc', '"zy:%s/<C-r>z/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
+vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z/', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
+
+-- ABC TODO is there a way I can have . (or something) repeat the whole thing?  Does it already?
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -794,7 +828,7 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('gO', function() require('telescope.builtin').lsp_document_symbols{symbol_width = 40} end, 'Open Document Symbols')
+          map('gO', function() require('telescope.builtin').lsp_document_symbols{symbol_width = 60} end, 'Open Document Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
@@ -1215,8 +1249,11 @@ require('lazy').setup({
       statusline.section_git = function() return "" end
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_diff = function() return "" end
-      -- statusline.section_diagnostics = function() return "" end
-      -- statusline.section_lsp = function() return "" end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_diagnostics = function() return "" end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_lsp = function() return "" end
+      -- ABC TODO can I add the function name here?
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
@@ -1231,7 +1268,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -1239,9 +1276,9 @@ require('lazy').setup({
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
+        additional_vim_regex_highlighting = { 'ruby', 'cpp', 'c', },
       },
-      indent = { enable = true, disable = { 'ruby' } },
+      indent = { enable = true, disable = { 'ruby', 'cpp', 'c', } },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -1377,6 +1414,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- I think there's a better way to do this with ftplugin, but this is fine
+-- ABC TODO NOW actually it might be leaving it at 3 when I leave a markdown.  So maybe I just put text and log in here and let it?
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()

@@ -35,6 +35,9 @@ alias lsg='ls | grep'
 alias llg='ll | grep'
 alias less='less -r'
 alias vimode='set -o vi'
+# alias novimode='set +o vi'  # nope, this breaks something, if you turn on vimode, you've got it on until you close that window
+# apparently set editing-mode vi in inputrc will make this work in anything that uses readline - like ipython
+# can also do set show-mode-in-prompt in inputrc
 alias gpp='g++'
 alias wem='w3m'
 alias dl='yt-dlp '
