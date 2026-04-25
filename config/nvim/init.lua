@@ -532,7 +532,7 @@ require('lazy').setup({
           completion = false,
         },
         mappings = {
-          MkdnNewListItemBelowInsert = false,
+          -- MkdnNewListItemBelowInsert = false,
           MkdnFoldSection = false,
           MkdnUnfoldSection = false,
         },
@@ -550,7 +550,7 @@ require('lazy').setup({
                   content = { link = ''}
                   }},
               next = {
-                marker = 'O',
+                marker = 'o',
                 highlight = {
                   marker = { fg = "#53c9c7", link = ''},
                   content = { link = ''}
@@ -568,8 +568,8 @@ require('lazy').setup({
         },
       })
         vim.keymap.set('n', '<leader>it', ':MkdnTable ', {desc = 'insert table [rows] [columns] (no headers (optional))'})
-        vim.keymap.set('n', 'o', ':MkdnNewListItemBelowInsert<CR>', {noremap=true, desc = 'append todo list item'})
-        vim.keymap.set('i', '<CR>', '<cmd>MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
+        -- vim.keymap.set('i', '<CR>', '<cmd>MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
+        -- vim.keymap.set('n', 'o', ':MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
     end
   },
   { -- Useful plugin to show you pending keybinds.
