@@ -531,9 +531,15 @@ require('lazy').setup({
           yaml = false,
           completion = false,
         },
+        mappings = {
+          MkdnNewListItemBelowInsert = false,
+          MkdnFoldSection = false,
+          MkdnUnfoldSection = false,
+        },
       })
-      -- ABC TODO maybe there are some more configs I want to do here.  Get rid of folds on the leader key, I just use z for those
-      -- Is there a way to make it add a new list item on <cr> like how comments work?
+        vim.keymap.set('n', '<leader>it', ':MkdnTable ', {desc = 'insert table [rows] [columns] (no headers (optional))'})
+        vim.keymap.set('n', 'o', ':MkdnNewListItemBelowInsert<CR>', {desc = 'append todo list item'})
+        vim.keymap.set('i', '<CR>', '<cmd>MkdnNewListItemBelowInsert<CR>', {desc = 'append todo list item'})
     end
   },
   { -- Useful plugin to show you pending keybinds.
