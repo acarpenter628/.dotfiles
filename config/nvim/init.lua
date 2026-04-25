@@ -511,7 +511,7 @@ require('lazy').setup({
 
   {
     'jakewvincent/mkdnflow.nvim',
-    ft = { 'markdown', 'rmd' },  -- Add custom filetypes here if configured
+    ft = { 'markdown', 'rmd', 'md' },  -- Add custom filetypes here if configured
     config = function()
       require('mkdnflow').setup({
         modules = {
@@ -531,9 +531,45 @@ require('lazy').setup({
           yaml = false,
           completion = false,
         },
+        mappings = {
+          MkdnNewListItemBelowInsert = false,
+          MkdnFoldSection = false,
+          MkdnUnfoldSection = false,
+        },
+        to_do = {
+          highlight = true,
+          statuses = {
+              not_started = { marker = ' ',
+                highlight = {
+                  marker = {fg = "#fc6060", link = ''},
+                  content = { link = ''}
+                  }},
+              in_progress = { marker = '-',
+                highlight = {
+                  marker = { fg = "#fcba03", link = ''},
+                  content = { link = ''}
+                  }},
+              next = {
+                marker = 'O',
+                highlight = {
+                  marker = { fg = "#53c9c7", link = ''},
+                  content = { link = ''}
+                  }
+              },
+              complete = { marker = { 'X', 'x' } ,
+                highlight = {
+                  marker = {fg = "#32a84c",link = ''},
+                  content = {link = ''}
+                  }
+            },
+          },
+          status_order = { 'not_started', 'next', 'in_progress', 'complete' },
+          status_propagation = { up = false, down = false },
+        },
       })
-      -- ABC TODO maybe there are some more configs I want to do here.  Get rid of folds on the leader key, I just use z for those
-      -- Is there a way to make it add a new list item on <cr> like how comments work?
+        vim.keymap.set('n', '<leader>it', ':MkdnTable ', {desc = 'insert table [rows] [columns] (no headers (optional))'})
+        vim.keymap.set('n', 'o', ':MkdnNewListItemBelowInsert<CR>', {noremap=true, desc = 'append todo list item'})
+        vim.keymap.set('i', '<CR>', '<cmd>MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
     end
   },
   { -- Useful plugin to show you pending keybinds.
