@@ -535,19 +535,22 @@ require('lazy').setup({
           -- MkdnNewListItemBelowInsert = false,
           MkdnFoldSection = false,
           MkdnUnfoldSection = false,
+          MkdnEnter = {'i', '<CR>'},
         },
         to_do = {
           highlight = true,
           statuses = {
               not_started = { marker = ' ',
                 highlight = {
-                  marker = {fg = "#fc6060", link = ''},
+                  -- marker = {fg = "#fc6060", link = ''},
+                  marker = {link = ''},
                   content = { link = ''}
                   }},
               in_progress = { marker = '-',
                 highlight = {
-                  marker = { fg = "#fcba03", link = ''},
-                  content = { link = ''}
+                  -- marker = { fg = "#fcba03", link = ''},
+                  marker = {link = ''},
+                  content = { link = '', bold = false}
                   }},
               next = {
                 marker = 'o',
@@ -558,7 +561,8 @@ require('lazy').setup({
               },
               complete = { marker = { 'X', 'x' } ,
                 highlight = {
-                  marker = {fg = "#32a84c",link = ''},
+                  -- marker = {fg = "#32a84c",link = ''},
+                  marker = {link = ''},
                   content = {link = ''}
                   }
             },
@@ -570,6 +574,7 @@ require('lazy').setup({
         vim.keymap.set('n', '<leader>it', ':MkdnTable ', {desc = 'insert table [rows] [columns] (no headers (optional))'})
         vim.keymap.set('n', '<leader>af', ':MkdnTableFormat<CR> ', {desc = 'Format Table'})
         -- vim.keymap.set('i', '<CR>', '<cmd>MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
+        -- vim.keymap.set('i', '<CR>', '<cmd>MkdnEnter<CR>', {buf=0}) -- Done in the real mappings above
         -- vim.keymap.set('n', 'o', ':MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
     end
   },
@@ -1301,7 +1306,7 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
-    branch = 'master',
+    branch = 'master',  -- ABC TODO NOW I guess I have to update to main now maybe.  https://www.qu8n.com/posts/treesitter-migration-guide-for-nvim-0-12
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
