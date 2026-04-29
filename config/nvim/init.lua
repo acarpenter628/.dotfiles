@@ -519,8 +519,8 @@ require('lazy').setup({
           buffers = true,
           conceal = false,
           cursor = false,
-          folds = true,
-          foldtext = true,
+          folds = false,
+          foldtext = false,
           links = false,
           lists = true,
           maps = true,  -- keymaps.  so need this to do the todos

@@ -121,6 +121,8 @@ export EDITOR=nvim;
 
 bind "set completion-ignore-case on"
 
+set -o ignoreeof # Ctrl D doesn't exit the shell 
+
 stty -ixon  # disable flow control, but I don't remember why I thought this was important
 source /usr/share/doc/fzf/examples/key-bindings.bash
 #source /usr/share/doc/fzf/examples/completion.bash
