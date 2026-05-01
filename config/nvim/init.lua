@@ -100,6 +100,7 @@ vim.g.maplocalleader = ' '
     -- Those basically already exist for code lol.  I need to get better about using . for repeat (nvm apparently it doesn't work for motions, just for actions)
   -- t/T could be overwritten, I'm never going to use that instead of fh  - Actually, useful for c or in visual mode
   -- undo tree?
+  -- auto-reload changed files?
 
 -- Make word wrap easier
 vim.keymap.set('n', 'j', 'gj')
@@ -122,9 +123,13 @@ vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 
 -- x uses the black hole register (normal and visual)
 vim.keymap.set('n', 'x', '"_x')
 vim.keymap.set('v', 'x', '"_x')
+vim.keymap.set('n', 'X', '"_X')
+vim.keymap.set('v', 'X', '"_X')
 -- Do the same with c (normal and visual)
 vim.keymap.set('n', 'c', '"_c')
+vim.keymap.set('n', 'C', '"_C')
 vim.keymap.set('v', 'c', '"_c')
+-- D can keep saving cuts - leave it as default
 -- don't overwrite the unnamed register when pasting in visual mode
 vim.keymap.set('v', 'p', 'P')
 
@@ -132,7 +137,7 @@ vim.o.background = "dark" -- or "light" for light mode
 
 vim.opt.foldmethod = "indent"
 
--- Regular Ctrl V paste from the register?  Do I want this?  Is there something else I should make it?  I thought P, but that's previous
+-- Regular Ctrl V paste from the register?  Do I want this?  Is there something else I should make it?  I thought <C-p>, but that's previous
 vim.keymap.set('i', '<C-v>', '<C-r>"')
 vim.keymap.set('c', '<C-v>', '<C-r>"')
 
@@ -379,6 +384,28 @@ rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  {
+    'nat-418/boole.nvim',
+    config = function()
+      require('boole').setup({
+        mappings = {
+          increment = '<C-a>',
+          decrement = '<C-x>'
+        },
+        -- User defined loops
+        -- additions = {
+        --   {'Foo', 'Bar'},
+        --   {'tic', 'tac', 'toe'}
+        -- },
+        -- allow_caps_additions = {
+        --   {'enable', 'disable'}
+        --   -- enable → disable
+        --   -- Enable → Disable
+        --   -- ENABLE → DISABLE
+        -- }
+      })
+    end
+  },
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -519,8 +546,8 @@ require('lazy').setup({
           buffers = true,
           conceal = false,
           cursor = false,
-          folds = true,
-          foldtext = true,
+          folds = false,
+          foldtext = false,
           links = false,
           lists = true,
           maps = true,  -- keymaps.  so need this to do the todos
@@ -535,19 +562,22 @@ require('lazy').setup({
           -- MkdnNewListItemBelowInsert = false,
           MkdnFoldSection = false,
           MkdnUnfoldSection = false,
+          MkdnEnter = {'i', '<CR>'},
         },
         to_do = {
           highlight = true,
           statuses = {
               not_started = { marker = ' ',
                 highlight = {
-                  marker = {fg = "#fc6060", link = ''},
+                  -- marker = {fg = "#fc6060", link = ''},
+                  marker = {link = ''},
                   content = { link = ''}
                   }},
               in_progress = { marker = '-',
                 highlight = {
-                  marker = { fg = "#fcba03", link = ''},
-                  content = { link = ''}
+                  -- marker = { fg = "#fcba03", link = ''},
+                  marker = {link = ''},
+                  content = { link = '', bold = false}
                   }},
               next = {
                 marker = 'o',
@@ -558,7 +588,8 @@ require('lazy').setup({
               },
               complete = { marker = { 'X', 'x' } ,
                 highlight = {
-                  marker = {fg = "#32a84c",link = ''},
+                  -- marker = {fg = "#32a84c",link = ''},
+                  marker = {link = ''},
                   content = {link = ''}
                   }
             },
@@ -570,6 +601,7 @@ require('lazy').setup({
         vim.keymap.set('n', '<leader>it', ':MkdnTable ', {desc = 'insert table [rows] [columns] (no headers (optional))'})
         vim.keymap.set('n', '<leader>af', ':MkdnTableFormat<CR> ', {desc = 'Format Table'})
         -- vim.keymap.set('i', '<CR>', '<cmd>MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
+        -- vim.keymap.set('i', '<CR>', '<cmd>MkdnEnter<CR>', {buf=0}) -- Done in the real mappings above
         -- vim.keymap.set('n', 'o', ':MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
     end
   },
@@ -1301,7 +1333,7 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
-    branch = 'master',
+    branch = 'master',  -- ABC TODO NOW I guess I have to update to main now maybe.  https://www.qu8n.com/posts/treesitter-migration-guide-for-nvim-0-12
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
