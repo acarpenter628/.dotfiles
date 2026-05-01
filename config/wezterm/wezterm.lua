@@ -36,6 +36,11 @@ config.keys = {
     mods = 'SHIFT|CTRL',
     action = wezterm.action.ToggleFullScreen,
   },
+    -- Sounds like if I switch to a mac, I might be able to remap the alt/ctrl/super keys
+    -- Actually maybe I don't want that - it applies in the terminal, not only over ssh?
+    --  https://wezterm.org/config/keys.html#available-actions
+    --  https://wezterm.org/config/lua/keyassignment/SendKey.html
+    --  Actually, I think this is exactly what I want:  https://seb.bearblog.dev/wezterm-and-neovim-keybindings-in-macos/ (mostly)
 }
 
 return config
