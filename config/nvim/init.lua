@@ -261,6 +261,7 @@ vim.o.signcolumn = 'yes'
 vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
+-- vim.o.timeout = false
 vim.o.timeoutlen = 300
 
 -- Configure how new splits should be opened
@@ -559,10 +560,20 @@ require('lazy').setup({
           completion = false,
         },
         mappings = {
-          -- MkdnNewListItemBelowInsert = false,
           MkdnFoldSection = false,
           MkdnUnfoldSection = false,
           MkdnEnter = {'i', '<CR>'},
+          MkdnUpdateNumbering = {'n', '<leader>n'},
+          MkdnTableNewRowBelow = { 'n', '<leader>tir' },
+          MkdnTableNewRowAbove = { 'n', '<leader>tiR' },
+          MkdnTableNewColAfter = { 'n', '<leader>tic' },
+          MkdnTableNewColBefore = { 'n', '<leader>tiC' },
+          MkdnTableDeleteRow = { 'n', '<leader>tdr' },
+          MkdnTableDeleteCol = { 'n', '<leader>tdc' },
+          MkdnTableAlignLeft = { 'n', '<leader>tal' },
+          MkdnTableAlignRight = { 'n', '<leader>tar' },
+          MkdnTableAlignCenter = { 'n', '<leader>tac' },
+          MkdnTableAlignDefault = { 'n', '<leader>tax' },
         },
         to_do = {
           highlight = true,
@@ -575,14 +586,13 @@ require('lazy').setup({
                   }},
               in_progress = { marker = '-',
                 highlight = {
-                  -- marker = { fg = "#fcba03", link = ''},
-                  marker = {link = ''},
+                  marker = { fg =  "#0390fc" ,bold = true, link = ''},
                   content = { link = '', bold = false}
                   }},
               next = {
                 marker = 'o',
                 highlight = {
-                  marker = { fg = "#53c9c7", link = ''},
+                  marker = { fg = "#ff9021", bold = false, link = ''},
                   content = { link = ''}
                   }
               },
@@ -598,11 +608,17 @@ require('lazy').setup({
           status_propagation = { up = false, down = false },
         },
       })
-        vim.keymap.set('n', '<leader>it', ':MkdnTable ', {desc = 'insert table [rows] [columns] (no headers (optional))'})
-        vim.keymap.set('n', '<leader>af', ':MkdnTableFormat<CR> ', {desc = 'Format Table'})
-        -- vim.keymap.set('i', '<CR>', '<cmd>MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
-        -- vim.keymap.set('i', '<CR>', '<cmd>MkdnEnter<CR>', {buf=0}) -- Done in the real mappings above
-        -- vim.keymap.set('n', 'o', ':MkdnNewListItemBelowInsert<CR>', {buf=0, desc = 'append todo list item'})
+        vim.keymap.set('n', '<leader>tn', ':MkdnTable ', {buf=0, desc = 'New table [rows] [columns] (no headers (optional))'})
+        vim.keymap.set('n', '<leader>tf', ':MkdnTableFormat<CR> ', {buf=0, desc = 'Format Table'})
+        vim.keymap.set('n', '<leader>fb', 'saiw_.', {buf=0, remap=true, desc = 'Bold word'})
+        vim.keymap.set('n', '<leader>fi', 'saiw_', {buf=0, remap=true, desc = 'Italicize word'})
+        vim.keymap.set('n', '<leader>fu', 'sd_', {buf=0, remap=true, desc = 'Unformat'})
+        vim.keymap.set('v', '<leader>fb', 'sa_gvlolsa_', {buf=0, remap=true, desc = 'Bold selection'})
+        vim.keymap.set('v', '<leader>fi', 'sa_', {buf=0, remap=true, desc = 'Italicize selection'})
+        -- vim.keymap.set('i', '<Tab>', '<cmd>MkdnIndentListItem<cr>', {buf=0})
+        -- vim.keymap.set('i', '<S-Tab>', '<cmd>MkdnDedentListItem<cr>', {buf=0})
+        -- ABC TODO NOW  i think these don't work because it sends 4 spaces instead of tab
+      --
     end
   },
   { -- Useful plugin to show you pending keybinds.
@@ -652,7 +668,11 @@ require('lazy').setup({
       -- Document existing key chains
       spec = {
         { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
+        { '<leader>t', group = '[T]able' },
+        { '<leader>f', group = '[F]ormat', mode = { 'n', 'v' } },
+        { '<leader>ti', group = '[I]nsert' },
+        { '<leader>td', group = '[D]elete' },
+        { '<leader>ta', group = '[A]lign' },
         { '<leader>z', group = 'Settings' },
         { '<leader>S', group = '[S]essions' },
         { '<leader>R', group = '[R]eplace', mode = { 'n', 'v' }},
@@ -955,11 +975,11 @@ require('lazy').setup({
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
-          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, '[T]oggle Inlay [H]ints')
-          end
+          -- if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+          --   map('<leader>th', function()
+          --     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+          --   end, '[T]oggle Inlay [H]ints')
+          -- end
         end,
       })
 
@@ -1295,7 +1315,7 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()  -- ABC TODO this one doesn't seem to do anything either, not that I really needed it
+      require('mini.surround').setup()  -- ABC TODO how do I show these in whichkey?  Maybe instead of 's' i do <leader>a for around?  or just map these to what I want
 
       require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
       -- ABC TODO why does autoread not work?  Do I need autowrite?
