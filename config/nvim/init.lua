@@ -586,13 +586,13 @@ require('lazy').setup({
                   }},
               in_progress = { marker = '-',
                 highlight = {
-                  marker = { fg =  "#0390fc" ,bold = true, link = ''},
+                  marker = { fg = "#ff9021", bold = false, link = ''},
                   content = { link = '', bold = false}
                   }},
               next = {
                 marker = 'o',
                 highlight = {
-                  marker = { fg = "#ff9021", bold = false, link = ''},
+                  marker = { fg =  "#0390fc" ,bold = false, link = ''},
                   content = { link = ''}
                   }
               },
