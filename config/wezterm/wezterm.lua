@@ -2,13 +2,19 @@ local wezterm = require 'wezterm'
 local mux = wezterm.mux
 local config = {}
 
-config.font = wezterm.font 'CaskaydiaMono Nerd Font Mono'
-config.font_size = 11.0
+-- config.font = wezterm.font 'CaskaydiaMono Nerd Font Mono'
+config.font_size = 12.0
 config.color_scheme = 'Breeze (Gogh)'
 config.hide_tab_bar_if_only_one_tab = true
 config.audible_bell = "Disabled"
 config.initial_cols = 150
 config.initial_rows = 40
+
+-- These don't seem to work
+config.use_ime = false
+config.use_dead_keys = false
+
+-- config.debug_key_events = true  -- Need to run wezterm from another terminal
 
 
 wezterm.on("gui-startup", function()
@@ -17,6 +23,10 @@ wezterm.on("gui-startup", function()
 end)
 
 
+
+
+
+-- ABC TODO NOW pull from laptop branch 
 -- config.background = {
 --     {
 --         source = {
@@ -36,11 +46,53 @@ config.keys = {
     mods = 'SHIFT|CTRL',
     action = wezterm.action.ToggleFullScreen,
   },
+  {
+    key = '[',
+    mods = 'SUPER',
+    action = wezterm.action.SendKey {
+      key = 'Escape',
+    },
+  },
+    -- Make option work as ctrl
+  { key = 'a', mods = 'ALT', action = wezterm.action.SendKey { key = 'a', mods = 'CTRL', }, },
+  { key = 'x', mods = 'ALT', action = wezterm.action.SendKey { key = 'x', mods = 'CTRL', }, },
+  { key = 'g', mods = 'ALT', action = wezterm.action.SendKey { key = 'g', mods = 'CTRL', }, },
+  { key = 'd', mods = 'ALT', action = wezterm.action.SendKey { key = 'd', mods = 'CTRL', }, },
+  { key = 'r', mods = 'ALT', action = wezterm.action.SendKey { key = 'r', mods = 'CTRL', }, },
+  { key = 'u', mods = 'ALT', action = wezterm.action.SendKey { key = 'u', mods = 'CTRL', }, },
+  -- {
+  --   key = 'RightAlt',
+  --   action = wezterm.action.SendKey {
+  --     key = 'RightControl',
+  --   },
+  -- },
     -- Sounds like if I switch to a mac, I might be able to remap the alt/ctrl/super keys
     -- Actually maybe I don't want that - it applies in the terminal, not only over ssh?
     --  https://wezterm.org/config/keys.html#available-actions
     --  https://wezterm.org/config/lua/keyassignment/SendKey.html
-    --  Actually, I think this is exactly what I want:  https://seb.bearblog.dev/wezterm-and-neovim-keybindings-in-macos/ (mostly)
+    --  Actually, I think this is exactly what I want:  https://seb.bearblog.dev/wezterm-and-neovim-keybindings-in-macos/       (mostly)
+    --  
+    --  Map CTRLV GAXD to Alt, get it to stop doing the fancy characters
 }
+-- local function bind_alt_to_ctrl(key)
+--   return function(window, pane)
+--     -- local is_nvim = pane:get_foreground_process_name():match(".*/([^/]+)$") == "nvim"
+--     -- if not is_nvim then return end
+--
+--     window:perform_action({ SendKey = { key = key, mods = 'CTRL' } }, pane)
+--   end
+-- end
+
+
+-- local function bind_alt_to_ctrl(key)
+-- table.insert(config.keys, {  key = key, mods = 'ALT', action = wezterm.action.SendKey { key = key, mods = 'CTRL', }, })
+-- end
+-- bind_alt_to_ctrl('a')
+-- bind_alt_to_ctrl('x')
+-- bind_alt_to_ctrl('g')
+-- bind_alt_to_ctrl('g')
+-- bind_alt_to_ctrl('r')
+--
+-- 
 
 return config

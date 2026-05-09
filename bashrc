@@ -115,6 +115,7 @@ export PATH="$PATH:/opt/nvim/"
 # Created by `pipx` on 2025-06-05 23:01:06
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:$HOME/.bin/"
 
 export VISUAL=nvim;
 export EDITOR=nvim;
@@ -125,4 +126,5 @@ set -o ignoreeof # Ctrl D doesn't exit the shell
 
 stty -ixon  # disable flow control, but I don't remember why I thought this was important
 source /usr/share/doc/fzf/examples/key-bindings.bash
+FZF_CTRL_T_COMMAND= FZF_ALT_C_COMMAND= eval "$(fzf --bash)"
 #source /usr/share/doc/fzf/examples/completion.bash
