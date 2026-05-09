@@ -23,19 +23,21 @@ wezterm.on("gui-startup", function()
 end)
 
 
-
-
-
--- ABC TODO NOW pull from laptop branch 
--- config.background = {
---     {
---         source = {
---             File = wezterm.config_dir .. "/backgrounds/bg-synthwave.jpg",
---             -- File = "~/.dotfiles/config/wezterm/backgrounds/bg-synthwave.jpg", For some reason this one doesn't work
---         },
---         hsb = { brightness = 0.03 }
---     }
--- }
+config.background = {
+    {
+        source = {
+            -- File = wezterm.config_dir .. "/backgrounds/bg-synthwave.jpg",
+            -- File = wezterm.config_dir .. "/backgrounds/bg-circuit.jpeg",
+            -- File = wezterm.config_dir .. "/backgrounds/bg-floral.jpeg",
+            File = wezterm.config_dir .. "/backgrounds/bg-synthwave2.jpg",
+            -- File = wezterm.config_dir .. "/backgrounds/bg-synthwave3.jpg",
+            -- File = wezterm.config_dir .. "/backgrounds/bg-city.jpeg",
+            -- File = wezterm.config_dir .. "/backgrounds/bg-triangles.jpeg",
+            -- File = "~/.dotfiles/config/wezterm/backgrounds/bg-synthwave.jpg", For some reason this one doesn't work
+        },
+        hsb = { brightness = 0.10 }
+    }
+}
 -- Cool parallax stuff here:  https://wezterm.org/config/lua/config/background.html?h=background#parallax-example
 
 -- Looks like shaders are in progress:  https://github.com/wezterm/wezterm/issues/6985
