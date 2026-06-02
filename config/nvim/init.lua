@@ -231,6 +231,20 @@ else
 end
 -- ABC TODO maybe I can use the leader key to determine if I want to save to the system clipboard or not
 
+
+-- Enable autoread to watch for file changes
+vim.o.autoread = true
+
+-- Create an autocommand to trigger checktime, which refreshes buffers
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  callback = function()
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+
 -- Can I do a function and only do this if the word under the cursor is the same as the search?  Probably, sounds hard though
 -- Does my next one make this pointless?  I think so, maybe just make it viwP
 -- vim.keymap.set('n', '<leader>p', 'viwPn', {noremap = true, silent = true, desc = '[P]aste over word + next'})
@@ -242,6 +256,12 @@ vim.keymap.set('n', '<leader>Rt', ':%s/<C-r><C-w>//gc<Left><Left><Left>', {norem
 
 vim.keymap.set('v', '<leader>Rc', '"zy:%s/<C-r>z/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
 vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
+
+
+vim.keymap.set('n', '<leader>D', 'v^d', {noremap = true, silent = true, desc = '[D]elete before cursor'})
+vim.keymap.set('n', '<leader>Y', 'v^y', {noremap = true, silent = true, desc = '[Y]ank before cursor'})
+vim.keymap.set('n', '<leader>C', 'v^c', {noremap = true, silent = true, desc = '[C]hange before cursor'})
+
 
 -- ABC TODO is there a way I can have . (or something) repeat the whole thing?  Does it already?
 
@@ -333,7 +353,8 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-vim.keymap.set('n', '<C-w>t', ':$tab split<cr>', { desc = 'Split buffer to new tab' }) -- Should this be capital since I can't seem to remove the existing capital map?
+vim.keymap.set('n', '<C-w>t', ':tab split<cr>', { desc = 'Split buffer to new tab' }) -- Should this be capital since I can't seem to remove the existing capital map?
+vim.keymap.set('n', '<C-w>n', ':$tabnew<cr>', { desc = 'New tab' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
