@@ -116,6 +116,7 @@ export PATH="$PATH:/opt/nvim/"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/.bin/"
+# export PATH="$PATH:$HOME/Library/Python/3.14/bin"
 
 export VISUAL=nvim;
 export EDITOR=nvim;
@@ -125,6 +126,6 @@ bind "set completion-ignore-case on"
 set -o ignoreeof # Ctrl D doesn't exit the shell 
 
 stty -ixon  # disable flow control, but I don't remember why I thought this was important
-source /usr/share/doc/fzf/examples/key-bindings.bash
+# source /usr/share/doc/fzf/examples/key-bindings.bash  # this isn't here on mac but also doesn't seem to be needed
 FZF_CTRL_T_COMMAND= FZF_ALT_C_COMMAND= eval "$(fzf --bash)"
 #source /usr/share/doc/fzf/examples/completion.bash

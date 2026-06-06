@@ -58,10 +58,13 @@ config.keys = {
     -- Make option work as ctrl
   { key = 'a', mods = 'ALT', action = wezterm.action.SendKey { key = 'a', mods = 'CTRL', }, },
   { key = 'x', mods = 'ALT', action = wezterm.action.SendKey { key = 'x', mods = 'CTRL', }, },
+  { key = 'e', mods = 'ALT', action = wezterm.action.SendKey { key = 'e', mods = 'CTRL', }, },
   { key = 'g', mods = 'ALT', action = wezterm.action.SendKey { key = 'g', mods = 'CTRL', }, },
   { key = 'd', mods = 'ALT', action = wezterm.action.SendKey { key = 'd', mods = 'CTRL', }, },
-  { key = 'r', mods = 'ALT', action = wezterm.action.SendKey { key = 'r', mods = 'CTRL', }, },
-  { key = 'u', mods = 'ALT', action = wezterm.action.SendKey { key = 'u', mods = 'CTRL', }, },
+  { key = 't', mods = 'ALT', action = wezterm.action.SendKey { key = 't', mods = 'CTRL', }, },
+  { key = 'r', mods = 'ALT', action = wezterm.action.SendKey { key = 'r', mods = 'CTRL', }, },  -- history
+  { key = 'z', mods = 'ALT', action = wezterm.action.SendKey { key = 'z', mods = 'CTRL', }, },
+  { key = 'v', mods = 'ALT', action = wezterm.action.SendKey { key = 'v', mods = 'CTRL', }, },
   -- {
   --   key = 'RightAlt',
   --   action = wezterm.action.SendKey {
@@ -85,15 +88,9 @@ config.keys = {
 --   end
 -- end
 
-
 -- local function bind_alt_to_ctrl(key)
 -- table.insert(config.keys, {  key = key, mods = 'ALT', action = wezterm.action.SendKey { key = key, mods = 'CTRL', }, })
 -- end
--- bind_alt_to_ctrl('a')
--- bind_alt_to_ctrl('x')
--- bind_alt_to_ctrl('g')
--- bind_alt_to_ctrl('g')
--- bind_alt_to_ctrl('r')
 --
 -- 
 

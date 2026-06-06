@@ -133,6 +133,8 @@ vim.keymap.set('v', 'c', '"_c')
 -- don't overwrite the unnamed register when pasting in visual mode
 vim.keymap.set('v', 'p', 'P')
 
+vim.keymap.set('n', '<leader>D', "v^d", { desc = 'Delete to beginning of line'})
+
 vim.o.background = "dark" -- or "light" for light mode
 
 vim.opt.foldmethod = "indent"
