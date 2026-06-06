@@ -260,8 +260,14 @@ vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z//gc<Left><Left><Left>', {norema
 
 vim.keymap.set('n', '<leader>D', 'v^d', {noremap = true, silent = true, desc = '[D]elete before cursor'})
 vim.keymap.set('n', '<leader>Y', 'v^y', {noremap = true, silent = true, desc = '[Y]ank before cursor'})
+vim.keymap.set('n', '<leader>y', 'yiw', {noremap = true, silent = true, desc = '[Y]ank word'})
 vim.keymap.set('n', '<leader>C', 'v^c', {noremap = true, silent = true, desc = '[C]hange before cursor'})
 
+--  ABC TODO Fix gc and gcc.  I'll always want the whole line in normal mode.  Maybe increasing the timeout is enough
+-- vim.keymap.set('n', 'gc', 'gcc', {noremap = true, silent = true})
+--
+vim.keymap.set('n', 'gh', '^', {noremap = true, silent = true, desc = 'Beginning of line'})
+vim.keymap.set('n', 'gl', '$', {noremap = true, silent = true, desc = 'End of line'})
 
 -- ABC TODO is there a way I can have . (or something) repeat the whole thing?  Does it already?
 
@@ -283,7 +289,7 @@ vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- vim.o.timeout = false
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 500
 
 -- Configure how new splits should be opened
 vim.o.splitright = true
@@ -510,6 +516,7 @@ require('lazy').setup({
         window = {
           mappings = {
           ["<space>"] = "none",
+          ["/"] = "none",
           },
         },
       }
