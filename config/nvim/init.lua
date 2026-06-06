@@ -233,16 +233,43 @@ else
 end
 -- ABC TODO maybe I can use the leader key to determine if I want to save to the system clipboard or not
 
+
+-- Enable autoread to watch for file changes
+vim.o.autoread = true
+
+-- Create an autocommand to trigger checktime, which refreshes buffers
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  callback = function()
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+
 -- Can I do a function and only do this if the word under the cursor is the same as the search?  Probably, sounds hard though
 -- Does my next one make this pointless?  I think so, maybe just make it viwP
 -- vim.keymap.set('n', '<leader>p', 'viwPn', {noremap = true, silent = true, desc = '[P]aste over word + next'})
 vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
+vim.keymap.set('n', '<leader>P', 'v$hP', {noremap = true, silent = true, desc = '[P]aste over remainder of line'})
 vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
-vim.keymap.set('n', '<leader>Rc', ':%s/<C-r><C-w>/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [c]lipboard'})
-vim.keymap.set('n', '<leader>Rt', ':%s/<C-r><C-w>/', {noremap = true, silent = true, desc = '[R]eplace current word with [t]ext'})
+vim.keymap.set('n', '<leader>Rc', ':%s/<C-r><C-w>/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [c]lipboard'})
+vim.keymap.set('n', '<leader>Rt', ':%s/<C-r><C-w>//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace current word with [t]ext'})
 
-vim.keymap.set('v', '<leader>Rc', '"zy:%s/<C-r>z/<C-r>"/c<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
-vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z/', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
+vim.keymap.set('v', '<leader>Rc', '"zy:%s/<C-r>z/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
+vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
+
+
+vim.keymap.set('n', '<leader>D', 'v^d', {noremap = true, silent = true, desc = '[D]elete before cursor'})
+vim.keymap.set('n', '<leader>Y', 'v^y', {noremap = true, silent = true, desc = '[Y]ank before cursor'})
+vim.keymap.set('n', '<leader>y', 'yiw', {noremap = true, silent = true, desc = '[Y]ank word'})
+vim.keymap.set('n', '<leader>C', 'v^c', {noremap = true, silent = true, desc = '[C]hange before cursor'})
+
+--  ABC TODO Fix gc and gcc.  I'll always want the whole line in normal mode.  Maybe increasing the timeout is enough
+-- vim.keymap.set('n', 'gc', 'gcc', {noremap = true, silent = true})
+--
+vim.keymap.set('n', 'gh', '^', {noremap = true, silent = true, desc = 'Beginning of line'})
+vim.keymap.set('n', 'gl', '$', {noremap = true, silent = true, desc = 'End of line'})
 
 -- ABC TODO is there a way I can have . (or something) repeat the whole thing?  Does it already?
 
@@ -264,7 +291,7 @@ vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- vim.o.timeout = false
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 500
 
 -- Configure how new splits should be opened
 vim.o.splitright = true
@@ -335,6 +362,7 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 vim.keymap.set('n', '<C-w>t', ':tab split<cr>', { desc = 'Split buffer to new tab' }) -- Should this be capital since I can't seem to remove the existing capital map?
+vim.keymap.set('n', '<C-w>n', ':$tabnew<cr>', { desc = 'New tab' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -490,6 +518,7 @@ require('lazy').setup({
         window = {
           mappings = {
           ["<space>"] = "none",
+          ["/"] = "none",
           },
         },
       }
@@ -774,7 +803,7 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', function() builtin.find_files{hidden=true} end, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>sf', function() builtin.find_files{hidden=true, follow=true} end, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
@@ -811,7 +840,7 @@ require('lazy').setup({
 
 
       --  ABC TODO NOW lazyvim has a hotkey to toggle searching hidden/ignored files, do I want that??
-      vim.keymap.set('n', '<leader>saf', function() builtin.find_files{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [F]iles' })
+      vim.keymap.set('n', '<leader>saf', function() builtin.find_files{no_ignore=true, hidden=true, follow=true} end, { desc = '[S]earch [A]ll [F]iles' })
       vim.keymap.set('n', '<leader>sag', function() builtin.live_grep{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [G]rep' })
       vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [W]ord' })
 
@@ -1078,6 +1107,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'basedpyright',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -1130,6 +1160,7 @@ require('lazy').setup({
       -- end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        python = { 'basedpyright' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
