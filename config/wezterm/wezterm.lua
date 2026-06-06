@@ -78,6 +78,12 @@ config.keys = {
     --  Actually, I think this is exactly what I want:  https://seb.bearblog.dev/wezterm-and-neovim-keybindings-in-macos/       (mostly)
     --  
     --  Map CTRLV GAXD to Alt, get it to stop doing the fancy characters
+
+    -- use CMD hjkl for arrows :eyes emoji:
+  { key = 'h', mods = 'CMD', action = wezterm.action.SendKey { key = 'LeftArrow', }, },
+  { key = 'j', mods = 'CMD', action = wezterm.action.SendKey { key = 'DownArrow', }, },
+  { key = 'k', mods = 'CMD', action = wezterm.action.SendKey { key = 'UpArrow', }, },
+  { key = 'l', mods = 'CMD', action = wezterm.action.SendKey { key = 'RightArrow', }, },
 }
 -- local function bind_alt_to_ctrl(key)
 --   return function(window, pane)
