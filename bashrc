@@ -115,6 +115,7 @@ export PATH="$PATH:/opt/nvim/"
 # Created by `pipx` on 2025-06-05 23:01:06
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:$HOME/.bin"
 
 export VISUAL=nvim;
 export EDITOR=nvim;
