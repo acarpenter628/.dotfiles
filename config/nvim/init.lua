@@ -259,11 +259,11 @@ vim.keymap.set('v', '<leader>Rc', '"zy:%s/<C-r>z/<C-r>"/gc<CR>', {noremap = true
 vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
 
 
-vim.keymap.set('n', '<leader>D', 'v^d', {noremap = true, silent = true, desc = '[D]elete before cursor'})
+vim.keymap.set('n', '<leader>D', 'v^"_d', {desc = '[D]elete before cursor'})
 vim.keymap.set('n', '<leader>Y', 'v^y', {noremap = true, silent = true, desc = '[Y]ank before cursor'})
 vim.keymap.set('n', '<leader>y', 'yiw', {noremap = true, silent = true, desc = '[Y]ank word'})
-vim.keymap.set('n', '<leader>C', 'v^c', {noremap = true, silent = true, desc = '[C]hange before cursor'})
-vim.keymap.set('n', '<leader>c', 'ciw', {noremap = true, silent = true, desc = '[C]hange word'})
+vim.keymap.set('n', '<leader>C', 'v^"_c', {desc = '[C]hange before cursor'})
+vim.keymap.set('n', '<leader>c', '"_ciw', {desc = '[C]hange word'})
 
 --  ABC TODO Fix gc and gcc.  I'll always want the whole line in normal mode.  Maybe increasing the timeout is enough
 -- vim.keymap.set('n', 'gc', 'gcc', {noremap = true, silent = true})
