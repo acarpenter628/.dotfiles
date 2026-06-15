@@ -262,6 +262,7 @@ vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z//gc<Left><Left><Left>', {norema
 vim.keymap.set('n', '<leader>D', 'v^"_d', {desc = '[D]elete before cursor'})
 vim.keymap.set('n', '<leader>Y', 'v^y', {noremap = true, silent = true, desc = '[Y]ank before cursor'})
 vim.keymap.set('n', '<leader>y', 'yiw', {noremap = true, silent = true, desc = '[Y]ank word'})
+vim.keymap.set('n', '<leader>d', 'diw', {noremap = true, silent = true, desc = '[D]elete word'})
 vim.keymap.set('n', '<leader>C', 'v^"_c', {desc = '[C]hange before cursor'})
 vim.keymap.set('n', '<leader>c', '"_ciw', {desc = '[C]hange word'})
 

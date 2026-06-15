@@ -19,6 +19,7 @@
     syntax-theme = "Dracula"
     minus-style = syntax "#700000"
     minus-emph-style = syntax "#a80000"
-    plus-emph-style = syntax "#2ea32e"
+    plus-style = syntax "#18542c"
+    plus-emph-style = syntax "#248024"
     wrap-right-percent = 1
     wrap-max-lines = 15
