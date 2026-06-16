@@ -256,14 +256,17 @@ vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, 
 vim.keymap.set('n', '<leader>Rc', ':%s/<C-r><C-w>/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [c]lipboard'})
 vim.keymap.set('n', '<leader>Rt', ':%s/<C-r><C-w>//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace current word with [t]ext'})
 
+vim.keymap.set('v', '<leader>r', '"zy:s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace selection with clipboard + next'})
 vim.keymap.set('v', '<leader>Rc', '"zy:%s/<C-r>z/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
 vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
 
 
-vim.keymap.set('n', '<leader>D', 'v^d', {noremap = true, silent = true, desc = '[D]elete before cursor'})
+vim.keymap.set('n', '<leader>D', 'v^"_d', {desc = '[D]elete before cursor'})
 vim.keymap.set('n', '<leader>Y', 'v^y', {noremap = true, silent = true, desc = '[Y]ank before cursor'})
 vim.keymap.set('n', '<leader>y', 'yiw', {noremap = true, silent = true, desc = '[Y]ank word'})
-vim.keymap.set('n', '<leader>C', 'v^c', {noremap = true, silent = true, desc = '[C]hange before cursor'})
+vim.keymap.set('n', '<leader>d', 'diw', {noremap = true, silent = true, desc = '[D]elete word'})
+vim.keymap.set('n', '<leader>C', 'v^"_c', {desc = '[C]hange before cursor'})
+vim.keymap.set('n', '<leader>c', '"_ciw', {desc = '[C]hange word'})
 
 --  ABC TODO Fix gc and gcc.  I'll always want the whole line in normal mode.  Maybe increasing the timeout is enough
 -- vim.keymap.set('n', 'gc', 'gcc', {noremap = true, silent = true})
@@ -785,7 +788,12 @@ require('lazy').setup({
               ["<C-l>"] = require('telescope.actions').preview_scrolling_right,
               ["<A-)>"] = require('telescope.actions').to_fuzzy_refine, -- for windows terminal
               ["<C-?>"] = "which_key",
-            },           },
+            },
+          },
+          layout_config = {
+            prompt_position = 'top',
+          },
+          sorting_strategy = 'ascending',
         },
         -- pickers = {}
         extensions = {

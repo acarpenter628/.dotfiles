@@ -2,6 +2,8 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# export COLORTERM=truecolor
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -116,7 +118,6 @@ export PATH="$PATH:/opt/nvim/"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/.bin/"
-# export PATH="$PATH:$HOME/Library/Python/3.14/bin"
 
 export VISUAL=nvim;
 export EDITOR=nvim;

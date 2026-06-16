@@ -1,0 +1,27 @@
+; to use, add the following to ~/.gitconfig:
+; [include]
+;   path = ~/.dotfiles/.gitconfig
+
+[core]
+    pager = delta
+
+[branch]
+	sort = -committerdate
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+    true-color = always
+        ; this gave me more greens, but not more reds.
+    side-by-side = true
+    line-numbers = true
+    syntax-theme = "Dracula"
+    minus-style = syntax "#700000"
+    minus-emph-style = syntax "#a80000"
+    plus-style = syntax "#18542c"
+    plus-emph-style = syntax "#21753d"
+    wrap-right-percent = 1
+    wrap-max-lines = 15
