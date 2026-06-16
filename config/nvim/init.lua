@@ -111,7 +111,7 @@ vim.cmd(":set whichwrap+=lh")
 --- Get rid of overtype mode, replace it with 'delete one character and insert'
 vim.keymap.set('n', 'R', '"_cl')
 -- Insert a newline with leader enter.  Had to add leader because I needed enter to follow links or something?  Maybe I could re-add it but disable it in help files?
-vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 'Insert blank line'})
+-- vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 'Insert blank line'})
 -- vim.keymap.set('n', '<leader><cr>', ":call insert(line('.'), '')<cr>", { desc = 'Insert blank line above'}) -- ABC TODO what to map this to?  
 -- I'd like shift+Enter, and I could hack that to work with Windows Terminal, but I'd prefer not to rely on any terminal specific implementation.  Maybe <leader><CR>?   Actually it's not as much relying on specific terminal implementation and more about working around it.  See MkdnToggleToDo at the bottom
 -- This one didn't work so i guess just copy from the nvim source for [<space>
@@ -193,6 +193,7 @@ vim.keymap.set('n', '<leader>zl', ':set invrelativenumber<cr>', { desc = 'toggle
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 -- vim.o.mouse = 'a'
+-- ABC TODO use a function to just do zm to toggle
 vim.o.mouse = ''
 vim.keymap.set('n', '<leader>zmn', ':set mouse=<cr>', { desc = 'mouse off'})
 vim.keymap.set('n', '<leader>zma', ':set mouse=a<cr>', { desc = 'mouse on'})
@@ -337,8 +338,9 @@ vim.o.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- Diagnostic keymaps  
+-- ABC TODO would I ever use this?
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -640,6 +642,7 @@ require('lazy').setup({
           status_propagation = { up = false, down = false },
         },
       })
+        -- ABC TODO NOW Sometimes these don't show up and what's up with that?  Seems to depend on whether it's the first file I open
         vim.keymap.set('n', '<leader>tn', ':MkdnTable ', {buf=0, desc = 'New table [rows] [columns] (no headers (optional))'})
         vim.keymap.set('n', '<leader>tf', ':MkdnTableFormat<CR> ', {buf=0, desc = 'Format Table'})
         vim.keymap.set('n', '<leader>fb', 'saiw_.', {buf=0, remap=true, desc = 'Bold word'})
