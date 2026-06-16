@@ -3,7 +3,7 @@ local mux = wezterm.mux
 local config = {}
 
 -- config.font = wezterm.font 'CaskaydiaMono Nerd Font Mono'
-config.font_size = 12.0
+config.font_size = 12.5
 config.color_scheme = 'Breeze (Gogh)'
 config.hide_tab_bar_if_only_one_tab = true
 config.audible_bell = "Disabled"
@@ -35,7 +35,7 @@ config.background = {
             -- File = wezterm.config_dir .. "/backgrounds/bg-triangles.jpeg",
             -- File = "~/.dotfiles/config/wezterm/backgrounds/bg-synthwave.jpg", For some reason this one doesn't work
         },
-        hsb = { brightness = 0.10 }
+        hsb = { brightness = 0.15 }
     }
 }
 -- Cool parallax stuff here:  https://wezterm.org/config/lua/config/background.html?h=background#parallax-example
