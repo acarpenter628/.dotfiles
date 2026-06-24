@@ -246,16 +246,13 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
 })
 
 
--- Can I do a function and only do this if the word under the cursor is the same as the search?  Probably, sounds hard though
--- Does my next one make this pointless?  I think so, maybe just make it viwP
--- vim.keymap.set('n', '<leader>p', 'viwPn', {noremap = true, silent = true, desc = '[P]aste over word + next'})
 vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
 vim.keymap.set('n', '<leader>P', 'v$hP', {noremap = true, silent = true, desc = '[P]aste over remainder of line'})
 vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
 vim.keymap.set('n', '<leader>Rc', ':%s/<C-r><C-w>/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [c]lipboard'})
 vim.keymap.set('n', '<leader>Rt', ':%s/<C-r><C-w>//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace current word with [t]ext'})
 
-vim.keymap.set('v', '<leader>r', '"zy:s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace selection with clipboard + next'})
+vim.keymap.set('v', '<leader>r', '"zy:s/<C-r>z/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace selection with clipboard + next'})
 vim.keymap.set('v', '<leader>Rc', '"zy:%s/<C-r>z/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
 vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
 
@@ -314,7 +311,7 @@ vim.o.expandtab = true
 --   and `:help lua-options-guide`
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', space = '·', nbsp = '␣' }
-vim.keymap.set('n', '<leader>z<leader>', ':set invlist<cr>', { desc = 'toggle whitespace chars'})
+-- Don't really need this one anymore either, now that I've synced the system clipboard.  Maybe keep it just for compatibility
 vim.keymap.set('n', '<leader>zh', ':set invlist<cr>', { desc = 'toggle whitespace chars'})
 
 -- Preview substitutions live, as you type!
@@ -366,6 +363,10 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 vim.keymap.set('n', '<C-w>t', ':tab split<cr>', { desc = 'Split buffer to new tab' }) -- Should this be capital since I can't seem to remove the existing capital map?
 vim.keymap.set('n', '<C-w>n', ':$tabnew<cr>', { desc = 'New tab' })
+
+-- Cycle through tabs  ABC TODO WIP
+vim.keymap.set('n', 'L', ':tabn<cr>', { desc = 'Next tab' })
+vim.keymap.set('n', 'H', ':tabN<cr>', { desc = 'Prev tab' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -505,6 +506,9 @@ require('lazy').setup({
         map("n", "<leader>gd", gs.diffthis, "Diff This")
         map("n", "<leader>gD", function() gs.diffthis("~") end, "Diff This ~")
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+        -- ABC TODO can I do this with telescope instead of the qflist?
+        map("n", "<leader>gl", function() gs.setloclist() end, "Diff List")
+        map("n", "<leader>gL", function() gs.setqflist("all") end, "Diff List")
       end,
     },
   },
@@ -840,7 +844,7 @@ require('lazy').setup({
       end, { desc = '[S]earch [/] in Open Files' })
 
 
-      -- vim.keymap.set('n', '<leader>s/', function() builtin.grep_string{grep_open_files = true, shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = 'Fuzzy [S]earch [/] in Open Files' })  -- ABC TODO why this doesn't work?
+      vim.keymap.set('n', '<leader>sz', function() builtin.grep_string{grep_open_files = true, shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = 'Fu[z]zy [S]earch in Open Files' })
 
       -- Shortcut for searching your Neovim configuration files
       vim.keymap.set('n', '<leader>sn', function()
@@ -854,7 +858,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [W]ord' })
 
       -- The main project tree is too big for this, but it seems to work in my notes folder
-      vim.keymap.set('n', '<leader>sz', function() builtin.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = '[S]earch Fu[z]zy' })
+      -- Also need to change the mapping
+      -- vim.keymap.set('n', '<leader>sz', function() builtin.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = '[S]earch Fu[z]zy' })
 
     end,
   },
@@ -1479,7 +1484,7 @@ vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read
     -- :lua print(vim.inspect(MiniSessions.detected)) -- print table of sessions
 
 vim.cmd('badd ~/.config/nvim/init.lua') -- add this to the open buffers so I can jump to it from any file
-vim.cmd('badd ~/Documents/spellbooks/nvim.txt') -- add this to the open buffers so I can jump to it from any file
+vim.cmd('badd ~/Documents/spellbooks/nvim.md') -- add this to the open buffers so I can jump to it from any file
 vim.cmd('badd ~/Documents/todo_now.md') -- add this to the open buffers so I can jump to it from any file
 
 

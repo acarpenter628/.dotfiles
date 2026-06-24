@@ -3,8 +3,11 @@
 ;   path = ~/.dotfiles/.gitconfig
 
 
+[diff]
+    context = 5
+
 [branch]
-	sort = -committerdate
+    sort = -committerdate
 
 [interactive]
     diffFilter = delta --color-only

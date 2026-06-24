@@ -43,4 +43,6 @@ config.keys = {
     --  Actually, I think this is exactly what I want:  https://seb.bearblog.dev/wezterm-and-neovim-keybindings-in-macos/ (mostly)
 }
 
+-- abc todo alt + [ to escape
+
 return config
