@@ -506,11 +506,15 @@ require('lazy').setup({
         map("n", "<leader>gd", gs.diffthis, "Diff This")
         map("n", "<leader>gD", function() gs.diffthis("~") end, "Diff This ~")
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
-        -- ABC TODO can I do this with telescope instead of the qflist?
-        map("n", "<leader>gl", function() gs.setloclist() end, "Diff List")
-        map("n", "<leader>gL", function() gs.setqflist("all") end, "Diff List")
       end,
     },
+  },
+  {
+    "radyz/telescope-gitsigns",
+    dependencies = {
+      "lewis6991/gitsigns.nvim",
+      "nvim-telescope/telescope.nvim",
+    }
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -811,6 +815,7 @@ require('lazy').setup({
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
+      pcall(require('telescope').load_extension, 'git_signs')
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
@@ -1482,6 +1487,14 @@ vim.cmd(':command LoadSesh lua MiniSessions.read()')
 vim.keymap.set('n', '<leader>Sw', ':lua MiniSessions.write(".session.vim")<cr>', { desc = 'Write Session'})
 vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read Session'})
     -- :lua print(vim.inspect(MiniSessions.detected)) -- print table of sessions
+
+vim.keymap.set('n', '<leader>gl', ':Telescope git_signs<cr>', { desc = 'List diffs in current buffer'})
+vim.keymap.set('n', '<leader>gL', function()
+  require('gitsigns').setqflist('all',{open = false})
+  vim.cmd("sleep 50m")  -- ABC TODO quickfix list isn't blocking apparently, need to delay so I don't have stale results
+  require('telescope.builtin').quickfix()
+end, { desc = 'List diffs in all buffers' })
+
 
 vim.cmd('badd ~/.config/nvim/init.lua') -- add this to the open buffers so I can jump to it from any file
 vim.cmd('badd ~/Documents/spellbooks/nvim.md') -- add this to the open buffers so I can jump to it from any file
