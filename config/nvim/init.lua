@@ -249,12 +249,12 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
 vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
 vim.keymap.set('n', '<leader>P', 'v$hP', {noremap = true, silent = true, desc = '[P]aste over remainder of line'})
 vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
-vim.keymap.set('n', '<leader>Rc', ':%s/<C-r><C-w>/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [c]lipboard'})
-vim.keymap.set('n', '<leader>Rt', ':%s/<C-r><C-w>//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace current word with [t]ext'})
+vim.keymap.set('n', '<leader>Rc', ':.,$s/<C-r><C-w>/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [c]lipboard'})
+vim.keymap.set('n', '<leader>Rt', ':.,$s/<C-r><C-w>//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace current word with [t]ext'})
 
 vim.keymap.set('v', '<leader>r', '"zy:s/<C-r>z/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace selection with clipboard + next'})
-vim.keymap.set('v', '<leader>Rc', '"zy:%s/<C-r>z/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
-vim.keymap.set('v', '<leader>Rt', '"zy:%s/<C-r>z//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
+vim.keymap.set('v', '<leader>Rc', '"zy:.,$s/<C-r>z/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
+vim.keymap.set('v', '<leader>Rt', '"zy:.,$s/<C-r>z//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
 
 
 vim.keymap.set('n', '<leader>D', 'v^"_d', {desc = '[D]elete before cursor'})
@@ -1491,7 +1491,7 @@ vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read
 vim.keymap.set('n', '<leader>gl', ':Telescope git_signs<cr>', { desc = 'List diffs in current buffer'})
 vim.keymap.set('n', '<leader>gL', function()
   require('gitsigns').setqflist('all',{open = false})
-  vim.cmd("sleep 50m")  -- ABC TODO quickfix list isn't blocking apparently, need to delay so I don't have stale results
+  vim.cmd("sleep 100m")  -- ABC TODO quickfix list isn't blocking apparently, need to delay so I don't have stale results
   require('telescope.builtin').quickfix()
 end, { desc = 'List diffs in all buffers' })
 
