@@ -249,15 +249,15 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
 vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
 vim.keymap.set('n', '<leader>P', 'v$hP', {noremap = true, silent = true, desc = '[P]aste over remainder of line'})
 vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
-vim.keymap.set('n', '<leader>Rc', ':.,$s/<C-r><C-w>/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [c]lipboard'})
+vim.keymap.set('n', '<leader>Rp', ':.,$s/<C-r><C-w>/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace current word with [p]aste'})
 vim.keymap.set('n', '<leader>Rt', ':.,$s/<C-r><C-w>//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace current word with [t]ext'})
 
 vim.keymap.set('v', '<leader>r', '"zy:s/<C-r>z/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace selection with clipboard + next'})
-vim.keymap.set('v', '<leader>Rc', '"zy:.,$s/<C-r>z/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [c]lipboard'})
+vim.keymap.set('v', '<leader>Rp', '"zy:.,$s/<C-r>z/<C-r>"/gc<CR>', {noremap = true, silent = true, desc = '[R]eplace selection with [p]aste'})
 vim.keymap.set('v', '<leader>Rt', '"zy:.,$s/<C-r>z//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
 
 
-vim.keymap.set('n', '<leader>D', 'v^"_d', {desc = '[D]elete before cursor'})
+vim.keymap.set('n', '<leader>D', 'v^d', {desc = '[D]elete before cursor'})
 vim.keymap.set('n', '<leader>Y', 'v^y', {noremap = true, silent = true, desc = '[Y]ank before cursor'})
 vim.keymap.set('n', '<leader>y', 'yiw', {noremap = true, silent = true, desc = '[Y]ank word'})
 vim.keymap.set('n', '<leader>d', 'diw', {noremap = true, silent = true, desc = '[D]elete word'})
