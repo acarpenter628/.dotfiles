@@ -102,12 +102,12 @@ handle_extension() {
             exit 1;;
 
         # Markdown
-        md)
-            #highlight --syntax=markdown --out-format=ansi "${FILE_PATH}" && exit 5
-            CLICOLORFORCE=1 glow -s dark "${FILE_PATH}" && exit 5
-            #bat "${FILE_PATH}" && exit 5
-            exit 1
-            ;;
+        # md)
+        #     # highlight --syntax=markdown --out-format=ansi "${FILE_PATH}" && exit 5 ABC TODO Doesn't work
+        #     # CLICOLORFORCE=1 glow -s dark "${FILE_PATH}" && exit 5  ABC TODO NOW don't have this installed
+        #     bat "${FILE_PATH}" && exit 5
+        #     exit 1
+        #     ;;
 
         ## HTML
         htm|html|xhtml)
