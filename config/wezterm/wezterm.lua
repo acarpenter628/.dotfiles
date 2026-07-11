@@ -100,4 +100,6 @@ config.keys = {
 --
 -- 
 
+-- abc todo alt + [ to escape
+
 return config
