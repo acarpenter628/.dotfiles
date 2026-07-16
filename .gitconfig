@@ -2,6 +2,8 @@
 ; [include]
 ;   path = ~/.dotfiles/.gitconfig
 
+[core]
+    pager = delta
 
 [diff]
     context = 15

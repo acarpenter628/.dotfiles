@@ -23,6 +23,7 @@ mkdir -p "~/.config"
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
    echo "Moving .$file from ~ to $olddir"
+   #mkdir -p ~/.$file # only for directories, this breaks .bashrc.  split the files list
    mv ~/.$file $olddir
    echo "Creating symlink to $file in home directory."
    ln -s $dir/$file ~/.$file

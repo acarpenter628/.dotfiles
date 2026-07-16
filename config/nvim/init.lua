@@ -133,6 +133,8 @@ vim.keymap.set('v', 'c', '"_c')
 -- don't overwrite the unnamed register when pasting in visual mode
 vim.keymap.set('v', 'p', 'P')
 
+vim.keymap.set('n', '<leader>D', "v^d", { desc = 'Delete to beginning of line'})
+
 vim.o.background = "dark" -- or "light" for light mode
 
 vim.opt.foldmethod = "indent"
@@ -1586,6 +1588,13 @@ vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
 -- remap Ctrl Space to make Windows Terminal work
 vim.keymap.set('n', '<A-)>', ':MkdnToggleToDo<CR>')
 vim.keymap.set('v', '<A-)>', ':MkdnToggleToDo<CR>')
+
+
+vim.keymap.set('n', '<leader>zt', function() vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' }) end, { desc = '[T]ransparency'})
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' })
+-- vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

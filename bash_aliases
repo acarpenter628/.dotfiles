@@ -14,16 +14,14 @@ alias lc='ls -CF'
 alias lt='ls -lt'
 
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=always --group-directories-first -h'
+    alias ls='ls --color=always -h'
+    alias ls='gls --color=always --group-directories-first -h'
     #alias dir='dir --color=always'
     #alias vdir='vdir --color=always'
 
     alias grep='grep --color=always'
     alias fgrep='fgrep --color=always'
     alias egrep='egrep --color=always'
-fi
 
 alias lint='ox dev lint -d --fix && ox dev lint --fix'
 alias vranger='"ranger"'
@@ -43,7 +41,8 @@ alias gpp='g++'
 alias wem='w3m'
 alias dl='yt-dlp '
 alias ydl='yt-dlp '
-#alias bat='batcat'  # Seems like this is fixed on my work computer at least?
 alias clear='clear -x'
+alias resource='source ~/.bashrc'
+alias sudoedit='sudo -e'
 alias untar='tar -xzvf'
 alias resource='source ~/.bashrc'
