@@ -4,7 +4,7 @@
 
 
 [diff]
-    context = 5
+    context = 15
 
 [branch]
     sort = -committerdate

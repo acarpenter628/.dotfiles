@@ -18,8 +18,9 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=10000
+export HISTCONTROL=erasedups
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -122,12 +123,11 @@ export PATH="$PATH:$HOME/.bin"
 export VISUAL=nvim;
 export EDITOR=nvim;
 
-bind "set completion-ignore-case on"
-bind '"\C-a": edit-and-execute-command'
-
-
+bind "set completion-ignore-case on"  # Tab completion ignores case
+export GIT_COMPLETION_IGNORE_CASE=1  # Tab completion ignores case in git branch names  # Doesn't seem to work
+bind '"\C-a": edit-and-execute-command' # <C-a> to open current line in nvim
 set -o ignoreeof # Ctrl D doesn't exit the shell 
 
 stty -ixon  # disable flow control, but I don't remember why I thought this was important.  Maybe so I didn't accidentally C-s it?  Frees up C-q for binding to edit-and-execute-command
-source /usr/share/doc/fzf/examples/key-bindings.bash
+source /usr/share/doc/fzf/examples/key-bindings.bash # History <C-r> uses fzf
 #source /usr/share/doc/fzf/examples/completion.bash

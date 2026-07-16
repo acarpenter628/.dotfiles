@@ -366,7 +366,9 @@ vim.keymap.set('n', '<C-w>n', ':$tabnew<cr>', { desc = 'New tab' })
 
 -- Cycle through tabs  ABC TODO WIP
 vim.keymap.set('n', 'L', ':tabn<cr>', { desc = 'Next tab' })
+vim.keymap.set('n', '<F3>', ':tabn<cr>', { desc = 'Next tab' })
 vim.keymap.set('n', 'H', ':tabN<cr>', { desc = 'Prev tab' })
+vim.keymap.set('n', '<F2>', ':tabN<cr>', { desc = 'Prev tab' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -653,14 +655,15 @@ require('lazy').setup({
         -- ABC TODO NOW Sometimes these don't show up and what's up with that?  Seems to depend on whether it's the first file I open
         vim.keymap.set('n', '<leader>tn', ':MkdnTable ', {buf=0, desc = 'New table [rows] [columns] (no headers (optional))'})
         vim.keymap.set('n', '<leader>tf', ':MkdnTableFormat<CR> ', {buf=0, desc = 'Format Table'})
-        vim.keymap.set('n', '<leader>fb', 'saiw_.', {buf=0, remap=true, desc = 'Bold word'})
-        vim.keymap.set('n', '<leader>fi', 'saiw_', {buf=0, remap=true, desc = 'Italicize word'})
-        vim.keymap.set('n', '<leader>fu', 'sd_', {buf=0, remap=true, desc = 'Unformat'})
-        vim.keymap.set('v', '<leader>fb', 'sa_gvlolsa_', {buf=0, remap=true, desc = 'Bold selection'})
-        vim.keymap.set('v', '<leader>fi', 'sa_', {buf=0, remap=true, desc = 'Italicize selection'})
+        -- ABC TODO NOW  disabled until I fix the surround plugins
+        -- vim.keymap.set('n', '<leader>fb', 'saiw_.', {buf=0, remap=true, desc = 'Bold word'})
+        -- vim.keymap.set('n', '<leader>fi', 'saiw_', {buf=0, remap=true, desc = 'Italicize word'})
+        -- vim.keymap.set('n', '<leader>fu', 'sd_', {buf=0, remap=true, desc = 'Unformat'})
+        -- vim.keymap.set('v', '<leader>fb', 'sa_gvlolsa_', {buf=0, remap=true, desc = 'Bold selection'})
+        -- vim.keymap.set('v', '<leader>fi', 'sa_', {buf=0, remap=true, desc = 'Italicize selection'})
+        -- ABC TODO NOW  i think these don't work because it sends 4 spaces instead of tab
         -- vim.keymap.set('i', '<Tab>', '<cmd>MkdnIndentListItem<cr>', {buf=0})
         -- vim.keymap.set('i', '<S-Tab>', '<cmd>MkdnDedentListItem<cr>', {buf=0})
-        -- ABC TODO NOW  i think these don't work because it sends 4 spaces instead of tab
       --
     end
   },
@@ -858,7 +861,8 @@ require('lazy').setup({
 
 
       --  ABC TODO NOW lazyvim has a hotkey to toggle searching hidden/ignored files, do I want that??
-      vim.keymap.set('n', '<leader>saf', function() builtin.find_files{no_ignore=true, hidden=true, follow=true} end, { desc = '[S]earch [A]ll [F]iles' })
+      vim.keymap.set('n', '<leader>saa', function() builtin.find_files{no_ignore=true, hidden=true, follow=true} end, { desc = '[S]earch [A]ll [A]ll Files (with symlinks)' })
+      vim.keymap.set('n', '<leader>saf', function() builtin.find_files{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [F]iles' })
       vim.keymap.set('n', '<leader>sag', function() builtin.live_grep{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [G]rep' })
       vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [W]ord' })
 
@@ -1360,14 +1364,14 @@ require('lazy').setup({
       --  - va)  - [V]isually select [A]round [)]paren
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
-      require('mini.ai').setup { n_lines = 500 }
+      -- require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()  -- ABC TODO how do I show these in whichkey?  Maybe instead of 's' i do <leader>a for around?  or just map these to what I want
+      -- require('mini.surround').setup()  -- ABC TODO how do I show these in whichkey?  Maybe instead of 's' i do <leader>a for around?  or just map these to what I want
 
       require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
       -- ABC TODO why does autoread not work?  Do I need autowrite?
@@ -1575,6 +1579,8 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.keymap.set('n', '<leader>zt', function() vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' }) end, { desc = '[T]ransparency'})
+vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
 --vim.keymap.del('n', '<C-w>T') -- Removes ctrl wT in Normal mode.  Doesn't seem to work
 
 -- remap Ctrl Space to make Windows Terminal work
