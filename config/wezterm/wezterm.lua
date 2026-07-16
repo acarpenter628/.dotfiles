@@ -37,55 +37,32 @@ config.background = {
             -- File = wezterm.config_dir .. "/backgrounds/bg-triangles.jpeg",
             -- File = "~/.dotfiles/config/wezterm/backgrounds/bg-synthwave.jpg", For some reason this one doesn't work
         },
-        hsb = { brightness = 0.25 }
+        hsb = { brightness = 0.25 },
+        width = 'Cover',
+        height = 'Cover',
+        horizontal_align = 'Center',
+        vertical_align = 'Middle',
+        repeat_x = 'NoRepeat',
+        repeat_y = 'NoRepeat',
+        halignment_mode = 'Contain', 
     }
 }
+-- config.window_background_gradient = {
+--   colors = { '#0d114f', '#0d4f27' },
+--   -- Specifies a Linear gradient starting in the top left corner.
+--   orientation = { Linear = { angle = -75.0 } },
+-- }
+
 -- Cool parallax stuff here:  https://wezterm.org/config/lua/config/background.html?h=background#parallax-example
 
 -- Looks like shaders are in progress:  https://github.com/wezterm/wezterm/issues/6985
 
 config.keys = {
-  {
-    key = 'n',
-    mods = 'SHIFT|CTRL',
-    action = wezterm.action.ToggleFullScreen,
-  },
-  {
-    key = '[',
-    mods = 'SUPER',
-    action = wezterm.action.SendKey {
-      key = 'Escape',
-    },
-  },
-    -- Make option work as ctrl
-  { key = 'a', mods = 'ALT', action = wezterm.action.SendKey { key = 'a', mods = 'CTRL', }, },
-  { key = 'x', mods = 'ALT', action = wezterm.action.SendKey { key = 'x', mods = 'CTRL', }, },
-  { key = 'e', mods = 'ALT', action = wezterm.action.SendKey { key = 'e', mods = 'CTRL', }, },
-  { key = 'g', mods = 'ALT', action = wezterm.action.SendKey { key = 'g', mods = 'CTRL', }, },
-  { key = 'd', mods = 'ALT', action = wezterm.action.SendKey { key = 'd', mods = 'CTRL', }, },
-  { key = 't', mods = 'ALT', action = wezterm.action.SendKey { key = 't', mods = 'CTRL', }, },
-  { key = 'r', mods = 'ALT', action = wezterm.action.SendKey { key = 'r', mods = 'CTRL', }, },  -- history
-  { key = 'z', mods = 'ALT', action = wezterm.action.SendKey { key = 'z', mods = 'CTRL', }, },
-  { key = 'v', mods = 'ALT', action = wezterm.action.SendKey { key = 'v', mods = 'CTRL', }, },
-  -- {
-  --   key = 'RightAlt',
-  --   action = wezterm.action.SendKey {
-  --     key = 'RightControl',
-  --   },
-  -- },
-    -- Sounds like if I switch to a mac, I might be able to remap the alt/ctrl/super keys
-    -- Actually maybe I don't want that - it applies in the terminal, not only over ssh?
-    --  https://wezterm.org/config/keys.html#available-actions
-    --  https://wezterm.org/config/lua/keyassignment/SendKey.html
-    --  Actually, I think this is exactly what I want:  https://seb.bearblog.dev/wezterm-and-neovim-keybindings-in-macos/       (mostly)
-    --  
-    --  Map CTRLV GAXD to Alt, get it to stop doing the fancy characters
+    {key = 'n', mods = 'SHIFT|CTRL', action = wezterm.action.ToggleFullScreen,},
+    {key = '[', mods = 'ALT', action = wezterm.action.SendKey { key = 'Escape',},},
+    {key = ',', mods = 'CTRL', action = wezterm.action.SendKey { key = 'F2', },},
+    {key = '.', mods = 'CTRL', action = wezterm.action.SendKey { key = 'F3', },},
 
-    -- use CMD hjkl for arrows :eyes emoji:
-  { key = 'h', mods = 'CMD', action = wezterm.action.SendKey { key = 'LeftArrow', }, },
-  { key = 'j', mods = 'CMD', action = wezterm.action.SendKey { key = 'DownArrow', }, },
-  { key = 'k', mods = 'CMD', action = wezterm.action.SendKey { key = 'UpArrow', }, },
-  { key = 'l', mods = 'CMD', action = wezterm.action.SendKey { key = 'RightArrow', }, },
 }
 -- local function bind_alt_to_ctrl(key)
 --   return function(window, pane)
@@ -102,6 +79,5 @@ config.keys = {
 --
 -- 
 
--- abc todo alt + [ to escape
 
 return config
