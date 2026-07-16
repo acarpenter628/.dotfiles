@@ -29,13 +29,15 @@ config.background = {
             -- File = wezterm.config_dir .. "/backgrounds/bg-synthwave.jpg",
             -- File = wezterm.config_dir .. "/backgrounds/bg-circuit.jpeg",
             -- File = wezterm.config_dir .. "/backgrounds/bg-floral.jpeg",
-            File = wezterm.config_dir .. "/backgrounds/bg-synthwave2.jpg",
+            -- File = wezterm.config_dir .. "/backgrounds/bg-synthwave2.jpg",
+            File = wezterm.config_dir .. "/backgrounds/synthwave-purple.jpg",
+            -- File = wezterm.config_dir .. "/backgrounds/mountains.jpg",
             -- File = wezterm.config_dir .. "/backgrounds/bg-synthwave3.jpg",
             -- File = wezterm.config_dir .. "/backgrounds/bg-city.jpeg",
             -- File = wezterm.config_dir .. "/backgrounds/bg-triangles.jpeg",
             -- File = "~/.dotfiles/config/wezterm/backgrounds/bg-synthwave.jpg", For some reason this one doesn't work
         },
-        hsb = { brightness = 0.15 }
+        hsb = { brightness = 0.25 }
     }
 }
 -- Cool parallax stuff here:  https://wezterm.org/config/lua/config/background.html?h=background#parallax-example
