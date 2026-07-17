@@ -5,6 +5,9 @@
 [core]
     pager = delta
 
+[pull]
+    rebase = false
+
 [diff]
     context = 15
 
@@ -28,3 +31,4 @@
     plus-emph-style = syntax "#21753d"
     wrap-right-percent = 1
     wrap-max-lines = 15
+
