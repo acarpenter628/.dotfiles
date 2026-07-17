@@ -7,9 +7,10 @@
 ########## Variables
 
 dir=~/.dotfiles                    # dotfiles directory
-olddir=~/.dotfiles_backup             # old dotfiles backup directory
+olddir=~/.backup_dotfiles             # old dotfiles backup directory
 # list of files/folders to symlink in homedir
-files="bashrc bash_aliases config/nvim config/ranger config/zellij config/wezterm"
+files="bashrc bash_aliases"
+dirs="config/nvim config/ranger config/zellij config/wezterm"
 
 ##########
 
@@ -22,8 +23,17 @@ mkdir -p "~/.config"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
+   touch .$file
    echo "Moving .$file from ~ to $olddir"
    #mkdir -p ~/.$file # only for directories, this breaks .bashrc.  split the files list
+   mv ~/.$file $olddir
+   echo "Creating symlink to $file in home directory."
+   ln -s $dir/$file ~/.$file
+done
+
+for file in $dirs; do
+   echo "Moving .$file from ~ to $olddir"
+   mkdir -p .$file
    mv ~/.$file $olddir
    echo "Creating symlink to $file in home directory."
    ln -s $dir/$file ~/.$file
