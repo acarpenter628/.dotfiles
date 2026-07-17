@@ -1,6 +1,6 @@
 ; to use, add the following to ~/.gitconfig:
 ; [include]
-;   path = ~/.dotfiles/.gitconfig
+;   path = ~/.dotfiles/gitconfig
 
 [core]
     pager = delta
