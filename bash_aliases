@@ -14,8 +14,7 @@ alias lc='ls -CF'
 alias lt='ls -lt'
 
 # enable color support of ls and also add handy aliases
-    alias ls='ls --color=always -h'
-    alias ls='gls --color=always --group-directories-first -h'
+    alias ls='ls --color=always --group-directories-first -h'
     #alias dir='dir --color=always'
     #alias vdir='vdir --color=always'
 

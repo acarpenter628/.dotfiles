@@ -128,8 +128,6 @@ export GIT_COMPLETION_IGNORE_CASE=1  # Tab completion ignores case in git branch
 bind '"\C-a": edit-and-execute-command' # <C-a> to open current line in nvim
 set -o ignoreeof # Ctrl D doesn't exit the shell 
 
-# source /usr/share/doc/fzf/examples/key-bindings.bash  # this isn't here on mac but also doesn't seem to be needed
-FZF_CTRL_T_COMMAND= FZF_ALT_C_COMMAND= eval "$(fzf --bash)"
 stty -ixon  # disable flow control, but I don't remember why I thought this was important.  Maybe so I didn't accidentally C-s it?  Frees up C-q for binding to edit-and-execute-command
 source /usr/share/doc/fzf/examples/key-bindings.bash # History <C-r> uses fzf
 #source /usr/share/doc/fzf/examples/completion.bash
