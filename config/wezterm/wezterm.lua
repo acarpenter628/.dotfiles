@@ -59,9 +59,11 @@ config.background = {
 
 config.keys = {
     {key = 'n', mods = 'SHIFT|CTRL', action = wezterm.action.ToggleFullScreen,},
-    {key = '[', mods = 'ALT', action = wezterm.action.SendKey { key = 'Escape',},},
+    {key = '[', mods = 'ALT', action = wezterm.action.SendKey { key = 'Escape',},}, -- exit insert mode
     {key = ',', mods = 'CTRL', action = wezterm.action.SendKey { key = 'F2', },},
     {key = '.', mods = 'CTRL', action = wezterm.action.SendKey { key = 'F3', },},
+    {key = ',', mods = 'ALT', action = wezterm.action.SendKey { key = 'h', mods = 'ALT',},}, -- for zellij tab changes
+    {key = '.', mods = 'ALT', action = wezterm.action.SendKey { key = 'l', mods = 'ALT',},},
 
 }
 -- local function bind_alt_to_ctrl(key)

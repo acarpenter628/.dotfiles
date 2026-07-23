@@ -267,12 +267,16 @@ vim.keymap.set('n', '<leader>C', 'v^"_c', {desc = '[C]hange before cursor'})
 vim.keymap.set('n', '<leader>c', '"_ciw', {desc = '[C]hange word'})
 
 --  ABC TODO Fix gc and gcc.  I'll always want the whole line in normal mode.  Maybe increasing the timeout is enough
+--  Maybe set gcc in visual mode to do it also?  will that work?  probably not, recursive?  noremap?
 -- vim.keymap.set('n', 'gc', 'gcc', {noremap = true, silent = true})
 --
 vim.keymap.set('n', 'gh', '^', {noremap = true, silent = true, desc = 'Beginning of line'})
+vim.keymap.set('v', 'gh', '^', {noremap = true, silent = true, desc = 'Beginning of line'})
 vim.keymap.set('n', 'gl', '$', {noremap = true, silent = true, desc = 'End of line'})
-
--- ABC TODO is there a way I can have . (or something) repeat the whole thing?  Does it already?
+vim.keymap.set('v', 'gl', '$', {noremap = true, silent = true, desc = 'End of line'})
+-- vim.keymap.set('n', 'gU', 'viWgU', {noremap = true, silent = true, desc = 'Uppercase word'})
+-- vim.keymap.set('n', 'gU', 'viWgU', {noremap = true, silent = true, desc = 'Uppercase word'})
+-- ABC TODO set gU and gu to viw first in normal mode?  Looks like that moves my cursor (and I lose the normal mode actions.  maybe put <leader> first.  That's already unstage.  Maybe capital S for unstage)
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -433,8 +437,8 @@ require('lazy').setup({
         },
         -- User defined loops
         -- additions = {
-        --   {'Foo', 'Bar'},
-        --   {'tic', 'tac', 'toe'}
+        --   -- ABC TODO this seemed to only somewhat work?  Seems like it should be enabled by default
+        --   {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'},
         -- },
         -- allow_caps_additions = {
         --   {'enable', 'disable'}
@@ -795,12 +799,12 @@ require('lazy').setup({
         defaults = {
           mappings = {
             i = { 
-              -- ['<c-enter>'] = 'to_fuzzy_refine' 
+              ['<c-space>'] = 'to_fuzzy_refine',
               ["<C-j>"] = require('telescope.actions').preview_scrolling_down,
               ["<C-k>"] = require('telescope.actions').preview_scrolling_up,
               ["<C-h>"] = require('telescope.actions').preview_scrolling_left,
               ["<C-l>"] = require('telescope.actions').preview_scrolling_right,
-              ["<A-)>"] = require('telescope.actions').to_fuzzy_refine, -- for windows terminal
+              -- ["<A-)>"] = require('telescope.actions').to_fuzzy_refine, -- for windows terminal
               ["<C-?>"] = "which_key",
             },
           },
@@ -833,6 +837,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>sj', builtin.jumplist, { desc = '[S]earch [J]umplist' })
+      vim.keymap.set('n', '<leader>sm', builtin.jumplist, { desc = '[S]earch [M]arks' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
@@ -984,6 +990,8 @@ require('lazy').setup({
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+
+          map('grh', "<cmd>LspClangdSwitchSourceHeader<cr>", '[G]oto [H]eader / Source')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
