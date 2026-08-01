@@ -37,9 +37,22 @@ config.background = {
             -- File = wezterm.config_dir .. "/backgrounds/bg-triangles.jpeg",
             -- File = "~/.dotfiles/config/wezterm/backgrounds/bg-synthwave.jpg", For some reason this one doesn't work
         },
-        hsb = { brightness = 0.25 }
+        hsb = { brightness = 0.25 },
+        width = 'Cover',
+        height = 'Cover',
+        horizontal_align = 'Center',
+        vertical_align = 'Middle',
+        repeat_x = 'NoRepeat',
+        repeat_y = 'NoRepeat',
+        halignment_mode = 'Contain', 
     }
 }
+-- config.window_background_gradient = {
+--   colors = { '#0d114f', '#0d4f27' },
+--   -- Specifies a Linear gradient starting in the top left corner.
+--   orientation = { Linear = { angle = -75.0 } },
+-- }
+
 -- Cool parallax stuff here:  https://wezterm.org/config/lua/config/background.html?h=background#parallax-example
 
 -- Looks like shaders are in progress:  https://github.com/wezterm/wezterm/issues/6985
@@ -86,6 +99,10 @@ config.keys = {
   { key = 'j', mods = 'CMD', action = wezterm.action.SendKey { key = 'DownArrow', }, },
   { key = 'k', mods = 'CMD', action = wezterm.action.SendKey { key = 'UpArrow', }, },
   { key = 'l', mods = 'CMD', action = wezterm.action.SendKey { key = 'RightArrow', }, },
+  { key = ',', mods = 'CMD', action = wezterm.action.SendKey { key = 'F2', },},
+  { key = '.', mods = 'CMD', action = wezterm.action.SendKey { key = 'F3', },},
+  { key = ',', mods = 'ALT', action = wezterm.action.SendKey { key = 'h', mods = 'ALT',},}, -- for zellij tab changes
+  { key = '.', mods = 'ALT', action = wezterm.action.SendKey { key = 'l', mods = 'ALT',},},
 }
 -- local function bind_alt_to_ctrl(key)
 --   return function(window, pane)
@@ -102,6 +119,5 @@ config.keys = {
 --
 -- 
 
--- abc todo alt + [ to escape
 
 return config
