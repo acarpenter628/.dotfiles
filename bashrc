@@ -123,6 +123,8 @@ export PATH="$PATH:$HOME/.bin/"
 export VISUAL=nvim;
 export EDITOR=nvim;
 
+export LESS="-i"
+
 bind "set completion-ignore-case on"  # Tab completion ignores case
 export GIT_COMPLETION_IGNORE_CASE=1  # Tab completion ignores case in git branch names  # Doesn't seem to work
 bind '"\C-a": edit-and-execute-command' # <C-a> to open current line in nvim
