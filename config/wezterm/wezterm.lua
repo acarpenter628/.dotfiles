@@ -44,7 +44,7 @@ config.background = {
         vertical_align = 'Middle',
         repeat_x = 'NoRepeat',
         repeat_y = 'NoRepeat',
-        halignment_mode = 'Contain', 
+        -- halignment_mode = 'Contain',  -- Maybe I got this from an AI hallucination
     }
 }
 -- config.window_background_gradient = {
