@@ -123,10 +123,11 @@ export PATH="$PATH:$HOME/.bin/"
 export VISUAL=nvim;
 export EDITOR=nvim;
 
-bind "set completion-ignore-case on"
-bind '"\C-a": edit-and-execute-command'
+export LESS="-i"
 
-
+bind "set completion-ignore-case on"  # Tab completion ignores case
+export GIT_COMPLETION_IGNORE_CASE=1  # Tab completion ignores case in git branch names  # Doesn't seem to work
+bind '"\C-a": edit-and-execute-command' # <C-a> to open current line in nvim
 set -o ignoreeof # Ctrl D doesn't exit the shell 
 
 # source /usr/share/doc/fzf/examples/key-bindings.bash  # this isn't here on mac but also doesn't seem to be needed

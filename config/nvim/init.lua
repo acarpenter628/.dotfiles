@@ -90,17 +90,11 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- vim.keymap.set('', 'H', '^')
--- vim.keymap.set('', 'L', '$')
--- vim.keymap.set('', 'J', '<C-d>')
--- vim.keymap.set('', 'K', '<C-u>')
+-- vim.keymap.set('', 'J', '5j')
+-- vim.keymap.set('', 'K', '5k')
 
 -- ABC TODO 
-  -- capital E/W/B or H/L for like 5x?
-    -- Those basically already exist for code lol.  I need to get better about using . for repeat (nvm apparently it doesn't work for motions, just for actions)
-  -- t/T could be overwritten, I'm never going to use that instead of fh  - Actually, useful for c or in visual mode
   -- undo tree?
-  -- auto-reload changed files?
 
 -- Make word wrap easier
 vim.keymap.set('n', 'j', 'gj')
@@ -108,6 +102,9 @@ vim.keymap.set('v', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')
 vim.keymap.set('v', 'k', 'gk')
 vim.cmd(":set whichwrap+=lh")
+
+vim.o.virtualedit="block"
+
 --- Get rid of overtype mode, replace it with 'delete one character and insert'
 vim.keymap.set('n', 'R', '"_cl')
 -- Insert a newline with leader enter.  Had to add leader because I needed enter to follow links or something?  Maybe I could re-add it but disable it in help files?
@@ -513,7 +510,6 @@ require('lazy').setup({
         map("n", "<leader>gb", function() gs.blame_line({ full = true }) end, "Blame Line")
         map("n", "<leader>gd", gs.diffthis, "Diff This")
         map("n", "<leader>gD", function() gs.diffthis("~") end, "Diff This ~")
-        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
       end,
     },
   },
@@ -1505,7 +1501,7 @@ vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read
 vim.keymap.set('n', '<leader>gl', ':Telescope git_signs<cr>', { desc = 'List diffs in current buffer'})
 vim.keymap.set('n', '<leader>gL', function()
   require('gitsigns').setqflist('all',{open = false})
-  vim.cmd("sleep 100m")  -- ABC TODO quickfix list isn't blocking apparently, need to delay so I don't have stale results
+  vim.cmd("sleep 500m")  -- ABC TODO quickfix list isn't blocking apparently, need to delay so I don't have stale results
   require('telescope.builtin').quickfix()
 end, { desc = 'List diffs in all buffers' })
 
