@@ -64,6 +64,7 @@ config.keys = {
     {key = '.', mods = 'CTRL', action = wezterm.action.SendKey { key = 'F3', },},
     {key = ',', mods = 'ALT', action = wezterm.action.SendKey { key = 'h', mods = 'ALT',},}, -- for zellij tab changes
     {key = '.', mods = 'ALT', action = wezterm.action.SendKey { key = 'l', mods = 'ALT',},},
+    { key = 'phys:Space', mods = 'SHIFT|CTRL', action = wezterm.action.ActivateCopyMode },
 
 }
 -- local function bind_alt_to_ctrl(key)
