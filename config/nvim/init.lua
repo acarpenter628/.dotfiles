@@ -104,6 +104,8 @@ vim.o.virtualedit="block"
 vim.keymap.set({'n', 'v'}, 'J', '5j', {noremap = true})
 vim.keymap.set({'n', 'v'}, 'K', '5k', {noremap = true}) 
 
+vim.keymap.set({'n', 'v'}, 's', '<nop>', {noremap = true}) 
+vim.keymap.set({'n', 'v'}, 'S', '<nop>', {noremap = true}) 
 
 vim.keymap.set({'n', 'v'}, 'gj', ':join<CR>', {noremap = true, desc = 'Join'})
  -- vim.lsp.buf.hover() ABC TODO  when I fix treesitter
@@ -656,14 +658,11 @@ require('lazy').setup({
         vim.keymap.set('n', '<leader>tn', ':MkdnTable ', {buf=0, desc = 'New table [rows] [columns] (no headers (optional))'})
         vim.keymap.set('n', '<leader>tf', ':MkdnTableFormat<CR> ', {buf=0, desc = 'Format Table'})
         -- ABC TODO NOW  disabled until I fix the surround plugins
-        -- vim.keymap.set('n', '<leader>fb', 'saiw_.', {buf=0, remap=true, desc = 'Bold word'})
-        -- vim.keymap.set('n', '<leader>fi', 'saiw_', {buf=0, remap=true, desc = 'Italicize word'})
-        -- vim.keymap.set('n', '<leader>fu', 'sd_', {buf=0, remap=true, desc = 'Unformat'})
-        -- vim.keymap.set('v', '<leader>fb', 'sa_gvlolsa_', {buf=0, remap=true, desc = 'Bold selection'})
-        -- vim.keymap.set('v', '<leader>fi', 'sa_', {buf=0, remap=true, desc = 'Italicize selection'})
-        -- ABC TODO NOW  i think these don't work because it sends 4 spaces instead of tab
-        -- vim.keymap.set('i', '<Tab>', '<cmd>MkdnIndentListItem<cr>', {buf=0})
-        -- vim.keymap.set('i', '<S-Tab>', '<cmd>MkdnDedentListItem<cr>', {buf=0})
+        -- vim.keymap.set('n', '<leader>fb', 'gsaiw_.', {buf=0, remap=true, desc = 'Bold word'})
+        -- vim.keymap.set('n', '<leader>fi', 'gsaiw_', {buf=0, remap=true, desc = 'Italicize word'})
+        -- vim.keymap.set('n', '<leader>fu', 'gsd_', {buf=0, remap=true, desc = 'Unformat'})
+        -- vim.keymap.set('v', '<leader>fb', 'gsa_gvlolsa_', {buf=0, remap=true, desc = 'Bold selection'})
+        -- vim.keymap.set('v', '<leader>fi', 'gsa_', {buf=0, remap=true, desc = 'Italicize selection'})
       --
     end
   },
@@ -798,6 +797,8 @@ require('lazy').setup({
               ["<C-k>"] = require('telescope.actions').preview_scrolling_up,
               ["<C-h>"] = require('telescope.actions').preview_scrolling_left,
               ["<C-l>"] = require('telescope.actions').preview_scrolling_right,
+              -- ["<C-o>"] = require('telescope.actions').cycle_history_next 
+              -- ["<C-i>"] = require('telescope.actions').cycle_history_prev
               -- ["<A-)>"] = require('telescope.actions').to_fuzzy_refine, -- for windows terminal
               ["<C-?>"] = "which_key",
             },
@@ -1371,14 +1372,28 @@ require('lazy').setup({
       --  - va)  - [V]isually select [A]round [)]paren
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
-      -- require('mini.ai').setup { n_lines = 500 }
+      require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      -- require('mini.surround').setup()  -- ABC TODO how do I show these in whichkey?  Maybe instead of 's' i do <leader>a for around?  or just map these to what I want
+      require('mini.surround').setup({
+
+       -- Module mappings. Use `''` (empty string) to disable one.
+      mappings = {
+        add = 'gsa', -- Add surrounding in Normal and Visual modes
+        delete = 'gsd', -- Delete surrounding
+        find = 'sf', -- Find surrounding (to the right)
+        find_left = 'gsF', -- Find surrounding (to the left)
+        highlight = 'gsh', -- Highlight surrounding
+        replace = 'gsr', -- Replace surrounding
+
+        suffix_last = 'l', -- Suffix to search with "prev" method
+        suffix_next = 'n', -- Suffix to search with "next" method
+      },
+      })  -- ABC TODO how do I show these in whichkey?  Maybe instead of 's' i do 'gs'
 
       require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
       -- ABC TODO why does autoread not work?  Do I need autowrite?
@@ -1575,18 +1590,16 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- I think there's a better way to do this with ftplugin, but this is fine
--- ABC TODO NOW actually it might be leaving it at 3 when I leave a markdown.  So maybe I just put text and log in here and let it?
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
-  vim.o.tabstop = 3
-  vim.o.softtabstop = 3
-  vim.o.shiftwidth = 3
-  vim.o.expandtab = true
+  vim.bo.tabstop = 3
+  vim.bo.softtabstop = 3
+  vim.bo.shiftwidth = 3
+  vim.bo.expandtab = true
   end,
 })
 
---vim.keymap.del('n', '<C-w>T') -- Removes ctrl wT in Normal mode.  Doesn't seem to work
 
 -- remap Ctrl Space to make Windows Terminal work.  Maybe not needed anymore if I've got wezterm
 vim.keymap.set({'n', 'v'}, '<A-)>', ':MkdnToggleToDo<CR>')

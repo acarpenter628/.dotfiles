@@ -44,7 +44,7 @@ config.background = {
         vertical_align = 'Middle',
         repeat_x = 'NoRepeat',
         repeat_y = 'NoRepeat',
-        halignment_mode = 'Contain', 
+        -- halignment_mode = 'Contain',  -- This causes problems on lab computers and the laptop, but not the desktop.  Doesn't seem to do much on the desktop though
     }
 }
 -- config.window_background_gradient = {
