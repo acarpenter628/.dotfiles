@@ -108,6 +108,7 @@ vim.keymap.set({'n', 'v'}, 's', '<nop>', {noremap = true})
 vim.keymap.set({'n', 'v'}, 'S', '<nop>', {noremap = true}) 
 
 vim.keymap.set({'n', 'v'}, 'gj', ':join<CR>', {noremap = true, desc = 'Join'})
+vim.keymap.set('n', 'gJ', 'k:join<CR>', {noremap = true, desc = 'Join with above'})
  -- vim.lsp.buf.hover() ABC TODO  when I fix treesitter
 
 --- Get rid of overtype mode, replace it with 'delete one character and insert'
@@ -1390,8 +1391,8 @@ require('lazy').setup({
         highlight = 'gsh', -- Highlight surrounding
         replace = 'gsr', -- Replace surrounding
 
-        suffix_last = 'l', -- Suffix to search with "prev" method
-        suffix_next = 'n', -- Suffix to search with "next" method
+        suffix_last = '', -- Suffix to search with "prev" method
+        suffix_next = '', -- Suffix to search with "next" method
       },
       })  -- ABC TODO how do I show these in whichkey?  Maybe instead of 's' i do 'gs'
 
