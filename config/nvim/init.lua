@@ -90,20 +90,26 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- vim.keymap.set('', 'J', '5j')
--- vim.keymap.set('', 'K', '5k')
 
 -- ABC TODO 
-  -- undo tree?
+  -- Combine all the n/v keymaps where I have both
 
 -- Make word wrap easier
-vim.keymap.set('n', 'j', 'gj')
-vim.keymap.set('v', 'j', 'gj')
-vim.keymap.set('n', 'k', 'gk')
-vim.keymap.set('v', 'k', 'gk')
+vim.keymap.set({'n', 'v'}, 'j', 'gj', {noremap = true,})
+vim.keymap.set({'n', 'v'}, 'k', 'gk', {noremap = true,}) 
 vim.cmd(":set whichwrap+=lh")
 
 vim.o.virtualedit="block"
+
+vim.keymap.set({'n', 'v'}, 'J', '5j', {noremap = true})
+vim.keymap.set({'n', 'v'}, 'K', '5k', {noremap = true}) 
+
+vim.keymap.set({'n', 'v'}, 's', '<nop>', {noremap = true}) 
+vim.keymap.set({'n', 'v'}, 'S', '<nop>', {noremap = true}) 
+
+vim.keymap.set({'n', 'v'}, 'gj', ':join<CR>', {noremap = true, desc = 'Join'})
+vim.keymap.set('n', 'gJ', 'k:join<CR>', {noremap = true, desc = 'Join with above'})
+ -- vim.lsp.buf.hover() ABC TODO  when I fix treesitter
 
 --- Get rid of overtype mode, replace it with 'delete one character and insert'
 vim.keymap.set('n', 'R', '"_cl')
@@ -118,15 +124,13 @@ vim.keymap.set('n', 'R', '"_cl')
 --     end, { expr = true, desc = 'insert blank line above'})
 
 -- x uses the black hole register (normal and visual)
-vim.keymap.set('n', 'x', '"_x')
-vim.keymap.set('v', 'x', '"_x')
-vim.keymap.set('n', 'X', '"_X')
-vim.keymap.set('v', 'X', '"_X')
+vim.keymap.set({'n', 'v'}, 'x', '"_x')
+vim.keymap.set({'n', 'v'}, 'X', '"_X')
 -- Do the same with c (normal and visual)
-vim.keymap.set('n', 'c', '"_c')
+vim.keymap.set({'n', 'v'}, 'c', '"_c')
 vim.keymap.set('n', 'C', '"_C')
-vim.keymap.set('v', 'c', '"_c')
 -- D can keep saving cuts - leave it as default
+
 -- don't overwrite the unnamed register when pasting in visual mode
 vim.keymap.set('v', 'p', 'P')
 
@@ -137,8 +141,7 @@ vim.o.background = "dark" -- or "light" for light mode
 vim.opt.foldmethod = "indent"
 
 -- Regular Ctrl V paste from the register?  Do I want this?  Is there something else I should make it?  I thought <C-p>, but that's previous
-vim.keymap.set('i', '<C-v>', '<C-r>"')
-vim.keymap.set('c', '<C-v>', '<C-r>"')
+vim.keymap.set({'i', 'c'}, '<C-v>', '<C-r>"')
 
 -- ABC TODO Unjoin?  Example: :%s/,/,\r/g splits a line at every comma.  Visual mode also
 
@@ -244,7 +247,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
   end,
 })
 
-
+-- ABC TODO audit these "silent"s in all my mappings
 vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
 vim.keymap.set('n', '<leader>P', 'v$hP', {noremap = true, silent = true, desc = '[P]aste over remainder of line'})
 vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
@@ -267,10 +270,8 @@ vim.keymap.set('n', '<leader>c', '"_ciw', {desc = '[C]hange word'})
 --  Maybe set gcc in visual mode to do it also?  will that work?  probably not, recursive?  noremap?
 -- vim.keymap.set('n', 'gc', 'gcc', {noremap = true, silent = true})
 --
-vim.keymap.set('n', 'gh', '^', {noremap = true, silent = true, desc = 'Beginning of line'})
-vim.keymap.set('v', 'gh', '^', {noremap = true, silent = true, desc = 'Beginning of line'})
-vim.keymap.set('n', 'gl', '$', {noremap = true, silent = true, desc = 'End of line'})
-vim.keymap.set('v', 'gl', '$', {noremap = true, silent = true, desc = 'End of line'})
+vim.keymap.set({'n', 'v'}, 'gh', '^', {noremap = true, silent = true, desc = 'Beginning of line'})
+vim.keymap.set({'n', 'v'}, 'gl', '$', {noremap = true, silent = true, desc = 'End of line'})
 -- vim.keymap.set('n', 'gU', 'viWgU', {noremap = true, silent = true, desc = 'Uppercase word'})
 -- vim.keymap.set('n', 'gU', 'viWgU', {noremap = true, silent = true, desc = 'Uppercase word'})
 -- ABC TODO set gU and gu to viw first in normal mode?  Looks like that moves my cursor (and I lose the normal mode actions.  maybe put <leader> first.  That's already unstage.  Maybe capital S for unstage)
@@ -367,10 +368,10 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<C-w>t', ':tab split<cr>', { desc = 'Split buffer to new tab' }) -- Should this be capital since I can't seem to remove the existing capital map?
 vim.keymap.set('n', '<C-w>n', ':$tabnew<cr>', { desc = 'New tab' })
 
--- Cycle through tabs  ABC TODO WIP
-vim.keymap.set('n', 'L', ':tabn<cr>', { desc = 'Next tab' })
+-- Cycle through tabs
+-- vim.keymap.set('n', 'L', ':tabn<cr>', { desc = 'Next tab' })
 vim.keymap.set('n', '<F3>', ':tabn<cr>', { desc = 'Next tab' })
-vim.keymap.set('n', 'H', ':tabN<cr>', { desc = 'Prev tab' })
+-- vim.keymap.set('n', 'H', ':tabN<cr>', { desc = 'Prev tab' })
 vim.keymap.set('n', '<F2>', ':tabN<cr>', { desc = 'Prev tab' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
@@ -658,14 +659,11 @@ require('lazy').setup({
         vim.keymap.set('n', '<leader>tn', ':MkdnTable ', {buf=0, desc = 'New table [rows] [columns] (no headers (optional))'})
         vim.keymap.set('n', '<leader>tf', ':MkdnTableFormat<CR> ', {buf=0, desc = 'Format Table'})
         -- ABC TODO NOW  disabled until I fix the surround plugins
-        -- vim.keymap.set('n', '<leader>fb', 'saiw_.', {buf=0, remap=true, desc = 'Bold word'})
-        -- vim.keymap.set('n', '<leader>fi', 'saiw_', {buf=0, remap=true, desc = 'Italicize word'})
-        -- vim.keymap.set('n', '<leader>fu', 'sd_', {buf=0, remap=true, desc = 'Unformat'})
-        -- vim.keymap.set('v', '<leader>fb', 'sa_gvlolsa_', {buf=0, remap=true, desc = 'Bold selection'})
-        -- vim.keymap.set('v', '<leader>fi', 'sa_', {buf=0, remap=true, desc = 'Italicize selection'})
-        -- ABC TODO NOW  i think these don't work because it sends 4 spaces instead of tab
-        -- vim.keymap.set('i', '<Tab>', '<cmd>MkdnIndentListItem<cr>', {buf=0})
-        -- vim.keymap.set('i', '<S-Tab>', '<cmd>MkdnDedentListItem<cr>', {buf=0})
+        -- vim.keymap.set('n', '<leader>fb', 'gsaiw_.', {buf=0, remap=true, desc = 'Bold word'})
+        -- vim.keymap.set('n', '<leader>fi', 'gsaiw_', {buf=0, remap=true, desc = 'Italicize word'})
+        -- vim.keymap.set('n', '<leader>fu', 'gsd_', {buf=0, remap=true, desc = 'Unformat'})
+        -- vim.keymap.set('v', '<leader>fb', 'gsa_gvlolsa_', {buf=0, remap=true, desc = 'Bold selection'})
+        -- vim.keymap.set('v', '<leader>fi', 'gsa_', {buf=0, remap=true, desc = 'Italicize selection'})
       --
     end
   },
@@ -800,6 +798,8 @@ require('lazy').setup({
               ["<C-k>"] = require('telescope.actions').preview_scrolling_up,
               ["<C-h>"] = require('telescope.actions').preview_scrolling_left,
               ["<C-l>"] = require('telescope.actions').preview_scrolling_right,
+              -- ["<C-o>"] = require('telescope.actions').cycle_history_next 
+              -- ["<C-i>"] = require('telescope.actions').cycle_history_prev
               -- ["<A-)>"] = require('telescope.actions').to_fuzzy_refine, -- for windows terminal
               ["<C-?>"] = "which_key",
             },
@@ -836,6 +836,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sj', builtin.jumplist, { desc = '[S]earch [J]umplist' })
       vim.keymap.set('n', '<leader>sm', builtin.jumplist, { desc = '[S]earch [M]arks' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      -- ABC TODO builtin.search_history?  Seems useful for when I want to resume but I've done something else
+      -- ABC TODO builtin.marks?
+      -- ABC TODO undo history?  Sounds like a need a new plugin for that (unless I can just put it in the quickfix list?)
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -1370,14 +1373,28 @@ require('lazy').setup({
       --  - va)  - [V]isually select [A]round [)]paren
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
-      -- require('mini.ai').setup { n_lines = 500 }
+      require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      -- require('mini.surround').setup()  -- ABC TODO how do I show these in whichkey?  Maybe instead of 's' i do <leader>a for around?  or just map these to what I want
+      require('mini.surround').setup({
+
+       -- Module mappings. Use `''` (empty string) to disable one.
+      mappings = {
+        add = 'gsa', -- Add surrounding in Normal and Visual modes
+        delete = 'gsd', -- Delete surrounding
+        find = 'sf', -- Find surrounding (to the right)
+        find_left = 'gsF', -- Find surrounding (to the left)
+        highlight = 'gsh', -- Highlight surrounding
+        replace = 'gsr', -- Replace surrounding
+
+        suffix_last = '', -- Suffix to search with "prev" method
+        suffix_next = '', -- Suffix to search with "next" method
+      },
+      })  -- ABC TODO how do I show these in whichkey?  Maybe instead of 's' i do 'gs'
 
       require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
       -- ABC TODO why does autoread not work?  Do I need autowrite?
@@ -1574,26 +1591,22 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- I think there's a better way to do this with ftplugin, but this is fine
--- ABC TODO NOW actually it might be leaving it at 3 when I leave a markdown.  So maybe I just put text and log in here and let it?
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
-  vim.o.tabstop = 3
-  vim.o.softtabstop = 3
-  vim.o.shiftwidth = 3
-  vim.o.expandtab = true
+  vim.bo.tabstop = 3
+  vim.bo.softtabstop = 3
+  vim.bo.shiftwidth = 3
+  vim.bo.expandtab = true
   end,
 })
 
-vim.keymap.set('n', '<leader>zt', function() vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' }) end, { desc = '[T]ransparency'})
-vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
---vim.keymap.del('n', '<C-w>T') -- Removes ctrl wT in Normal mode.  Doesn't seem to work
 
--- remap Ctrl Space to make Windows Terminal work
-vim.keymap.set('n', '<A-)>', ':MkdnToggleToDo<CR>')
-vim.keymap.set('v', '<A-)>', ':MkdnToggleToDo<CR>')
+-- remap Ctrl Space to make Windows Terminal work.  Maybe not needed anymore if I've got wezterm
+vim.keymap.set({'n', 'v'}, '<A-)>', ':MkdnToggleToDo<CR>')
 
 
+-- ABC TODO maybe a way to toggle this with an autocommand.  Switching themes overwrites it so maybe that's fine for now 
 vim.keymap.set('n', '<leader>zt', function() vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' }) end, { desc = '[T]ransparency'})
 vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
 -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
