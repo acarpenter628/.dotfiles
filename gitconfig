@@ -5,14 +5,29 @@
 [core]
     pager = delta
 
+[branch]
+    sort = -committerdate
+
 [pull]
     rebase = false
 
 [diff]
     context = 15
 
-[branch]
-    sort = -committerdate
+[diff]
+    tool = nvim_difftool
+    prompt = true
+
+[difftool "nvim_difftool"]
+    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\"" 
+    ; cmd = "nvim -d \"$REMOTE\" \"$LOCAL\""; Makes more sense if old is on the left, but it's annoying the cursor starts there
+
+[merge]
+    tool = nvimdiff ; this is a default one
+
+[mergetool]
+    prompt = true
+
 
 [interactive]
     diffFilter = delta --color-only
