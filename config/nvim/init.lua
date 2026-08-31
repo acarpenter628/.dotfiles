@@ -87,12 +87,11 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+--  This gets kinda fucky when recording macros
+-- vim.keymap.set('n', '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-
--- ABC TODO 
-  -- Combine all the n/v keymaps where I have both
 
 -- Make word wrap easier
 vim.keymap.set({'n', 'v'}, 'j', 'gj', {noremap = true,})
@@ -293,8 +292,9 @@ vim.o.signcolumn = 'yes'
 vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
--- vim.o.timeout = false
-vim.o.timeoutlen = 500
+-- ABC TODO is this fine?
+vim.o.timeout = false
+-- vim.o.timeoutlen = 750
 
 -- Configure how new splits should be opened
 vim.o.splitright = true
@@ -317,6 +317,8 @@ vim.o.list = true
 vim.opt.listchars = { tab = '» ', space = '·', nbsp = '␣' }
 -- Don't really need this one anymore either, now that I've synced the system clipboard.  Maybe keep it just for compatibility
 vim.keymap.set('n', '<leader>zh', ':set invlist<cr>', { desc = 'toggle whitespace chars'})
+vim.keymap.set('n', '+', ':res +1<cr>' )
+vim.keymap.set('n', '-', ':res -1<cr>' )
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
