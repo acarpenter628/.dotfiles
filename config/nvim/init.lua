@@ -102,6 +102,7 @@ vim.o.virtualedit="block"
 
 vim.keymap.set({'n', 'v'}, 'J', '5j', {noremap = true})
 vim.keymap.set({'n', 'v'}, 'K', '5k', {noremap = true}) 
+-- ABC TODO maybe H/L could be 5b/w?
 
 vim.keymap.set({'n', 'v'}, 's', '<nop>', {noremap = true}) 
 vim.keymap.set({'n', 'v'}, 'S', '<nop>', {noremap = true}) 
@@ -247,6 +248,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
 })
 
 -- ABC TODO audit these "silent"s in all my mappings
+-- ABC TODO multicursors coming soon?
 vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
 vim.keymap.set('n', '<leader>P', 'v$hP', {noremap = true, silent = true, desc = '[P]aste over remainder of line'})
 vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
@@ -652,6 +654,13 @@ require('lazy').setup({
                   content = {link = ''}
                   }
             },
+            urgent = { marker = { '!' } ,
+                highlight = {
+                  marker = { fg =  "#F34040" ,bold = true, link = ''},
+                  content = {link = '', bold = true}
+                  }
+            },
+
           },
           status_order = { 'not_started', 'next', 'in_progress', 'complete' },
           status_propagation = { up = false, down = false },
