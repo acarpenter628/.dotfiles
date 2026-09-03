@@ -429,7 +429,26 @@ rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
-  'sindrets/diffview.nvim',
+  
+  {
+    'sindrets/diffview.nvim',
+    config = function()
+      require('diffview').setup({
+        keymaps = {
+          view = {
+          -- [ "<leader>e"] = "<Cmd>DiffviewToggleFiles<CR>",
+          { "n", "<leader>e", require("diffview.config").actions.toggle_files, { desc = "Toggle file pane" }},
+          { "n", "<leader>b", false},
+          },
+          file_panel = {
+          -- [ "<leader>e"] = "<Cmd>DiffviewToggleFiles<CR>",
+          { "n", "<leader>e", require("diffview.config").actions.toggle_files, { desc = "Toggle file pane" }},
+          { "n", "<leader>b", false},
+          },
+        },
+      })
+    end
+  },
   {
     'nat-418/boole.nvim',
     config = function()
