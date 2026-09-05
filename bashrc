@@ -119,6 +119,7 @@ export PATH="$PATH:/opt/nvim/"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/bin"
 export PATH="$PATH:$HOME/.bin/"
+export PATH="$PATH:$HOME/Library/Python/3.14/bin"
 
 export VISUAL=nvim;
 export EDITOR=nvim;
