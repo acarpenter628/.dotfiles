@@ -124,7 +124,7 @@ export PATH="$PATH:$HOME/Library/Python/3.14/bin"
 export VISUAL=nvim;
 export EDITOR=nvim;
 
-export LESS="-i"
+export LESS="-Ri"
 
 bind "set completion-ignore-case on"  # Tab completion ignores case
 export GIT_COMPLETION_IGNORE_CASE=1  # Tab completion ignores case in git branch names  # Doesn't seem to work

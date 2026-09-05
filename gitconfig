@@ -11,6 +11,9 @@
 [pull]
     rebase = false
 
+[alias]
+    dt = "!f() { args=$@; shift $#; nvim -c \"DiffviewOpen $args\";}; f" ; doesn't work on the work computer because git is too old
+
 [diff]
     context = 15
 
