@@ -2,8 +2,14 @@ local wezterm = require 'wezterm'
 local mux = wezterm.mux
 local config = {}
 
--- config.font = wezterm.font 'CaskaydiaMono Nerd Font Mono'
-config.font_size = 12.5
+config.font = wezterm.font 'GohuFont uni14 Nerd Font Mono'
+config.font_size = 14
+-- config.font = wezterm.font 'Terminess Nerd Font Mono'
+-- config.font_size = 16
+-- config.font = wezterm.font 'SpaceMono Nerd Font Mono'
+-- config.font_size = 13
+-- config.font = wezterm.font 'ShureTechMono Nerd Font Mono'
+-- config.font_size = 15
 config.color_scheme = 'Breeze (Gogh)'
 config.hide_tab_bar_if_only_one_tab = true
 config.audible_bell = "Disabled"
@@ -62,6 +68,7 @@ config.keys = {
   { key = '[', mods = 'SUPER',  action = wezterm.action.SendKey { key = 'Escape', }, },-- super and cmd are the same on mac
     -- Make option work as ctrl for keys on the left hand
   { key = 'a', mods = 'ALT', action = wezterm.action.SendKey { key = 'a', mods = 'CTRL', }, },
+  { key = 'x', mods = 'ALT', action = wezterm.action.SendKey { key = 'x', mods = 'CTRL', }, },
   { key = 'c', mods = 'ALT', action = wezterm.action.SendKey { key = 'c', mods = 'CTRL', }, },
   { key = 'g', mods = 'ALT', action = wezterm.action.SendKey { key = 'g', mods = 'CTRL', }, },
   { key = 'd', mods = 'ALT', action = wezterm.action.SendKey { key = 'd', mods = 'CTRL', }, },
