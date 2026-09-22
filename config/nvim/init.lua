@@ -584,7 +584,7 @@ require('lazy').setup({
     }
   },
   { "Mofiqul/dracula.nvim", priority = 1000 , config = true, opts = {italic_comment = true}},
-  { "nyoom-engineering/oxocarbon.nvim", priority = 1000},
+  { "nyoom-engineering/oxocarbon.nvim", priority = 1000, build = false,},
   { "scottmckendry/cyberdream.nvim", priority = 1000 ,
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -700,7 +700,7 @@ require('lazy').setup({
   },
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    event = 'VeryLazy', -- Sets the loading event to 'VimEnter'
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen

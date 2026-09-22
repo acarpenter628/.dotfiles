@@ -23,7 +23,7 @@ mkdir -p "$HOME/.config"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the $HOME/dotfiles directory specified in $files
 for file in $files; do
-   touch .$file
+   touch $HOME/.$file
    echo "Moving .$file from $HOME to $olddir"
    #mkdir -p $HOME/.$file # only for directories, this breaks .bashrc.  split the files list
    mv $HOME/.$file $olddir
@@ -33,7 +33,7 @@ done
 
 for file in $dirs; do
    echo "Moving .$file from $HOME to $olddir"
-   mkdir -p .$file
+   mkdir -p $HOME/.$file
    mv $HOME/.$file $olddir
    echo "Creating symlink to $file in home directory."
    ln -s $dir/$file $HOME/.$file

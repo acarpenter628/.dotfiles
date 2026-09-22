@@ -133,3 +133,5 @@ set -o ignoreeof # Ctrl D doesn't exit the shell
 stty -ixon  # disable flow control, but I don't remember why I thought this was important.  Maybe so I didn't accidentally C-s it?  Frees up C-q for binding to edit-and-execute-command
 source /usr/share/doc/fzf/examples/key-bindings.bash # History <C-r> uses fzf
 #source /usr/share/doc/fzf/examples/completion.bash
+#eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+#. "$HOME/.cargo/env"
