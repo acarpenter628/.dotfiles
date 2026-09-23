@@ -18,9 +18,9 @@ alias lt='ls -lt'
     #alias dir='dir --color=always'
     #alias vdir='vdir --color=always'
 
-    alias grep='grep --color=always'
-    alias fgrep='fgrep --color=always'
-    alias egrep='egrep --color=always'
+    alias grep='grep --color=always -i'
+    alias fgrep='fgrep --color=always -i'
+    alias egrep='egrep --color=always -i'
 
 alias lint='ox dev lint -d --fix && ox dev lint --fix'
 alias vranger='"ranger"'
