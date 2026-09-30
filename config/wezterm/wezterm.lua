@@ -72,6 +72,7 @@ config.keys = {
   { key = 'c', mods = 'ALT', action = wezterm.action.SendKey { key = 'c', mods = 'CTRL', }, },
   { key = 'g', mods = 'ALT', action = wezterm.action.SendKey { key = 'g', mods = 'CTRL', }, },
   { key = 'd', mods = 'ALT', action = wezterm.action.SendKey { key = 'd', mods = 'CTRL', }, },
+  { key = 'q', mods = 'ALT', action = wezterm.action.SendKey { key = 'q', mods = 'CTRL', }, },
   { key = 't', mods = 'ALT', action = wezterm.action.SendKey { key = 't', mods = 'CTRL', }, },
   { key = 'r', mods = 'ALT', action = wezterm.action.SendKey { key = 'r', mods = 'CTRL', }, },  -- history
   { key = 'z', mods = 'ALT', action = wezterm.action.SendKey { key = 'z', mods = 'CTRL', }, },
