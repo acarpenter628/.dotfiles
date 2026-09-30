@@ -109,19 +109,11 @@ vim.keymap.set({'n', 'v'}, 'S', '<nop>', {noremap = true})
 
 vim.keymap.set({'n', 'v'}, 'gj', ':join<CR>', {noremap = true, desc = 'Join'})
 vim.keymap.set('n', 'gJ', 'k:join<CR>', {noremap = true, desc = 'Join with above'})
- -- vim.lsp.buf.hover() ABC TODO  when I fix treesitter
+vim.keymap.set({'n'}, 'gk', function()vim.lsp.buf.hover() end, {noremap = true,}) 
 
 --- Get rid of overtype mode, replace it with 'delete one character and insert'
 vim.keymap.set('n', 'R', '"_cl')
 -- Insert a newline with leader enter.  Had to add leader because I needed enter to follow links or something?  Maybe I could re-add it but disable it in help files?
--- vim.keymap.set('n', '<leader><cr>', ":call append(line('.'), '')<cr>", { desc = 'Insert blank line'})
--- vim.keymap.set('n', '<leader><cr>', ":call insert(line('.'), '')<cr>", { desc = 'Insert blank line above'}) -- ABC TODO what to map this to?  
--- I'd like shift+Enter, and I could hack that to work with Windows Terminal, but I'd prefer not to rely on any terminal specific implementation.  Maybe <leader><CR>?   Actually it's not as much relying on specific terminal implementation and more about working around it.  See MkdnToggleToDo at the bottom
--- This one didn't work so i guess just copy from the nvim source for [<space>
--- vim.keymap.set('n', '<leader><cr>', function()
---       vim.go.operatorfunc = "v:lua.require'vim._buf'.space_above"
---       return 'g@l'
---     end, { expr = true, desc = 'insert blank line above'})
 
 -- x uses the black hole register (normal and visual)
 vim.keymap.set({'n', 'v'}, 'x', '"_x')
@@ -584,7 +576,7 @@ require('lazy').setup({
     }
   },
   { "Mofiqul/dracula.nvim", priority = 1000 , config = true, opts = {italic_comment = true}},
-  { "nyoom-engineering/oxocarbon.nvim", priority = 1000},
+  { "nyoom-engineering/oxocarbon.nvim", priority = 1000, build = false,},
   { "scottmckendry/cyberdream.nvim", priority = 1000 ,
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -700,7 +692,7 @@ require('lazy').setup({
   },
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    event = 'VeryLazy', -- Sets the loading event to 'VimEnter'
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen
@@ -744,6 +736,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
+        { 'gs', group = '[S]urround' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]able' },
         { '<leader>f', group = '[F]ormat', mode = { 'n', 'v' } },
@@ -867,8 +860,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sj', builtin.jumplist, { desc = '[S]earch [J]umplist' })
       vim.keymap.set('n', '<leader>sm', builtin.jumplist, { desc = '[S]earch [M]arks' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      -- ABC TODO builtin.search_history?  Seems useful for when I want to resume but I've done something else
-      -- ABC TODO builtin.marks?
+      -- ABC TODO builtin.search_history?  Seems useful for when I want to resume but I've done something else.  how is this different from jumplist?
+      -- ABC TODO builtin.marks?  I should use marks more
       -- ABC TODO undo history?  Sounds like a need a new plugin for that (unless I can just put it in the quickfix list?)
 
       -- Slightly advanced example of overriding default behavior and theme
@@ -1122,10 +1115,12 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {
-        --   cmd = { -- Looks for compile_commands.json in the root folder - just symlink it to there
-        --   },
-        -- },
+        clangd = {
+          cmd = {"clangd", -- Looks for compile_commands.json in the root folder - just symlink it to there
+            -- "--clang-tidy=false",
+            "--header-insertion=never"
+          },
+        },
         -- gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
@@ -1425,7 +1420,7 @@ require('lazy').setup({
         suffix_last = '', -- Suffix to search with "prev" method
         suffix_next = '', -- Suffix to search with "next" method
       },
-      })  -- ABC TODO how do I show these in whichkey?  Maybe instead of 's' i do 'gs'
+      })
 
       require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
       -- ABC TODO why does autoread not work?  Do I need autowrite?
@@ -1463,23 +1458,43 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
-    branch = 'master',  -- ABC TODO NOW I guess I have to update to main now maybe.  https://www.qu8n.com/posts/treesitter-migration-guide-for-nvim-0-12
+    branch = 'main',
+    lazy = false,
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    main = 'nvim-treesitter', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      -- ensure_installed = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby', 'cpp', 'c', },
-      },
-      indent = { enable = true, disable = { 'ruby', 'cpp', 'c', } },
+      -- highlight = {
+      --   enable = true,
+      --   -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+      --   --  If you are experiencing weird indenting issues, add the language to
+      --   --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+      --   additional_vim_regex_highlighting = { 'ruby', 'cpp', 'c', },
+      -- },
+      -- indent = { enable = true, disable = { 'ruby', 'cpp', 'c', } },
     },
+    init = function()
+    vim.api.nvim_create_autocmd('FileType', { 
+      callback = function() 
+        -- Enable treesitter highlighting and disable regex syntax
+        pcall(vim.treesitter.start)
+        -- Enable treesitter-based indentation
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" 
+      end, 
+    }) 
+    local ensureInstalled = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+    local alreadyInstalled = require('nvim-treesitter.config').get_installed()
+  local parsersToInstall = vim.iter(ensureInstalled)
+    :filter(function(parser)
+      return not vim.tbl_contains(alreadyInstalled, parser)
+    end)
+    :totable()
+  require('nvim-treesitter').install(parsersToInstall)
+  -- ...
+  end,
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --

@@ -1,26 +1,22 @@
 
-
-alias gitstat='git status -sb'
-alias gits='git status -sb'
 alias gitlog='git log --format="%C(green)%cd %C(yellow)%h %C(red)%an %C(cyan)%d %C(white)%p%n%C(bold)%s%n%b" --first-parent'
 alias gittree='git log --oneline --graph --color --all --decorate'
 alias gitk-all='gitk --all --date-order --author="`git config user.name`" `git reflog show --format=%H`'
-
-
-alias ll='ls -alFh'
-alias la='ls -A'
-alias l='ls -lF'
-alias lc='ls -CF'
-alias lt='ls -lt'
 
 # enable color support of ls and also add handy aliases
     alias ls='gls --color=always --group-directories-first -h'
     #alias dir='dir --color=always'
     #alias vdir='vdir --color=always'
 
-    alias grep='grep --color=always'
-    alias fgrep='fgrep --color=always'
-    alias egrep='egrep --color=always'
+    alias grep='grep --color=always -i'
+    alias fgrep='fgrep --color=always -i'
+    alias egrep='egrep --color=always -i'
+
+# handy ls variats, these all include the above settings
+alias ll='ls -alF'
+alias la='ls -A'
+alias lt='ls -lt'
+alias llt='ls -alFt'
 
 alias lint='ox dev lint -d --fix && ox dev lint --fix'
 alias vranger='"ranger"'
@@ -32,6 +28,7 @@ alias llgrep='ll | grep'
 alias psgrep='ps -elF | grep'
 alias less='less -r'
 alias gs='git status'
+alias gd='git diff'
 alias vimode='set -o vi'
 # alias novimode='set +o vi'  # nope, this breaks something, if you turn on vimode, you've got it on until you close that window
 # apparently set editing-mode vi in inputrc will make this work in anything that uses readline - like ipython
@@ -45,3 +42,5 @@ alias resource='source ~/.bashrc'
 alias sudoedit='sudo -e'
 alias untar='tar -xzvf'
 alias resource='source ~/.bashrc'
+alias fd='fdfind'
+alias bat='batcat'

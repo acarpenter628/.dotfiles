@@ -275,6 +275,10 @@ load_plugins {
 web_client {
     font "monospace"
 }
+
+scroll_mode_sync false
+pane_frame_style "full"
+// pane_frames false
  
 // Use a simplified UI without special fonts (arrow glyphs)
 // Options:
