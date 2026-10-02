@@ -438,6 +438,12 @@ require('lazy').setup({
           { "n", "<leader>b", false},
           },
         },
+        -- hooks = {  -- ABC TODO can't get this one to work
+        --   view_opened = function(view)
+        --     local actions = require("diffview.actions")
+        --     actions.close_all_folds()
+        --   end,
+        -- },
       })
     end
   },
@@ -601,6 +607,7 @@ require('lazy').setup({
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
   {
+    -- ABC TODO MkdnChangeListType {type} (marker) to turn into a list
     'jakewvincent/mkdnflow.nvim',
     ft = { 'markdown', 'rmd', 'md' },  -- Add custom filetypes here if configured
     config = function()
@@ -820,13 +827,37 @@ require('lazy').setup({
               ['<c-space>'] = 'to_fuzzy_refine',
               ["<C-j>"] = require('telescope.actions').preview_scrolling_down,
               ["<C-k>"] = require('telescope.actions').preview_scrolling_up,
-              ["<C-h>"] = require('telescope.actions').preview_scrolling_left,
-              ["<C-l>"] = require('telescope.actions').preview_scrolling_right,
-              -- ["<C-o>"] = require('telescope.actions').cycle_history_next 
-              -- ["<C-i>"] = require('telescope.actions').cycle_history_prev
-              -- ["<A-)>"] = require('telescope.actions').to_fuzzy_refine, -- for windows terminal
+              ["<C-l>"] = function(prompt_bufnr)
+                require('telescope.actions').results_scrolling_right(prompt_bufnr)
+                require('telescope.actions').preview_scrolling_right(prompt_bufnr)
+                end,
+              ["<C-h>"] = function(prompt_bufnr)
+                require('telescope.actions').results_scrolling_left(prompt_bufnr)
+                require('telescope.actions').preview_scrolling_left(prompt_bufnr)
+                end,
+              ["<C-o>"] = require('telescope.actions').cycle_history_next,
+              ["<C-i>"] = require('telescope.actions').cycle_history_prev,
               ["<C-?>"] = "which_key",
             },
+            n = {
+              ["<C-?>"] = "which_key",
+              -- These just scroll the buffer, not actually move the cursor, but that's better than nothing
+              -- Actually no, I'd rather scroll the preview
+              -- ["<C-d>"] = function(prompt_bufnr)
+              --   require('telescope.actions').results_scrolling_down(prompt_bufnr)
+              --   end,
+              -- ["<C-u>"] = function(prompt_bufnr)
+              --   require('telescope.actions').results_scrolling_up(prompt_bufnr)
+              --   end,
+              ["<C-l>"] = function(prompt_bufnr)
+                require('telescope.actions').results_scrolling_right(prompt_bufnr)
+                require('telescope.actions').preview_scrolling_right(prompt_bufnr)
+                end,
+              ["<C-h>"] = function(prompt_bufnr)
+                require('telescope.actions').results_scrolling_left(prompt_bufnr)
+                require('telescope.actions').preview_scrolling_left(prompt_bufnr)
+                end,
+            }
           },
           layout_config = {
             prompt_position = 'top',
@@ -858,20 +889,20 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>sj', builtin.jumplist, { desc = '[S]earch [J]umplist' })
-      vim.keymap.set('n', '<leader>sm', builtin.jumplist, { desc = '[S]earch [M]arks' })
+      vim.keymap.set('n', '<leader>sm', builtin.marks, { desc = '[S]earch [M]arks' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      -- ABC TODO builtin.search_history?  Seems useful for when I want to resume but I've done something else.  how is this different from jumplist?
-      -- ABC TODO builtin.marks?  I should use marks more
-      -- ABC TODO undo history?  Sounds like a need a new plugin for that (unless I can just put it in the quickfix list?)
+      -- ABC TODO builtin.search_history?  Seems useful for when I want to resume but I've done something else.  how is this different from jumplist?  this is probably the history of my searches, not the history of where I've been in the file
+      -- ABC TODO undo history?  Sounds like a need a new plugin for that (unless I can just put it in the quickfix list and search that?)
 
-      -- Slightly advanced example of overriding default behavior and theme
-      vim.keymap.set('n', '<leader>/', function()
-        -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end, { desc = '[/] Fuzzily search in current buffer' })
+      -- Slightly advanced example of overriding default behavior and theme -- Disabled this, just use the default
+      -- vim.keymap.set('n', '<leader>/', function()
+      --   -- You can pass additional configuration to Telescope to change the theme, layout, etc.
+      --   builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+      --     winblend = 10,
+      --     previewer = false,
+      --   })
+      -- end, { desc = '[/] Fuzzily search in current buffer' })
+      vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer' })
 
       -- It's also possible to pass additional configuration options.
       --  See `:help telescope.builtin.live_grep()` for information about particular keys
