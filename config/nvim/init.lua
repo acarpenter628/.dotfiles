@@ -137,6 +137,22 @@ vim.keymap.set({'i', 'c'}, '<C-v>', '<C-r>"')
 
 -- ABC TODO Unjoin?  Example: :%s/,/,\r/g splits a line at every comma.  Visual mode also
 
+-- Restore old Q functionality
+vim.keymap.set('n', 'Q', function()
+  local reg = vim.fn.reg_recorded()
+  return reg == '' and '' or ('@' .. reg)
+end, { expr = true })
+
+-- Add multicursor to <leader>q
+vim.keymap.set('n', '<leader>q', 'Q', {noremap = true, desc = 'Toggle Multicursor'})
+
+-- Ctrl L doesn't go through SSH I guess, so have to add a mapping to clear multicursors
+local function multicursors_clear_all()
+  vim.api.nvim_buf_clear_namespace(0, vim.api.nvim_create_namespace("nvim.multicursor"), 0, -1)
+end
+vim.keymap.set('n', '<leader>Q', multicursors_clear_all, { desc = 'Clear all multicursors' })
+
+
 -- This was causing issue where it would take 10s to to the treesitter and give up
 -- vim.api.nvim_create_autocmd({ "FileType"}, {  -- this seems to only work after treesitter is loaded.  ie must switch buffer and switch back
 --     callback = function()
@@ -286,7 +302,7 @@ vim.o.signcolumn = 'yes'
 vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
--- ABC TODO is this fine?
+-- ABC TODO is this fine?  Looks like it might be breaking which-key for <leader> on startup until I press a different key (like v)
 vim.o.timeout = false
 -- vim.o.timeoutlen = 750
 
