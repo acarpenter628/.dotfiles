@@ -680,22 +680,23 @@ require('lazy').setup({
                 highlight = {
                   marker = { fg =  "#0390fc" ,bold = false, link = ''},
                   content = { link = ''}
-                  }
-              },
+                  }},
               complete = { marker = { 'X', 'x' } ,
                 highlight = {
                   -- marker = {fg = "#32a84c",link = ''},
                   marker = {link = ''},
                   content = {link = ''}
-                  }
-            },
-            urgent = { marker = { '!' } ,
+                  }},
+            urgent = { marker = '!' ,
                 highlight = {
                   marker = { fg =  "#F34040" ,bold = true, link = ''},
                   content = {link = '', bold = true}
-                  }
-            },
-
+                  }},
+            maybe = { marker = '?',  -- ABC TODO why this no work?
+                highlight = {
+                  marker = { fg =  "#FFF236" ,bold = true, link = ''},
+                  content = {link = ''}
+                  }},
           },
           status_order = { 'not_started', 'next', 'in_progress', 'complete' },
           status_propagation = { up = false, down = false },
