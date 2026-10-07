@@ -623,7 +623,6 @@ require('lazy').setup({
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
   {
-    -- ABC TODO MkdnChangeListType {type} (marker) to turn into a list
     'jakewvincent/mkdnflow.nvim',
     ft = { 'markdown', 'rmd', 'md' },  -- Add custom filetypes here if configured
     config = function()
@@ -660,6 +659,7 @@ require('lazy').setup({
           MkdnTableAlignRight = { 'n', '<leader>tar' },
           MkdnTableAlignCenter = { 'n', '<leader>tac' },
           MkdnTableAlignDefault = { 'n', '<leader>tax' },
+          -- MkdnChangeListType {type} (marker) to turn into a list - only seems to work if it's a list already.  Doesn't convert just a multiline text blob
         },
         to_do = {
           highlight = true,
@@ -692,7 +692,7 @@ require('lazy').setup({
                   marker = { fg =  "#F34040" ,bold = true, link = ''},
                   content = {link = '', bold = true}
                   }},
-            maybe = { marker = '?',  -- ABC TODO why this no work?
+            maybe = { marker = '0',  -- why does question mark not work?
                 highlight = {
                   marker = { fg =  "#FFF236" ,bold = true, link = ''},
                   content = {link = ''}
