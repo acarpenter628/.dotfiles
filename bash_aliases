@@ -44,3 +44,14 @@ alias untar='tar -xzvf'
 alias resource='source ~/.bashrc'
 alias fd='fdfind'
 alias bat='batcat'
+
+# pushd . if there are no arguments passed in
+pushd() {
+    if [ $# -eq 0 ]; then
+        # This runs ONLY if there are zero arguments
+        command pushd .
+    else
+        # This runs if arguments are present, passing them along
+        command pushd "$@"
+    fi
+}
