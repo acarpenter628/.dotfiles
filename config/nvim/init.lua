@@ -623,11 +623,29 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
+  -- {"OXY2DEV/markview.nvim", -- ABC TODO This didn't super work, also seemed to be more trouble than it's worth.  Maybe the right move is just to make mkdnflow active on a custom format.  Or mabye put everything in code blocks.  That's stupid for at least some of this.  What problem was I trying to solve here again?  Using my notes as they are and also having good markdown rendering if I ever make more formalized notes?  That seems unlikely.  I got it mostly working though
+  --   lazy = false,
+  --     config = function()
+  --     require('markview').setup({
+  --
+  --     markdown_inline = {
+  --         enable = nil,
+  --       checkboxes = { enable = false, },
+  --       hyperlinks = { enable = false, }
+  --     },
+  --     })
+  --   end
+  -- },
   {
     'jakewvincent/mkdnflow.nvim',
-    ft = { 'markdown', 'rmd', 'md' },  -- Add custom filetypes here if configured
+    ft = { 'markdown', 'rmd', 'md', 'note' },  -- Add custom filetypes here if configured
     config = function()
       require('mkdnflow').setup({
+        filetypes = {
+          markdown = true,
+          rmd = true,
+          note = true,
+        },
         modules = {
           bib = false,
           buffers = true,
@@ -702,7 +720,7 @@ require('lazy').setup({
           status_propagation = { up = false, down = false },
         },
       })
-        -- ABC TODO NOW Sometimes these don't show up and what's up with that?  Seems to depend on whether it's the first file I open
+        -- ABC TODO NOW Sometimes these don't show up and what's up with that?  Seems to depend on whether it's the first file I open, prob something with lazy loading.  Highlights above are flakey in the same way
         vim.keymap.set('n', '<leader>tn', ':MkdnTable ', {buf=0, desc = 'New table [rows] [columns] (no headers (optional))'})
         vim.keymap.set('n', '<leader>tf', ':MkdnTableFormat<CR> ', {buf=0, desc = 'Format Table'})
         vim.keymap.set({'n', 'v'}, '<leader>l', ':MkdnChangeListType ul<CR> ', {buf=0, desc = 'Make todo list into regular list'})
@@ -1526,6 +1544,13 @@ require('lazy').setup({
       -- indent = { enable = true, disable = { 'ruby', 'cpp', 'c', } },
     },
     init = function()
+    vim.filetype.add({
+      extension = {
+        note = "note", -- Maps *.note files to the "note" filetype.  Use these for half-markdown todo lists in vim
+      },
+    })
+    vim.treesitter.language.register("markdown", "note")
+
     vim.api.nvim_create_autocmd('FileType', { 
       callback = function() 
         -- Enable treesitter highlighting and disable regex syntax
@@ -1536,12 +1561,13 @@ require('lazy').setup({
     }) 
     local ensureInstalled = { 'bash', 'c', 'cpp', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
     local alreadyInstalled = require('nvim-treesitter.config').get_installed()
-  local parsersToInstall = vim.iter(ensureInstalled)
+    local parsersToInstall = vim.iter(ensureInstalled)
     :filter(function(parser)
       return not vim.tbl_contains(alreadyInstalled, parser)
     end)
     :totable()
-  require('nvim-treesitter').install(parsersToInstall)
+    require('nvim-treesitter').install(parsersToInstall)
+
   -- ...
   end,
     -- There are additional nvim-treesitter modules that you can use to interact
@@ -1619,7 +1645,6 @@ end, { desc = 'List diffs in all buffers' })
 
 
 vim.cmd('badd ~/.config/nvim/init.lua') -- add this to the open buffers so I can jump to it from any file
-vim.cmd('badd ~/Documents/spellbooks/nvim.md') -- add this to the open buffers so I can jump to it from any file
 vim.cmd('badd ~/Documents/todo_now.md') -- add this to the open buffers so I can jump to it from any file
 
 
@@ -1687,7 +1712,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- I think there's a better way to do this with ftplugin, but this is fine
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "markdown",
+  pattern = {"markdown", "note"},
   callback = function()
   vim.bo.tabstop = 3
   vim.bo.softtabstop = 3
