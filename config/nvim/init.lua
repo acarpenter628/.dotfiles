@@ -219,7 +219,12 @@ vim.o.showmode = false
 function my_paste(reg)
     return function(lines)
         local content = vim.fn.getreg('"')
-        return vim.split(content, '\n')
+        local mode = vim.api.nvim_get_mode().mode
+        if (mode == "\22") then -- visual block
+          return content  -- This prints an angry message, but it's fine
+        else
+          return vim.split(content, '\n')
+        end
     end
 end
 
@@ -720,7 +725,7 @@ require('lazy').setup({
           status_propagation = { up = false, down = false },
         },
       })
-        -- ABC TODO NOW Sometimes these don't show up and what's up with that?  Seems to depend on whether it's the first file I open, prob something with lazy loading.  Highlights above are flakey in the same way
+        -- ABC TODO NOW Sometimes these don't show up and what's up with that?  Seems to depend on whether it's the first file I open, prob something with lazy loading.  Highlights above are flakey in the same way.  Table works, but list doesn't hmmm
         vim.keymap.set('n', '<leader>tn', ':MkdnTable ', {buf=0, desc = 'New table [rows] [columns] (no headers (optional))'})
         vim.keymap.set('n', '<leader>tf', ':MkdnTableFormat<CR> ', {buf=0, desc = 'Format Table'})
         vim.keymap.set({'n', 'v'}, '<leader>l', ':MkdnChangeListType ul<CR> ', {buf=0, desc = 'Make todo list into regular list'})
