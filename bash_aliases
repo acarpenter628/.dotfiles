@@ -12,7 +12,7 @@ alias gitk-all='gitk --all --date-order --author="`git config user.name`" `git r
     alias fgrep='fgrep --color=always -i'
     alias egrep='egrep --color=always -i'
 
-# handy ls variats, these all include the above settings
+# handy ls variants, these all include the above settings
 alias ll='ls -alF'
 alias la='ls -A'
 alias lt='ls -lt'
@@ -33,6 +33,8 @@ alias vimode='set -o vi'
 # alias novimode='set +o vi'  # nope, this breaks something, if you turn on vimode, you've got it on until you close that window
 # apparently set editing-mode vi in inputrc will make this work in anything that uses readline - like ipython
 # can also do set show-mode-in-prompt in inputrc
+# Is that better than ctrl+X ctrl+E?
+# https://stackoverflow.com/questions/7888387/the-way-to-distinguish-command-mode-and-insert-mode-in-bashs-vi-command-line-ed/42107711#42107711
 alias gpp='g++'
 alias wem='w3m'
 alias dl='yt-dlp '
@@ -41,10 +43,10 @@ alias clear='clear -x'
 alias resource='source ~/.bashrc'
 alias sudoedit='sudo -e'
 alias untar='tar -xzvf'
-alias resource='source ~/.bashrc'
 alias fd='fdfind'
 alias bat='batcat'
 alias sshfs='sshfs -o kernel_cache,allow_other,auto_cache,reconnect,no_readahead'
+alias anakin='pkill -P'
 
 # pushd . if there are no arguments passed in
 pushd() {
