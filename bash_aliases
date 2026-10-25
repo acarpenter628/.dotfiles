@@ -44,6 +44,7 @@ alias untar='tar -xzvf'
 alias resource='source ~/.bashrc'
 alias fd='fdfind'
 alias bat='batcat'
+alias sshfs='sshfs -o kernel_cache,allow_other,auto_cache,reconnect,no_readahead'
 
 # pushd . if there are no arguments passed in
 pushd() {
