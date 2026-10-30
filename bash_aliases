@@ -4,7 +4,7 @@ alias gittree='git log --oneline --graph --color --all --decorate'
 alias gitk-all='gitk --all --date-order --author="`git config user.name`" `git reflog show --format=%H`'
 
 # enable color support of ls and also add handy aliases
-    alias ls='ls --color=always --group-directories-first -h'
+    alias ls='ls --color=always --group-directories-first -h' # human readable
     #alias dir='dir --color=always'
     #alias vdir='vdir --color=always'
 
@@ -13,10 +13,12 @@ alias gitk-all='gitk --all --date-order --author="`git config user.name`" `git r
     alias egrep='egrep --color=always -i'
 
 # handy ls variants, these all include the above settings
-alias ll='ls -alF'
+alias ll='ls -alF' # ABC TODO list what these are
 alias la='ls -A'
 alias lt='ls -lt'
 alias llt='ls -alFt'
+alias lT='ls -lt --time-style=long-iso' # ABC TODO should this be reverse sorting instead of year format?  Does it do year automatically if they're not all the same year?
+alias llT='ls -alFt --time-style=long-iso'
 
 alias lint='ox dev lint -d --fix && ox dev lint --fix'
 alias vranger='"ranger"'
@@ -33,7 +35,7 @@ alias vimode='set -o vi'
 # alias novimode='set +o vi'  # nope, this breaks something, if you turn on vimode, you've got it on until you close that window
 # apparently set editing-mode vi in inputrc will make this work in anything that uses readline - like ipython
 # can also do set show-mode-in-prompt in inputrc
-# Is that better than ctrl+X ctrl+E?
+# Is that better than ctrl+X ctrl+E?  Probably, because then I can tab complete
 # https://stackoverflow.com/questions/7888387/the-way-to-distinguish-command-mode-and-insert-mode-in-bashs-vi-command-line-ed/42107711#42107711
 alias gpp='g++'
 alias wem='w3m'

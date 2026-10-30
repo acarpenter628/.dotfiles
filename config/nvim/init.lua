@@ -100,16 +100,16 @@ vim.cmd(":set whichwrap+=lh")
 
 vim.o.virtualedit="block"
 
+-- IDK if I need these now that I have flash, but this makes it easier to tell when I have caps lock on 
 vim.keymap.set({'n', 'v'}, 'J', '5j', {noremap = true})
 vim.keymap.set({'n', 'v'}, 'K', '5k', {noremap = true}) 
--- ABC TODO maybe H/L could be 5b/w?
 
 vim.keymap.set({'n', 'v'}, 's', '<nop>', {noremap = true}) 
 vim.keymap.set({'n', 'v'}, 'S', '<nop>', {noremap = true}) 
 
 vim.keymap.set({'n', 'v'}, 'gj', ':join<CR>', {noremap = true, desc = 'Join'})
 vim.keymap.set('n', 'gJ', 'k:join<CR>', {noremap = true, desc = 'Join with above'})
-vim.keymap.set({'n'}, 'gk', function()vim.lsp.buf.hover() end, {noremap = true,}) 
+vim.keymap.set({'n'}, 'gk', function()vim.lsp.buf.hover() end, {noremap = true, desc = 'LSP hover'}) 
 
 --- Get rid of overtype mode, replace it with 'delete one character and insert'
 vim.keymap.set('n', 'R', '"_cl')
@@ -220,7 +220,7 @@ function my_paste(reg)
     return function(lines)
         local content = vim.fn.getreg('"')
         local mode = vim.api.nvim_get_mode().mode
-        if (mode == "\22") then -- visual block
+        if (mode == "\22") then -- this is whether I'm in visual block when I paste not whether I was when I copied.  ABC TODO is there a way I can do that?
           return content  -- This prints an angry message, but it's fine
         else
           return vim.split(content, '\n')
@@ -261,7 +261,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
 })
 
 -- ABC TODO audit these "silent"s in all my mappings
--- ABC TODO multicursors coming soon?
 vim.keymap.set('n', '<leader>p', 'viwP', {noremap = true, silent = true, desc = '[P]aste over word'})
 vim.keymap.set('n', '<leader>P', 'v$hP', {noremap = true, silent = true, desc = '[P]aste over remainder of line'})
 vim.keymap.set('n', '<leader>r', ':s/<C-r><C-w>/<C-r>"/<CR>n', {noremap = true, silent = true, desc = '[R]eplace word with clipboard + next'})
@@ -273,22 +272,20 @@ vim.keymap.set('v', '<leader>Rp', '"zy:.,$s/<C-r>z/<C-r>"/gc<CR>', {noremap = tr
 vim.keymap.set('v', '<leader>Rt', '"zy:.,$s/<C-r>z//gc<Left><Left><Left>', {noremap = true, silent = true, desc = '[R]eplace selection with [t]ext'})
 
 
-vim.keymap.set('n', '<leader>D', 'v^d', {desc = '[D]elete before cursor'})
-vim.keymap.set('n', '<leader>Y', 'v^y', {noremap = true, silent = true, desc = '[Y]ank before cursor'})
 vim.keymap.set('n', '<leader>y', 'yiw', {noremap = true, silent = true, desc = '[Y]ank word'})
 vim.keymap.set('n', '<leader>d', 'diw', {noremap = true, silent = true, desc = '[D]elete word'})
-vim.keymap.set('n', '<leader>C', 'v^"_c', {desc = '[C]hange before cursor'})
 vim.keymap.set('n', '<leader>c', '"_ciw', {desc = '[C]hange word'})
+vim.keymap.set('n', '<leader>v', 'viw', {desc = '[V]isual select word'})
+vim.keymap.set('n', '<leader>D', 'v^d', {desc = '[D]elete before cursor'})
+vim.keymap.set('n', '<leader>Y', 'v^y', {noremap = true, silent = true, desc = '[Y]ank before cursor'})
+vim.keymap.set('n', '<leader>C', 'v^"_c', {desc = '[C]hange before cursor'})
 
 --  ABC TODO Fix gc and gcc.  I'll always want the whole line in normal mode.  Maybe increasing the timeout is enough
 --  Maybe set gcc in visual mode to do it also?  will that work?  probably not, recursive?  noremap?
--- vim.keymap.set('n', 'gc', 'gcc', {noremap = true, silent = true})
+-- vim.keymap.set('n', 'g/', 'gcc', {noremap = true, silent = true})
 --
 vim.keymap.set({'n', 'v'}, 'gh', '^', {noremap = true, silent = true, desc = 'Beginning of line'})
 vim.keymap.set({'n', 'v'}, 'gl', '$', {noremap = true, silent = true, desc = 'End of line'})
--- vim.keymap.set('n', 'gU', 'viWgU', {noremap = true, silent = true, desc = 'Uppercase word'})
--- vim.keymap.set('n', 'gU', 'viWgU', {noremap = true, silent = true, desc = 'Uppercase word'})
--- ABC TODO set gU and gu to viw first in normal mode?  Looks like that moves my cursor (and I lose the normal mode actions.  maybe put <leader> first.  That's already unstage.  Maybe capital S for unstage)
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -443,7 +440,6 @@ rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
-  
   {
     'sindrets/diffview.nvim',
     config = function()
@@ -932,7 +928,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sj', builtin.jumplist, { desc = '[S]earch [J]umplist' })
       vim.keymap.set('n', '<leader>sm', builtin.marks, { desc = '[S]earch [M]arks' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      -- ABC TODO builtin.search_history?  Seems useful for when I want to resume but I've done something else.  how is this different from jumplist?  this is probably the history of my searches, not the history of where I've been in the file
+      -- builtin.search_history doesn't seem useful - it's just in the current buffer, doesn't put it into telescope
       -- ABC TODO undo history?  Sounds like a need a new plugin for that (unless I can just put it in the quickfix list and search that?)
 
       -- Slightly advanced example of overriding default behavior and theme -- Disabled this, just use the default
@@ -957,12 +953,6 @@ require('lazy').setup({
 
       vim.keymap.set('n', '<leader>sz', function() builtin.grep_string{grep_open_files = true, shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = 'Fu[z]zy [S]earch in Open Files' })
 
-      -- Shortcut for searching your Neovim configuration files
-      vim.keymap.set('n', '<leader>sn', function()
-        builtin.find_files { cwd = vim.fn.stdpath 'config' }
-      end, { desc = '[S]earch [N]eovim files' })
-
-
       --  ABC TODO NOW lazyvim has a hotkey to toggle searching hidden/ignored files, do I want that??
       vim.keymap.set('n', '<leader>saa', function() builtin.find_files{no_ignore=true, hidden=true, follow=true} end, { desc = '[S]earch [A]ll [A]ll Files (with symlinks)' })
       vim.keymap.set('n', '<leader>saf', function() builtin.find_files{no_ignore=true, hidden=true} end, { desc = '[S]earch [A]ll [F]iles' })
@@ -970,8 +960,7 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>saw', function() builtin.grep_string{ vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '-uu' }} end, { desc = '[S]earch [A]ll [W]ord' })
 
       -- The main project tree is too big for this, but it seems to work in my notes folder
-      -- Also need to change the mapping
-      -- vim.keymap.set('n', '<leader>sz', function() builtin.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = '[S]earch Fu[z]zy' })
+      vim.keymap.set('n', '<leader>saz', function() builtin.grep_string{ shorten_path = true, word_match = "-w", only_sort_text = true, search = '' } end, { desc = '[S]earch Fu[z]zy' })
 
     end,
   },
@@ -1522,11 +1511,94 @@ require('lazy').setup({
       statusline.section_lsp = function() return "" end
       -- ABC TODO can I add the function name here?
 
+      -- require('mini.jump2d').setup({  -- I think I like flash more
+      --   allowed_lines = {
+      --     blank = false, -- Blank line (not sent to spotter even if `true`)
+      --     cursor_before = true, -- Lines before cursor line
+      --     cursor_at = true, -- Cursor line
+      --     cursor_after = true, -- Lines after cursor line
+      --     fold = true, -- Start of fold (not sent to spotter even if `true`)
+      --   },
+      --   view = { n_steps_ahead = 0},
+      --   mappings = {
+      --     start_jumping = '<leader><CR>',
+      --   },
+      -- })
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
     -- event = { "StdinReadPost" }, --   WinLeave
     -- lazy = false,
+  },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = 
+      {
+        jump = {
+          -- save location in the jumplist
+          jumplist = false,
+          -- jump position
+          pos = "start", ---@type "start" | "end" | "range"
+          -- add pattern to search history
+          history = false,
+          -- add pattern to search register
+          register = false,
+          -- clear highlight after jump
+          nohlsearch = false,
+          -- automatically jump when there is only one match
+          autojump = false,
+          -- You can force inclusive/exclusive jumps by setting the
+          -- `inclusive` option. By default it will be automatically
+          -- set based on the mode.
+          inclusive = nil, ---@type boolean?
+          -- jump position offset. Not used for range jumps.
+          -- 0: default
+          -- 1: when pos == "end" and pos < current position
+          offset = nil, ---@type number
+        },
+        label = {
+          -- allow uppercase labels
+          uppercase = false,
+          -- add any labels with the correct case here, that you want to exclude
+          exclude = "",
+          -- add a label for the first match in the current window.
+          -- you can always jump to the first match with `<CR>`
+          current = true,
+          -- show the label after the match
+          after = true, ---@type boolean|number[]
+          -- show the label before the match
+          before = false, ---@type boolean|number[]
+          -- position of the label extmark
+          style = "overlay", ---@type "eol" | "overlay" | "right_align" | "inline"
+          -- flash tries to re-use labels that were already assigned to a position,
+          -- when typing more characters. By default only lower-case labels are re-used.
+          reuse = "lowercase", ---@type "lowercase" | "all" | "none"
+          -- for the current window, label targets closer to the cursor first
+          distance = true,
+          -- minimum pattern length to show labels
+          -- Ignored for custom labelers.
+          min_pattern_length = 0,
+          -- Enable this to use rainbow colors to highlight labels
+          -- Can be useful for visualizing Treesitter ranges.
+          rainbow = {
+            enabled = false,
+            -- number between 1 and 9
+            shade = 5,
+          },
+          -- With `format`, you can change how the label is rendered.
+          -- Should return a list of `[text, highlight]` tuples.
+          format = function(opts)
+            return { { opts.match.label, opts.hl_group } }
+          end,
+        },
+        modes = {
+          char = { enabled = false, },
+        }
+      },
+    keys = {
+      { "<leader><CR>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash jump" }, -- x is visual, not select.  o is operator pending
+    },
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
@@ -1635,7 +1707,6 @@ require('lazy').setup({
 
 require('mini.sessions').setup({ autoread = true, autowrite = false, file = ".session.vim"})
 
-vim.cmd(':command LoadSesh lua MiniSessions.read()')
 
 vim.keymap.set('n', '<leader>Sw', ':lua MiniSessions.write(".session.vim")<cr>', { desc = 'Write Session'})
 vim.keymap.set('n', '<leader>Sr', ':lua MiniSessions.read()<cr>', { desc = 'Read Session'})
@@ -1683,13 +1754,13 @@ vim.keymap.set('n', '<leader>wD', ':bp|bd #<CR>', { desc = '[D]elete/close curre
 --     NvimDarkYellow  NvimLightYellow
 --
 
-
-vim.keymap.set('n', '<leader>zg', ':colorscheme gruvbox<cr>:hi CursorLine guibg=NvimDarkGray3<cr>:hi CursorLineNr guibg=NvimLightGreen<cr>', { desc = 'colorscheme gruvbox'})
+ -- Default gruvbox recolors
 vim.cmd([[colorscheme gruvbox]])
 vim.cmd([[ highlight CursorLine guibg=NvimDarkGray3 ]])
 -- vim.cmd([[ highlight CursorLineNr guibg=#fcba03 ]])
 vim.cmd([[ highlight CursorLineNr guibg=NvimLightGreen]])
 
+vim.keymap.set('n', '<leader>zg', ':colorscheme gruvbox<cr>:hi CursorLine guibg=NvimDarkGray3<cr>:hi CursorLineNr guibg=NvimLightGreen<cr>', { desc = 'colorscheme gruvbox'})
 vim.keymap.set('n', '<leader>zc', ':colorscheme cyberdream<cr>:hi CursorLineNr guibg=NvimLightCyan<cr>', { desc = 'colorscheme cyberdream'})
 vim.keymap.set('n', '<leader>zo', ':colorscheme oxocarbon<cr>:hi CursorLineNr guibg=DarkCyan<cr>', { desc = 'colorscheme oxocarbon'})
 vim.keymap.set('n', '<leader>zd', ':colorscheme dracula<cr>:hi CursorLineNr guibg=NvimDarkCyan<cr>', { desc = 'colorscheme dracula'})
@@ -1726,6 +1797,11 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+
+-- These are fine I guess, even though I don't love letting ai pick them for me 
+vim.api.nvim_set_hl(0, "FlashLabel", { fg = "#FF007F", bg = "#202030", bold = true })
+vim.api.nvim_set_hl(0, "FlashMatch", { fg = "#00FFFF", bg = "#303050" })
+vim.api.nvim_set_hl(0, "FlashCurrent", { fg = "#FFFFFF", bg = "#FF5555" })
 
 -- remap Ctrl Space to make Windows Terminal work.  Maybe not needed anymore if I've got wezterm
 vim.keymap.set({'n', 'v'}, '<A-)>', ':MkdnToggleToDo<CR>')
